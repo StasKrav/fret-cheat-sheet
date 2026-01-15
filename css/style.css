@@ -398,17 +398,17 @@ button:hover {
 
 /* Пентатоника */
 .pentatonic-btn {
-    background: var(--zenburn-red);
+    background: var(--zenburn-green);
     color: var(--zenburn-bg);
 }
 
 .pentatonic-btn:hover {
-    background: #bc8383;
+    background: var(--btn-primary-hover);
 }
 
 .pentatonic-btn.active {
-    background: var(--zenburn-purple);
-    box-shadow: 0 0 0 2px var(--zenburn-purple);
+    background: #bc8383;
+    /* box-shadow: 0 0 0 2px var(--zenburn-purple); */
 }
 
 /* Панель пентатоники */
@@ -521,17 +521,6 @@ button:hover {
     animation: blues-note-pulse 2s infinite;
 }
 
-/* Индикатор на грифе */
-.pentatonic-marker {
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    font-size: 8px;
-    background: rgba(0,0,0,0.5);
-    border-radius: 2px;
-    padding: 1px 2px;
-    line-height: 1;
-}
 
 /* Бейджи для нот в информации */
 .pentatonic-note-badge {
@@ -543,41 +532,6 @@ button:hover {
     font-weight: 500;
 }
 
-/* Цвета бейджей соответствуют цветам на грифе */
-.pentatonic-note-badge.root {
-    background: var(--zenburn-red);
-    color: var(--zenburn-bg);
-}
-
-.pentatonic-note-badge.second {
-    background: var(--zenburn-green);
-    color: var(--zenburn-bg);
-}
-
-.pentatonic-note-badge.third {
-    background: var(--zenburn-yellow);
-    color: var(--zenburn-bg);
-}
-
-.pentatonic-note-badge.fourth {
-    background: var(--zenburn-orange);
-    color: var(--zenburn-bg);
-}
-
-.pentatonic-note-badge.fifth {
-    background: var(--zenburn-purple);
-    color: var(--zenburn-bg);
-}
-
-.pentatonic-note-badge.sixth {
-    background: var(--zenburn-cyan);
-    color: var(--zenburn-bg);
-}
-
-.pentatonic-note-badge.seventh {
-    background: var(--zenburn-blue);
-    color: white;
-}
 
 /* Улучшаем внешний вид боксов */
 .box-buttons {
@@ -610,4 +564,5 @@ button:hover {
     color: var(--zenburn-bg);
     box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
+
 
