@@ -51,7 +51,11 @@
 }
 
 body {
-    font-family: 'Segoe UI', 'Ubuntu Mono', 'Consolas', monospace;
+	font-family:
+    "Comfortaa",
+    -apple-system,
+    BlinkMacSystemFont,
+     'Segoe UI', 'Ubuntu Mono', 'Consolas', monospace;
     background: var(--body-bg);
     color: var(--text-color);
     padding: 20px;
