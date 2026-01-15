@@ -355,14 +355,14 @@ button:hover {
 
 /* Подсветка арпеджио */
 .fret.arpeggio-root {
-    background: var(--zenburn-green) !important;
+    background: var(--zenburn-cyan) !important;
     color: var(--zenburn-bg) !important;
     border-color: var(--zenburn-green) !important;
     z-index: 2;
 }
 
 .fret.arpeggio-third {
-    background: var(--zenburn-cyan) !important;
+    background: var(--zenburn-green) !important;
     color: var(--zenburn-bg) !important;
     border-color: var(--zenburn-blue) !important;
     z-index: 2;

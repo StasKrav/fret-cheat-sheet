@@ -249,17 +249,17 @@ function showStyleChords(style, tonic) {
     switch(style) {
         case 'jazz-manouche':
             chords = neck.getJazzManoucheChords(normalizedTonic);
-            description = "🎸 Характерные аккорды джаз-мануш (цыганского джаза):";
+            description = "Характерные аккорды джаз-мануш (цыганского джаза):";
             styleName = "Джаз-мануш";
             break;
         case 'blues':
             chords = neck.getBluesChords(normalizedTonic);
-            description = "🎵 Типичная блюзовая прогрессия:";
+            description = "Типичная блюзовая прогрессия:";
             styleName = "Блюз";
             break;
         case 'bossa':
             chords = neck.getBossaNovaChords(normalizedTonic);
-            description = "🎶 Аккорды в стиле босса-нова:";
+            description = "Аккорды в стиле босса-нова:";
             styleName = "Босса-нова";
             break;
     }
