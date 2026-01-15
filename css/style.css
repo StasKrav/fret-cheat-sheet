@@ -8,8 +8,8 @@
     --zenburn-comment: #7f9f7f;
     --zenburn-green: #8fb28f;
     --zenburn-cyan: #8cd0d3;
-    --zenburn-blue: #7cb8bb;
-    --zenburn-yellow: #f0dfaf;
+    --zenburn-blue: #0a9396;
+    --zenburn-yellow: #dde5b6;
     --zenburn-orange: #dfaf8f;
     --zenburn-red: #cc9393;
     --zenburn-purple: #dc8cc3;
@@ -394,5 +394,220 @@ button:hover {
     color: var(--zenburn-bg) !important;
     border-color: var(--zenburn-blue) !important;
     z-index: 2;
+}
+
+/* Пентатоника */
+.pentatonic-btn {
+    background: var(--zenburn-red);
+    color: var(--zenburn-bg);
+}
+
+.pentatonic-btn:hover {
+    background: #bc8383;
+}
+
+.pentatonic-btn.active {
+    background: var(--zenburn-purple);
+    box-shadow: 0 0 0 2px var(--zenburn-purple);
+}
+
+/* Панель пентатоники */
+.pentatonic-controls {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(204, 147, 147, 0.08);
+    border-radius: 4px;
+    border: 1px solid rgba(204, 147, 147, 0.3);
+}
+
+.pentatonic-type {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.pentatonic-type label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    color: var(--zenburn-fg-dim);
+    font-size: 13px;
+}
+
+.pentatonic-type input[type="radio"] {
+    accent-color: var(--zenburn-red);
+}
+
+.pentatonic-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    color: var(--zenburn-blue);
+    font-size: 13px;
+}
+
+.pentatonic-checkbox input {
+    accent-color: var(--zenburn-blue);
+}
+
+/* Кнопки боксов */
+.box-buttons {
+    display: flex;
+    gap: 3px;
+}
+
+.box-btn {
+    padding: 4px 8px;
+    background: var(--zenburn-bg-lighter);
+    color: var(--zenburn-fg-dim);
+    border: 1px solid var(--zenburn-comment);
+    border-radius: 3px;
+    font-size: 11px;
+    min-width: 28px;
+    cursor: pointer;
+    transition: none;
+}
+
+.box-btn:hover {
+    background: var(--zenburn-bg-light);
+    color: var(--zenburn-fg);
+}
+
+.box-btn.active {
+    background: var(--zenburn-red);
+    color: var(--zenburn-bg);
+    border-color: var(--zenburn-red);
+}
+
+/* Цвета нот пентатоники */
+.pentatonic-root {
+    background: var(--zenburn-red) !important;
+    color: var(--zenburn-bg) !important;
+    font-weight: bold;
+    position: relative;
+}
+
+/* Блюзовая нота с миганием */
+.blues-note {
+    background: var(--zenburn-blue) !important;
+    color: white !important;
+    animation: blues-note-pulse 2s infinite;
+}
+
+@keyframes blues-note-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Все ноты пентатоники - один цвет */
+.pentatonic-note {
+    background: var(--zenburn-green) !important;
+    color: var(--zenburn-bg) !important;
+}
+
+/* Корневая нота - другой цвет */
+.pentatonic-root {
+    background: var(--zenburn-red) !important;
+    color: var(--zenburn-bg) !important;
+    font-weight: bold;
+}
+
+/* Блюзовая нота - третий цвет */
+.blues-note {
+    background: var(--zenburn-blue) !important;
+    color: white !important;
+    animation: blues-note-pulse 2s infinite;
+}
+
+/* Индикатор на грифе */
+.pentatonic-marker {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 8px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 2px;
+    padding: 1px 2px;
+    line-height: 1;
+}
+
+/* Бейджи для нот в информации */
+.pentatonic-note-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    margin-right: 4px;
+    font-weight: 500;
+}
+
+/* Цвета бейджей соответствуют цветам на грифе */
+.pentatonic-note-badge.root {
+    background: var(--zenburn-red);
+    color: var(--zenburn-bg);
+}
+
+.pentatonic-note-badge.second {
+    background: var(--zenburn-green);
+    color: var(--zenburn-bg);
+}
+
+.pentatonic-note-badge.third {
+    background: var(--zenburn-yellow);
+    color: var(--zenburn-bg);
+}
+
+.pentatonic-note-badge.fourth {
+    background: var(--zenburn-orange);
+    color: var(--zenburn-bg);
+}
+
+.pentatonic-note-badge.fifth {
+    background: var(--zenburn-purple);
+    color: var(--zenburn-bg);
+}
+
+.pentatonic-note-badge.sixth {
+    background: var(--zenburn-cyan);
+    color: var(--zenburn-bg);
+}
+
+.pentatonic-note-badge.seventh {
+    background: var(--zenburn-blue);
+    color: white;
+}
+
+/* Улучшаем внешний вид боксов */
+.box-buttons {
+    display: inline-flex;
+    gap: 2px;
+    background: var(--zenburn-bg);
+    padding: 2px;
+    border-radius: 4px;
+}
+
+.box-btn {
+    padding: 4px 8px;
+    background: var(--zenburn-bg-lighter);
+    color: var(--zenburn-fg-dim);
+    border: none;
+    border-radius: 2px;
+    font-size: 11px;
+    min-width: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.box-btn:hover {
+    background: var(--zenburn-bg-light);
+    color: var(--zenburn-fg);
+}
+
+.box-btn.active {
+    background: var(--zenburn-red);
+    color: var(--zenburn-bg);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 

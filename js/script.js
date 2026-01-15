@@ -98,7 +98,7 @@ class GuitarNeck {
                 root,
                 this.notes.sharps[(rootIndex + 3) % 12],
                 this.notes.sharps[(rootIndex + 6) % 12],
-                this.notes.sharps[(this.rootIndex + 9) % 12]
+                this.notes.sharps[(rootIndex + 9) % 12]
             ];
         } else if (chord.includes('m')) {
             return [
@@ -180,6 +180,426 @@ class GuitarNeck {
         };
     }
 }
+
+
+// ============ ПЕНТАТОНИКА - ПОЛНАЯ РЕАЛИЗАЦИЯ ============
+
+class PentatonicManager {
+    constructor() {
+        this.neck = new GuitarNeck();
+        this.isActive = false;
+        this.currentConfig = null;
+        
+        // Паттерны боксов для минорной пентатоники (0 лад = открытая струна)
+        // Формат: [бокс][степень][позиция] = [струна, лад, степень]
+        this.boxPatterns = {
+            minor: {
+                    1: [  // Бокс 1: все 5 нот пентатоники
+                        [5, 0], [5, 3],   // 1 струна: 1, 4
+                        [4, 0], [4, 2],   // 2 струна: 1, ♭3
+                        [3, 0], [3, 2],   // 3 струна: 1, ♭3
+                        [2, 0], [2, 2],   // 4 струна: 1, ♭3
+                        [1, 0], [1, 3],   // 5 струна: 1, 4
+                        [0, 0], [0, 3]    // 6 струна: 1, 4
+                    ],
+                    2: [  // Бокс 2
+                        [5, 3], [5, 5],   // 1: 4, 5
+                        [4, 2], [4, 5],   // 2: ♭3, ♭7
+                        [3, 2], [3, 5],   // 3: ♭3, ♭7
+                        [2, 2], [2, 5],   // 4: ♭3, ♭7
+                        [1, 3], [1, 5],   // 5: 4, 5
+                        [0, 3], [0, 5]    // 6: 4, 5
+                    ],
+                    3: [  // Бокс 3
+                        [5, 5], [5, 8],   // 1: 5, ♭7
+                        [4, 5], [4, 7],   // 2: ♭7, 1
+                        [3, 5], [3, 7],   // 3: ♭7, 1
+                        [2, 5], [2, 7],   // 4: ♭7, 1
+                        [1, 5], [1, 8],   // 5: 5, ♭7
+                        [0, 5], [0, 8]    // 6: 5, ♭7
+                    ],
+                    4: [  // Бокс 4
+                        [5, 8], [5, 10],  // 1: ♭7, 1
+                        [4, 7], [4, 10],  // 2: 1, ♭3
+                        [3, 7], [3, 9],   // 3: 1, 4
+                        [2, 7], [2, 10],  // 4: 1, ♭3
+                        [1, 8], [1, 10],  // 5: ♭7, 1
+                        [0, 8], [0, 10]   // 6: ♭7, 1
+                    ],
+                    5: [  // Бокс 5
+                        [5, 10], [5, 12], // 1: 1, ♭3
+                        [4, 10], [4, 12], // 2: ♭3, 4
+                        [3, 9], [3, 12],  // 3: 4, ♭7
+                        [2, 10], [2, 12], // 4: ♭3, 4
+                        [1, 10], [1, 12], // 5: 1, ♭3
+                        [0, 10], [0, 12]  // 6: 1, ♭3
+                    ]
+                },
+            
+        };
+    }
+    
+    detectPentatonicType(chord) {
+        // Автоматическое определение по аккорду
+        if (!chord) return 'minor';
+        
+        const chordUpper = chord.toUpperCase();
+        
+        if (chord.includes('m') || chord.includes('min') || 
+            chord.includes('dim') || chord.includes('-')) {
+            return 'minor';
+        } else if (chord.includes('maj') || chord === chordUpper || 
+                  chord.includes('aug') || chord.includes('+')) {
+            return 'major';
+        }
+        
+        // Для септаккордов определяем по базовому аккорду
+        const baseChord = chord.replace(/[0-9#♯b♭]/g, '').replace(/7$/, '');
+        return baseChord.includes('m') ? 'minor' : 'major';
+    }
+    
+    getPentatonicNotes(root, type) {
+        const rootIndex = this.neck.notes.sharps.indexOf(
+            this.neck.normalizeToSharps(root)
+        );
+        
+        if (type === 'minor') {
+            // Минорная пентатоника: 1, ♭3, 4, 5, ♭7
+            return [
+                this.neck.notes.sharps[rootIndex],           // 1
+                this.neck.notes.sharps[(rootIndex + 3) % 12], // ♭3
+                this.neck.notes.sharps[(rootIndex + 5) % 12], // 4
+                this.neck.notes.sharps[(rootIndex + 7) % 12], // 5
+                this.neck.notes.sharps[(rootIndex + 10) % 12] // ♭7
+            ];
+        } else { // major
+            // Мажорная пентатоника: 1, 2, 3, 5, 6
+            return [
+                this.neck.notes.sharps[rootIndex],           // 1
+                this.neck.notes.sharps[(rootIndex + 2) % 12], // 2
+                this.neck.notes.sharps[(rootIndex + 4) % 12], // 3
+                this.neck.notes.sharps[(rootIndex + 7) % 12], // 5
+                this.neck.notes.sharps[(rootIndex + 9) % 12]  // 6
+            ];
+        }
+    }
+    
+    getBluesNote(root) {
+        const rootIndex = this.neck.notes.sharps.indexOf(
+            this.neck.normalizeToSharps(root)
+        );
+        // Возвращаем просто ноту как строку, как ожидается в остальном коде
+        return this.neck.notes.sharps[(rootIndex + 6) % 12]; // ♭5
+    }
+    
+    togglePentatonic() {
+        const isVisible = document.getElementById('pentatonicControls').style.display !== 'none';
+        
+        if (!isVisible) {
+            this.showPentatonic();
+        } else {
+            this.hidePentatonic();
+        }
+    }
+    
+    showPentatonic() {
+        const chord = document.getElementById('chordInput').value.trim();
+        if (!chord) {
+            alert('Введите аккорд сначала');
+            return;
+        }
+        
+        try {
+            // Очищаем другие режимы
+            this.clearOtherVisualizations();
+            
+            // Определяем настройки
+            const root = this.neck.extractTonic(chord);
+            
+            // ПРАВИЛЬНО получаем выбранный тип пентатоники
+            const typeRadios = document.querySelectorAll('input[name="pentatonicType"]');
+            let selectedType = 'minor'; // по умолчанию
+            
+            typeRadios.forEach(radio => {
+                if (radio.checked) {
+                    selectedType = radio.value;
+                }
+            });
+            
+            const showBlues = document.getElementById('showBluesNote').checked;
+            const box = document.querySelector('.box-btn.active').dataset.box;
+            
+            // Получаем ноты
+            const pentatonicNotes = this.getPentatonicNotes(root, selectedType);
+            const bluesNote = showBlues && selectedType === 'minor' ? this.getBluesNote(root) : null;
+            
+            // Показываем панель
+            document.getElementById('pentatonicControls').style.display = 'block';
+            document.getElementById('togglePentatonicBtn').classList.add('active');
+            
+            // Подсвечиваем ноты
+            this.highlightPentatonicOnFretboard(root, pentatonicNotes, bluesNote, box, selectedType);
+            
+            // Обновляем информацию
+            this.updatePentatonicInfo(root, selectedType, pentatonicNotes, bluesNote, box);
+            
+            // Сохраняем конфигурацию
+            this.currentConfig = { root, type: selectedType, box, showBlues };
+            this.isActive = true;
+            
+        } catch (error) {
+            console.error('Ошибка при показе пентатоники:', error);
+            alert('Не удалось показать пентатонику. Проверьте введенный аккорд.');
+        }
+    }
+    
+    highlightPentatonicOnFretboard(root, pentatonicNotes, bluesNote, box, type) {
+        // Очищаем предыдущую подсветку
+        this.clearPentatonicHighlight();
+        
+        // Преобразуем root в индекс для сдвига паттерна
+        const rootIndex = this.neck.notes.sharps.indexOf(
+            this.neck.normalizeToSharps(root)
+        );
+        
+        if (box === 'all') {
+            // Показываем все ноты пентатоники
+            this.highlightAllNotes(root, pentatonicNotes, bluesNote);
+        } else {
+            // Показываем конкретный бокс
+            const boxNum = parseInt(box);
+            if (this.boxPatterns[type] && this.boxPatterns[type][boxNum]) {
+                this.highlightBox(rootIndex, boxNum, type, root, bluesNote);
+            }
+        }
+    }
+    
+    highlightAllNotes(root, pentatonicNotes, bluesNote) {
+        document.querySelectorAll('.fret').forEach(fret => {
+            const note = fret.getAttribute('data-note');
+            const normalizedNote = this.neck.normalizeToSharps(note);
+            
+            // Подсвечиваем ВСЕ ноты пентатоники
+            if (pentatonicNotes.includes(normalizedNote)) {
+                fret.classList.add('pentatonic-note');
+                
+                // Дополнительно выделяем корневую ноту
+                if (normalizedNote === root) {
+                    fret.classList.add('pentatonic-root');
+                    fret.style.fontWeight = 'bold';
+                }
+            }
+            
+            // Подсвечиваем блюзовую ноту
+            if (bluesNote && bluesNote === normalizedNote) {
+                fret.classList.add('blues-note');
+                fret.style.animation = 'blues-note-pulse 2s infinite';
+            }
+        });
+    }
+    
+    highlightBox(rootIndex, boxNum, type, root, pentatonicNotes, bluesNote) {
+        const boxPattern = this.boxPatterns[type][boxNum];
+        if (!boxPattern) return;
+        
+        boxPattern.forEach(([string, baseFret]) => {
+            const fret = baseFret + rootIndex;
+            if (fret > 12) return;
+            
+            const fullNote = this.neck.getNote(string, fret);
+            const noteName = fullNote.replace(/[0-9]/g, '');
+            const normalizedNote = this.neck.normalizeToSharps(noteName);
+            
+            const fretElement = document.querySelector(
+                `.fret[data-string="${string}"][data-fret="${fret}"]`
+            );
+            
+            if (fretElement) {
+                // Подсвечиваем ВСЕ ноты пентатоники в боксе
+                if (pentatonicNotes.includes(normalizedNote)) {
+                    fretElement.classList.add('pentatonic-note');
+                    
+                    // Дополнительно выделяем корневую
+                    if (normalizedNote === root) {
+                        fretElement.classList.add('pentatonic-root');
+                        fretElement.style.fontWeight = 'bold';
+                    }
+                }
+                
+                // Подсвечиваем блюзовую ноту
+                if (bluesNote && bluesNote === normalizedNote) {
+                    fretElement.classList.add('blues-note');
+                    fretElement.style.animation = 'blues-note-pulse 2s infinite';
+                }
+            }
+        });
+    }
+    
+    highlightPentatonicOnFretboard(root, pentatonicNotes, bluesNote, box, type) {
+        this.clearPentatonicHighlight();
+        
+        if (box === 'all') {
+            this.highlightAllNotes(root, pentatonicNotes, bluesNote);
+        } else {
+            const rootIndex = this.neck.notes.sharps.indexOf(
+                this.neck.normalizeToSharps(root)
+            );
+            const boxNum = parseInt(box);
+            
+            if (this.boxPatterns[type] && this.boxPatterns[type][boxNum]) {
+                this.highlightBox(rootIndex, boxNum, type, root, pentatonicNotes, bluesNote);
+            }
+        }
+    }
+    
+    clearPentatonicHighlight() {
+        document.querySelectorAll('.fret').forEach(fret => {
+            fret.classList.remove('pentatonic-note', 'pentatonic-root', 'blues-note');
+            fret.style.fontWeight = '';
+            fret.style.animation = '';
+        });
+    }
+    
+    applyPentatonicStyle(fretElement, pentaNote) {
+        fretElement.classList.add('pentatonic-note');
+        
+        const degreeClass = this.getDegreeClass(pentaNote.degree);
+        if (degreeClass) {
+            fretElement.classList.add(degreeClass);
+        }
+        
+        // Для корневой ноты делаем жирной
+        if (pentaNote.degree === 1) {
+            fretElement.style.fontWeight = 'bold';
+        }
+    }
+    
+    applyBluesNoteStyle(fretElement, bluesNote) {
+        fretElement.classList.add('pentatonic-note', 'blues');
+        fretElement.style.animation = 'blues-note-pulse 2s infinite';
+    }
+    
+    clearPentatonicHighlight() {
+        document.querySelectorAll('.fret').forEach(fret => {
+            fret.classList.remove('pentatonic-note', 'root', 'second', 'third', 
+                                 'fourth', 'fifth', 'sixth', 'seventh', 'blues');
+            fret.style.fontWeight = '';
+            fret.style.animation = '';
+        });
+    }
+    
+    clearOtherVisualizations() {
+        // Очищаем аккорды
+        document.querySelectorAll('.fret').forEach(fret => {
+            fret.classList.remove('highlight');
+        });
+        
+        // Очищаем арпеджио
+        if (window.arpeggioManager) {
+            window.arpeggioManager.clear();
+        }
+        
+        // Скрываем другие панели
+        document.getElementById('chordSequence').style.display = 'none';
+        document.getElementById('chordNotes').textContent = '';
+        document.getElementById('styleInfo').textContent = '';
+    }
+    
+    updatePentatonicInfo(root, type, pentatonicNotes, bluesNote, box) {
+        const infoDiv = document.getElementById('pentatonicInfo');
+        const typeName = type === 'minor' ? 'Минорная' : 'Мажорная';
+        const boxText = box === 'all' ? 'Все позиции' : `Бокс ${box}`;
+        
+        let info = `<div><strong>${typeName} пентатоника от ${root}</strong> | ${boxText}</div>`;
+        
+        // Простой список нот
+        info += `<div>Ноты: ${pentatonicNotes.join(', ')}</div>`;
+        
+        if (bluesNote) {
+            info += `<div style="color: var(--zenburn-blue);">+ блюзовая нота: ${bluesNote} (♭5)</div>`;
+        }
+        
+        infoDiv.innerHTML = info;
+    }
+    
+    hidePentatonic() {
+        this.clearPentatonicHighlight();
+        
+        document.getElementById('pentatonicControls').style.display = 'none';
+        document.getElementById('togglePentatonicBtn').classList.remove('active');
+        document.getElementById('pentatonicInfo').innerHTML = '';
+        
+        this.isActive = false;
+        this.currentConfig = null;
+    }
+    
+    updateFromChordChange() {
+        if (this.isActive) {
+            this.showPentatonic();
+        }
+    }
+    
+    // Вспомогательные методы
+    getDegreeClass(degree) {
+        const map = { 
+            1: 'root', 2: 'second', 3: 'third', 
+            4: 'fourth', 5: 'fifth', 6: 'sixth', 7: 'seventh' 
+        };
+        return map[degree] || '';
+    }
+}
+
+// ============ ИНИЦИАЛИЗАЦИЯ ПЕНТАТОНИКИ ============
+
+let pentatonicManager;
+
+function initPentatonic() {
+    pentatonicManager = new PentatonicManager();
+    window.pentatonicManager = pentatonicManager;
+    
+    // Кнопка переключения
+    document.getElementById('togglePentatonicBtn').addEventListener('click', function() {
+        pentatonicManager.togglePentatonic();
+    });
+    
+    // Обработчики изменений настроек
+    document.querySelectorAll('input[name="pentatonicType"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (pentatonicManager.isActive) {
+                pentatonicManager.showPentatonic();
+            }
+        });
+    });
+    
+    document.getElementById('showBluesNote').addEventListener('change', function() {
+        if (pentatonicManager.isActive) {
+            pentatonicManager.showPentatonic();
+        }
+    });
+    
+    // Кнопки боксов
+    document.querySelectorAll('.box-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (this.classList.contains('active')) return;
+            
+            document.querySelectorAll('.box-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            if (pentatonicManager.isActive) {
+                pentatonicManager.showPentatonic();
+            }
+        });
+    });
+    
+    // Обработка изменений в поле аккорда
+    document.getElementById('chordInput').addEventListener('change', function() {
+        if (pentatonicManager && pentatonicManager.isActive) {
+            pentatonicManager.updateFromChordChange();
+        }
+    });
+}
+
+
 
 // ============ РЕНДЕРИНГ ГРИФА (БЕЗ ИЗМЕНЕНИЙ) ============
 function renderFretBoard() {
@@ -542,6 +962,8 @@ function hideArpeggioInfo() {
 }
 
 // ============ ОБРАБОТЧИКИ СОБЫТИЙ ============
+// ============ ОБНОВЛЯЕМ СУЩЕСТВУЮЩУЮ ИНИЦИАЛИЗАЦИЮ ============
+
 document.addEventListener('DOMContentLoaded', function() {
     renderFretBoard();
     
@@ -551,18 +973,30 @@ document.addEventListener('DOMContentLoaded', function() {
         if (chord) {
             highlightChordNotes(chord);
             document.getElementById('chordSequence').style.display = 'none';
-            clearArpeggio();
+            
+            // Очищаем арпеджио
+            if (window.arpeggioManager) {
+                window.arpeggioManager.clear();
+            }
+            
+            // Очищаем пентатонику
+            if (window.pentatonicManager) {
+                window.pentatonicManager.hidePentatonic();
+            }
         }
     });
     
-    // Кнопки стилей
+    // Кнопки стилей (оставляем как было)
     document.getElementById('jazzManoucheBtn').addEventListener('click', function() {
         const chord = document.getElementById('chordInput').value.trim();
         if (chord) {
             const neck = new GuitarNeck();
             const tonic = neck.extractTonic(chord);
             showStyleChords('jazz-manouche', tonic);
-            clearArpeggio();
+            
+            // Очищаем другие режимы
+            if (window.arpeggioManager) window.arpeggioManager.clear();
+            if (window.pentatonicManager) window.pentatonicManager.hidePentatonic();
         }
     });
     
@@ -572,7 +1006,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const neck = new GuitarNeck();
             const tonic = neck.extractTonic(chord);
             showStyleChords('blues', tonic);
-            clearArpeggio();
+            
+            // Очищаем другие режимы
+            if (window.arpeggioManager) window.arpeggioManager.clear();
+            if (window.pentatonicManager) window.pentatonicManager.hidePentatonic();
         }
     });
     
@@ -582,12 +1019,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const neck = new GuitarNeck();
             const tonic = neck.extractTonic(chord);
             showStyleChords('bossa', tonic);
-            clearArpeggio();
+            
+            // Очищаем другие режимы
+            if (window.arpeggioManager) window.arpeggioManager.clear();
+            if (window.pentatonicManager) window.pentatonicManager.hidePentatonic();
         }
     });
     
+    
     // Инициализация арпеджио
     initArpeggio();
+
+	// Инициализация пентатоники (новая)
+	    initPentatonic();
     
     // Автоподсветка при загрузке
     highlightChordNotes('C');
