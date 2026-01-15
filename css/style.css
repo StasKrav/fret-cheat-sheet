@@ -1,568 +1,569 @@
-        :root {
-    /* Zenburn цветовая палитра */
-    --zenburn-bg: #3f3f3f;
-    --zenburn-bg-light: #4f4f4f;
-    --zenburn-bg-lighter: #5f5f5f;
-    --zenburn-fg: #dcdccc;
-    --zenburn-fg-dim: #9fafaf;
-    --zenburn-comment: #7f9f7f;
-    --zenburn-green: #8fb28f;
-    --zenburn-cyan: #8cd0d3;
-    --zenburn-blue: #0a9396;
-    --zenburn-yellow: #dde5b6;
-    --zenburn-orange: #dfaf8f;
-    --zenburn-red: #cc9393;
-    --zenburn-purple: #dc8cc3;
-    
-    /* Конкретные назначения цветов */
-    --body-bg: var(--zenburn-bg);
-    --text-color: var(--zenburn-fg);
-    --container-bg: var(--zenburn-bg-light);
-    --border-color: var(--zenburn-bg-lighter);
-    
-    /* Гриф */
-    --neck-bg: #2a2a2a;
-    --neck-border: var(--zenburn-bg-lighter);
-    --fret-bg: rgba(255, 255, 255, 0.05);
-    --fret-border: var(--zenburn-comment);
-    --fret-text: var(--zenburn-fg-dim);
-    --nut-bg: rgba(255, 255, 255, 0.08);
-    --string-color: var(--zenburn-yellow);
-    
-    /* Кнопки */
-    --btn-primary: var(--zenburn-green);
-    --btn-primary-hover: #7fa07f;
-    --btn-secondary: var(--zenburn-orange);
-    --btn-secondary-hover: #cf9f7f;
-    --btn-tertiary: var(--zenburn-purple);
-    --btn-tertiary-hover: #cc7cb3;
-    
-    /* Акценты */
-    --highlight: var(--zenburn-cyan);
-    --highlight-border: var(--zenburn-blue);
-    --accent-1: var(--zenburn-yellow);
-    --accent-2: var(--zenburn-red);
+:root {
+  /* Zenburn цветовая палитра */
+  --zenburn-bg: #3f3f3f;
+  --zenburn-bg-light: #4f4f4f;
+  --zenburn-bg-lighter: #5f5f5f;
+  --zenburn-fg: #dcdccc;
+  --zenburn-fg-dim: #9fafaf;
+  --zenburn-comment: #7f9f7f;
+  --zenburn-green: #8fb28f;
+  --zenburn-cyan: #8cd0d3;
+  --zenburn-blue: #0a9396;
+  --zenburn-yellow: #dde5b6;
+  --zenburn-orange: #dfaf8f;
+  --zenburn-red: #cc9393;
+  --zenburn-purple: #dc8cc3;
+
+  /* Конкретные назначения цветов */
+  --body-bg: var(--zenburn-bg);
+  --text-color: var(--zenburn-fg);
+  --container-bg: var(--zenburn-bg-light);
+  --border-color: var(--zenburn-bg-lighter);
+
+  /* Гриф */
+  --neck-bg: #2a2a2a;
+  --neck-border: var(--zenburn-bg-lighter);
+  --fret-bg: rgba(255, 255, 255, 0.05);
+  --fret-border: var(--zenburn-comment);
+  --fret-text: var(--zenburn-fg-dim);
+  --nut-bg: rgba(255, 255, 255, 0.08);
+  --string-color: var(--zenburn-yellow);
+
+  /* Кнопки */
+  --btn-primary: var(--zenburn-green);
+  --btn-primary-hover: #7fa07f;
+  --btn-secondary: var(--zenburn-orange);
+  --btn-secondary-hover: #cf9f7f;
+  --btn-tertiary: var(--zenburn-purple);
+  --btn-tertiary-hover: #cc7cb3;
+
+  /* Акценты */
+  --highlight: var(--zenburn-cyan);
+  --highlight-border: var(--zenburn-blue);
+  --accent-1: var(--zenburn-yellow);
+  --accent-2: var(--zenburn-red);
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-	font-family:
+  font-family:
     "Comfortaa",
     -apple-system,
     BlinkMacSystemFont,
-     'Segoe UI', 'Ubuntu Mono', 'Consolas', monospace;
-    background: var(--body-bg);
-    color: var(--text-color);
-    padding: 20px;
-    line-height: 1.6;
-    font-size: 14px;
+    "Segoe UI",
+    "Ubuntu Mono",
+    "Consolas",
+    monospace;
+  background: var(--body-bg);
+  color: var(--text-color);
+  padding: 20px;
+  line-height: 1.6;
+  font-size: 14px;
 }
 
 .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    background: var(--container-bg);
-    border-radius: 6px;
-    padding: 25px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  max-width: 1000px;
+  margin: 0 auto;
+  background: var(--container-bg);
+  border-radius: 6px;
+  padding: 25px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
-    text-align: center;
-    color: var(--zenburn-yellow);
-    margin-bottom: 25px;
-    font-size: 1.8em;
-    font-weight: 300;
-    letter-spacing: 1px;
+  text-align: center;
+  color: var(--zenburn-yellow);
+  margin-bottom: 25px;
+  font-size: 1.8em;
+  font-weight: 300;
+  letter-spacing: 1px;
 }
 
 /* Гриф */
 .guitar-neck-full {
-    background: var(--neck-bg);
-    padding: 20px;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    border: 1px solid var(--neck-border);
+  background: var(--neck-bg);
+  padding: 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid var(--neck-border);
 }
 
 .fret-board {
-    display: grid;
-    grid-template-rows: repeat(6, 1fr);
-    gap: 1px;
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 1px;
 }
 
 .string {
-    display: flex;
+  display: flex;
 }
 
 .fret {
-    flex: 1;
-    height: 38px;
-    background: var(--fret-bg);
-    border: 1px solid var(--fret-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--fret-text);
-    font-size: 12px;
-    font-family: 'Ubuntu Mono', 'Consolas', monospace;
-    position: relative;
-    /* Убираем отрицательные margins */
-    margin: 0;
-    /* Исправляем границы */
-    border-right: none;
-    border-bottom: none;
+  flex: 1;
+  height: 38px;
+  background: var(--fret-bg);
+  border: 1px solid var(--fret-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fret-text);
+  font-size: 12px;
+  font-family: "Ubuntu Mono", "Consolas", monospace;
+  position: relative;
+  /* Убираем отрицательные margins */
+  margin: 0;
+  /* Исправляем границы */
+  border-right: none;
+  border-bottom: none;
 }
 
 /* Для последнего лада возвращаем margin */
 .fret:last-child {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 /* Для последней строки возвращаем margin */
 .string:last-child .fret {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .fret:first-child {
-    background: var(--nut-bg);
+  background: var(--nut-bg);
 }
 
 .string-name {
-    width: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--string-color);
-    font-weight: bold;
-    font-family: 'Ubuntu Mono', 'Consolas', monospace;
-    font-size: 13px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--string-color);
+  font-weight: bold;
+  font-family: "Ubuntu Mono", "Consolas", monospace;
+  font-size: 13px;
 }
 
 .nut {
-    background: var(--nut-bg) !important;
-    font-weight: bold;
-    color: var(--zenburn-fg);
+  background: var(--nut-bg) !important;
+  font-weight: bold;
+  color: var(--zenburn-fg);
 }
 
 /* Номера ладов сверху */
 .fret-numbers {
-    display: flex;
-    margin-bottom: 12px;
-    padding-left: 0px;
+  display: flex;
+  margin-bottom: 12px;
+  padding-left: 0px;
 }
 
 .fret-numbers span {
-    flex: 1;
-    text-align: center;
-    color: var(--zenburn-comment);
-    font-size: 11px;
-    font-family: 'Ubuntu Mono', 'Consolas', monospace;
-    letter-spacing: 0;
+  flex: 1;
+  text-align: center;
+  color: var(--zenburn-comment);
+  font-size: 11px;
+  font-family: "Ubuntu Mono", "Consolas", monospace;
+  letter-spacing: 0;
 }
 
 .fret-numbers span:first-child {
-    flex: 0 0 32px;
+  flex: 0 0 32px;
 }
 
 /* Панель управления */
 .controls {
-    background: var(--zenburn-bg);
-    padding: 20px;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    border: 1px solid var(--border-color);
+  background: var(--zenburn-bg);
+  padding: 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
 }
 
 .chord-input {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .style-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
 }
 
 /* Поля ввода */
 input[type="text"] {
-    flex: 1;
-    padding: 10px 14px;
-    border: 1px solid var(--fret-border);
-    border-radius: 4px;
-    background: var(--zenburn-bg-light);
-    color: var(--zenburn-fg);
-    font-size: 14px;
-    font-family: 'Ubuntu Mono', 'Consolas', monospace;
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--fret-border);
+  border-radius: 4px;
+  background: var(--zenburn-bg-light);
+  color: var(--zenburn-fg);
+  font-size: 14px;
+  font-family: "Ubuntu Mono", "Consolas", monospace;
 }
 
 input[type="text"]:focus {
-    border-color: var(--zenburn-cyan);
-    outline: none;
-    background: var(--zenburn-bg);
+  border-color: var(--zenburn-cyan);
+  outline: none;
+  background: var(--zenburn-bg);
 }
 
 /* Кнопки */
 button {
-    padding: 10px 20px;
-    background: var(--btn-primary);
-    color: var(--zenburn-bg);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    font-family: 'Segoe UI', sans-serif;
-    transition: none;
+  padding: 10px 20px;
+  background: var(--btn-primary);
+  color: var(--zenburn-bg);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: "Segoe UI", sans-serif;
+  transition: none;
 }
 
 button:hover {
-    background: var(--btn-primary-hover);
+  background: var(--btn-primary-hover);
 }
 
 .style-btn {
-    background: var(--btn-secondary);
+  background: var(--btn-secondary);
 }
 
 .style-btn:hover {
-    background: var(--btn-secondary-hover);
+  background: var(--btn-secondary-hover);
 }
 
 .jazz-manouche-btn {
-    background: var(--btn-tertiary);
+  background: var(--btn-tertiary);
 }
 
 .jazz-manouche-btn:hover {
-    background: var(--btn-tertiary-hover);
+  background: var(--btn-tertiary-hover);
 }
 
 /* Подсветка нот */
 .highlight {
-    background: var(--highlight) !important;
-    color: var(--zenburn-bg) !important;
-    font-weight: bold;
-    border-color: var(--highlight-border);
+  background: var(--highlight) !important;
+  color: var(--zenburn-bg) !important;
+  font-weight: bold;
+  border-color: var(--highlight-border);
 }
 
 /* Текстовые блоки */
 .chord-notes {
-    color: var(--zenburn-cyan);
-    font-family: 'Ubuntu Mono', 'Consolas', monospace;
-    margin-top: 12px;
-    font-size: 13px;
-    padding: 10px;
-    background: rgba(140, 208, 211, 0.1);
-    border-radius: 3px;
-    border-left: 3px solid var(--zenburn-cyan);
+  color: var(--zenburn-cyan);
+  font-family: "Ubuntu Mono", "Consolas", monospace;
+  margin-top: 12px;
+  font-size: 13px;
+  padding: 10px;
+  background: rgba(140, 208, 211, 0.1);
+  border-radius: 3px;
+  border-left: 3px solid var(--zenburn-cyan);
 }
 
 .style-info {
-    color: var(--zenburn-yellow);
-    font-style: italic;
-    margin-top: 8px;
-    font-size: 13px;
-    padding: 8px;
-    background: rgba(240, 223, 175, 0.1);
-    border-radius: 3px;
-    border-left: 2px solid var(--zenburn-yellow);
+  color: var(--zenburn-yellow);
+  font-style: italic;
+  margin-top: 8px;
+  font-size: 13px;
+  padding: 8px;
+  background: rgba(240, 223, 175, 0.1);
+  border-radius: 3px;
+  border-left: 2px solid var(--zenburn-yellow);
 }
 
 .chord-sequence {
-    background: var(--zenburn-bg-light);
-    padding: 15px;
-    border-radius: 4px;
-    margin-top: 15px;
-    border-left: 4px solid var(--zenburn-purple);
+  background: var(--zenburn-bg-light);
+  padding: 15px;
+  border-radius: 4px;
+  margin-top: 15px;
+  border-left: 4px solid var(--zenburn-purple);
 }
 
 .chord-link {
-    color: var(--zenburn-green) !important;
-    cursor: pointer;
-    text-decoration: none;
-    padding: 3px 6px;
-    border-radius: 3px;
-    background: rgba(143, 178, 143, 0.1);
-    border: 1px solid rgba(143, 178, 143, 0.3);
-    font-family: 'Ubuntu Mono', 'Consolas', monospace;
-    font-size: 13px;
+  color: var(--zenburn-green) !important;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 3px 6px;
+  border-radius: 3px;
+  background: rgba(143, 178, 143, 0.1);
+  border: 1px solid rgba(143, 178, 143, 0.3);
+  font-family: "Ubuntu Mono", "Consolas", monospace;
+  font-size: 13px;
 }
 
 .chord-link:hover {
-    background: rgba(143, 178, 143, 0.2);
+  background: rgba(143, 178, 143, 0.2);
 }
 
 /* Убираем старые номера ладов */
 .fret .fret-number {
-    display: none;
+  display: none;
 }
-
 
 /* Адаптивность */
 @media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-    
-    .container {
-        padding: 15px;
-    }
-    
-    .chord-input {
-        flex-direction: column;
-    }
-    
-    .style-buttons {
-        justify-content: center;
-    }
-    
-    button {
-        padding: 8px 16px;
-        font-size: 12px;
-    }
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  .chord-input {
+    flex-direction: column;
+  }
+
+  .style-buttons {
+    justify-content: center;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
 }
-
-
 
 /* Для последнего лада в строке */
 .fret:last-child {
-    border-right: 1px solid var(--fret-border);
+  border-right: 1px solid var(--fret-border);
 }
 
 /* Для последней строки */
 .string:last-child .fret {
-    border-bottom: 1px solid var(--fret-border);
+  border-bottom: 1px solid var(--fret-border);
 }
 
 /* Подсветка аккордов */
 .fret.highlight {
-    background: var(--highlight) !important;
-    color: var(--zenburn-bg) !important;
-    font-weight: bold;
-    border-color: var(--highlight-border) !important;
-    position: relative;
-    z-index: 2; /* Чтобы был поверх соседних */
+  background: var(--highlight) !important;
+  color: var(--zenburn-bg) !important;
+  font-weight: bold;
+  border-color: var(--highlight-border) !important;
+  position: relative;
+  z-index: 2; /* Чтобы был поверх соседних */
 }
 
 /* Подсветка арпеджио */
 .fret.arpeggio-root {
-    background: var(--zenburn-cyan) !important;
-    color: var(--zenburn-bg) !important;
-    border-color: var(--zenburn-green) !important;
-    z-index: 2;
+  background: var(--zenburn-cyan) !important;
+  color: var(--zenburn-bg) !important;
+  border-color: var(--zenburn-green) !important;
+  z-index: 2;
 }
 
 .fret.arpeggio-third {
-    background: var(--zenburn-green) !important;
-    color: var(--zenburn-bg) !important;
-    border-color: var(--zenburn-blue) !important;
-    z-index: 2;
+  background: var(--zenburn-green) !important;
+  color: var(--zenburn-bg) !important;
+  border-color: var(--zenburn-blue) !important;
+  z-index: 2;
 }
 
 .fret.arpeggio-fifth {
-    background: var(--zenburn-yellow) !important;
-    color: var(--zenburn-bg) !important;
-    border-color: var(--zenburn-yellow) !important;
-    z-index: 2;
+  background: var(--zenburn-yellow) !important;
+  color: var(--zenburn-bg) !important;
+  border-color: var(--zenburn-yellow) !important;
+  z-index: 2;
 }
 
 .fret.arpeggio-second {
-    background: var(--zenburn-purple) !important;
-    color: var(--zenburn-bg) !important;
-    border-color: var(--zenburn-purple) !important;
-    z-index: 2;
+  background: var(--zenburn-purple) !important;
+  color: var(--zenburn-bg) !important;
+  border-color: var(--zenburn-purple) !important;
+  z-index: 2;
 }
 
 .fret.arpeggio-sixth {
-    background: var(--zenburn-red) !important;
-    color: var(--zenburn-bg) !important;
-    border-color: var(--zenburn-red) !important;
-    z-index: 2;
+  background: var(--zenburn-red) !important;
+  color: var(--zenburn-bg) !important;
+  border-color: var(--zenburn-red) !important;
+  z-index: 2;
 }
 
 .fret.arpeggio-seventh {
-    background: var(--zenburn-blue) !important;
-    color: var(--zenburn-bg) !important;
-    border-color: var(--zenburn-blue) !important;
-    z-index: 2;
+  background: var(--zenburn-blue) !important;
+  color: var(--zenburn-bg) !important;
+  border-color: var(--zenburn-blue) !important;
+  z-index: 2;
 }
 
 /* Пентатоника */
 .pentatonic-btn {
-    background: var(--zenburn-green);
-    color: var(--zenburn-bg);
+  background: var(--zenburn-green);
+  color: var(--zenburn-bg);
 }
 
 .pentatonic-btn:hover {
-    background: var(--btn-primary-hover);
+  background: var(--btn-primary-hover);
 }
 
 .pentatonic-btn.active {
-    background: #bc8383;
-    /* box-shadow: 0 0 0 2px var(--zenburn-purple); */
+  background: #bc8383;
+  /* box-shadow: 0 0 0 2px var(--zenburn-purple); */
 }
 
 /* Панель пентатоники */
 .pentatonic-controls {
-    margin-top: 15px;
-    padding: 15px;
-    background: rgba(204, 147, 147, 0.08);
-    border-radius: 4px;
-    border: 1px solid rgba(204, 147, 147, 0.3);
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(204, 147, 147, 0.08);
+  border-radius: 4px;
+  border: 1px solid rgba(204, 147, 147, 0.3);
 }
 
 .pentatonic-type {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 10px;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
 }
 
 .pentatonic-type label {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-    color: var(--zenburn-fg-dim);
-    font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: var(--zenburn-fg-dim);
+  font-size: 13px;
 }
 
 .pentatonic-type input[type="radio"] {
-    accent-color: var(--zenburn-red);
+  accent-color: var(--zenburn-red);
 }
 
 .pentatonic-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-    color: var(--zenburn-blue);
-    font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: var(--zenburn-blue);
+  font-size: 13px;
 }
 
 .pentatonic-checkbox input {
-    accent-color: var(--zenburn-blue);
+  accent-color: var(--zenburn-blue);
 }
 
 /* Кнопки боксов */
 .box-buttons {
-    display: flex;
-    gap: 3px;
+  display: flex;
+  gap: 3px;
 }
 
 .box-btn {
-    padding: 4px 8px;
-    background: var(--zenburn-bg-lighter);
-    color: var(--zenburn-fg-dim);
-    border: 1px solid var(--zenburn-comment);
-    border-radius: 3px;
-    font-size: 11px;
-    min-width: 28px;
-    cursor: pointer;
-    transition: none;
+  padding: 4px 8px;
+  background: var(--zenburn-bg-lighter);
+  color: var(--zenburn-fg-dim);
+  border: 1px solid var(--zenburn-comment);
+  border-radius: 3px;
+  font-size: 11px;
+  min-width: 28px;
+  cursor: pointer;
+  transition: none;
 }
 
 .box-btn:hover {
-    background: var(--zenburn-bg-light);
-    color: var(--zenburn-fg);
+  background: var(--zenburn-bg-light);
+  color: var(--zenburn-fg);
 }
 
 .box-btn.active {
-    background: var(--zenburn-red);
-    color: var(--zenburn-bg);
-    border-color: var(--zenburn-red);
+  background: var(--zenburn-red);
+  color: var(--zenburn-bg);
+  border-color: var(--zenburn-red);
 }
 
 /* Цвета нот пентатоники */
 .pentatonic-root {
-    background: var(--zenburn-red) !important;
-    color: var(--zenburn-bg) !important;
-    font-weight: bold;
-    position: relative;
+  background: var(--zenburn-red) !important;
+  color: var(--zenburn-bg) !important;
+  font-weight: bold;
+  position: relative;
 }
 
 /* Блюзовая нота с миганием */
 .blues-note {
-    background: var(--zenburn-blue) !important;
-    color: white !important;
-    animation: blues-note-pulse 2s infinite;
+  background: var(--zenburn-blue) !important;
+  color: white !important;
+  animation: blues-note-pulse 2s infinite;
 }
 
 @keyframes blues-note-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 /* Все ноты пентатоники - один цвет */
 .pentatonic-note {
-    background: var(--zenburn-green) !important;
-    color: var(--zenburn-bg) !important;
+  background: var(--zenburn-green) !important;
+  color: var(--zenburn-bg) !important;
 }
 
 /* Корневая нота - другой цвет */
 .pentatonic-root {
-    background: var(--zenburn-red) !important;
-    color: var(--zenburn-bg) !important;
-    font-weight: bold;
+  background: var(--zenburn-red) !important;
+  color: var(--zenburn-bg) !important;
+  font-weight: bold;
 }
 
 /* Блюзовая нота - третий цвет */
 .blues-note {
-    background: var(--zenburn-blue) !important;
-    color: white !important;
-    animation: blues-note-pulse 2s infinite;
+  background: var(--zenburn-blue) !important;
+  color: white !important;
+  animation: blues-note-pulse 2s infinite;
 }
-
 
 /* Бейджи для нот в информации */
 .pentatonic-note-badge {
-    display: inline-block;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 11px;
-    margin-right: 4px;
-    font-weight: 500;
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  margin-right: 4px;
+  font-weight: 500;
 }
-
 
 /* Улучшаем внешний вид боксов */
 .box-buttons {
-    display: inline-flex;
-    gap: 2px;
-    background: var(--zenburn-bg);
-    padding: 2px;
-    border-radius: 4px;
+  display: inline-flex;
+  gap: 2px;
+  background: var(--zenburn-bg);
+  padding: 2px;
+  border-radius: 4px;
 }
 
 .box-btn {
-    padding: 4px 8px;
-    background: var(--zenburn-bg-lighter);
-    color: var(--zenburn-fg-dim);
-    border: none;
-    border-radius: 2px;
-    font-size: 11px;
-    min-width: 24px;
-    cursor: pointer;
-    transition: all 0.2s;
+  padding: 4px 8px;
+  background: var(--zenburn-bg-lighter);
+  color: var(--zenburn-fg-dim);
+  border: none;
+  border-radius: 2px;
+  font-size: 11px;
+  min-width: 24px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .box-btn:hover {
-    background: var(--zenburn-bg-light);
-    color: var(--zenburn-fg);
+  background: var(--zenburn-bg-light);
+  color: var(--zenburn-fg);
 }
 
 .box-btn.active {
-    background: var(--zenburn-red);
-    color: var(--zenburn-bg);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  background: var(--zenburn-red);
+  color: var(--zenburn-bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
-
-
