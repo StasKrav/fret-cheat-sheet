@@ -113,9 +113,11 @@ h1 {
     font-size: 12px;
     font-family: 'Ubuntu Mono', 'Consolas', monospace;
     position: relative;
-    /* Сдвигаем лады на половину границы */
-    margin-right: -1px;
-    margin-bottom: -1px;
+    /* Убираем отрицательные margins */
+    margin: 0;
+    /* Исправляем границы */
+    border-right: none;
+    border-bottom: none;
 }
 
 /* Для последнего лада возвращаем margin */
@@ -328,3 +330,69 @@ button:hover {
         font-size: 12px;
     }
 }
+
+
+
+/* Для последнего лада в строке */
+.fret:last-child {
+    border-right: 1px solid var(--fret-border);
+}
+
+/* Для последней строки */
+.string:last-child .fret {
+    border-bottom: 1px solid var(--fret-border);
+}
+
+/* Подсветка аккордов */
+.fret.highlight {
+    background: var(--highlight) !important;
+    color: var(--zenburn-bg) !important;
+    font-weight: bold;
+    border-color: var(--highlight-border) !important;
+    position: relative;
+    z-index: 2; /* Чтобы был поверх соседних */
+}
+
+/* Подсветка арпеджио */
+.fret.arpeggio-root {
+    background: var(--zenburn-green) !important;
+    color: var(--zenburn-bg) !important;
+    border-color: var(--zenburn-green) !important;
+    z-index: 2;
+}
+
+.fret.arpeggio-third {
+    background: var(--zenburn-cyan) !important;
+    color: var(--zenburn-bg) !important;
+    border-color: var(--zenburn-blue) !important;
+    z-index: 2;
+}
+
+.fret.arpeggio-fifth {
+    background: var(--zenburn-yellow) !important;
+    color: var(--zenburn-bg) !important;
+    border-color: var(--zenburn-yellow) !important;
+    z-index: 2;
+}
+
+.fret.arpeggio-second {
+    background: var(--zenburn-purple) !important;
+    color: var(--zenburn-bg) !important;
+    border-color: var(--zenburn-purple) !important;
+    z-index: 2;
+}
+
+.fret.arpeggio-sixth {
+    background: var(--zenburn-red) !important;
+    color: var(--zenburn-bg) !important;
+    border-color: var(--zenburn-red) !important;
+    z-index: 2;
+}
+
+.fret.arpeggio-seventh {
+    background: var(--zenburn-blue) !important;
+    color: var(--zenburn-bg) !important;
+    border-color: var(--zenburn-blue) !important;
+    z-index: 2;
+}
+

@@ -1,3 +1,5 @@
+<!-- В index.html, внутри <div class="controls"> после chord-input и до arpeggio-controls -->
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -8,30 +10,43 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-
 </head>
-
-
 <body>
     <div class="container">
         <h1>Визуализация грифа гитары</h1>
         
+        <!-- В index.html внутри controls: -->
         <div class="controls">
+            <!-- Поле ввода и кнопки -->
             <div class="chord-input">
-                <input type="text" id="chordInput" placeholder="Введите аккорд (C, Am7, G7, C6, D9...)" value="C">
-                <button id="highlightChordBtn">Показать ноты аккорда</button>
+                <input type="text" id="chordInput" placeholder="Введите аккорд (C, Am7, G7...)" value="C">
+                <button id="highlightChordBtn">Показать аккорд</button>
+                <button id="showArpeggioBtn" class="arpeggio-btn">Показать арпеджио</button>
             </div>
             
+            <!-- Кнопки стилей (как было) -->
             <div class="style-buttons">
                 <button class="style-btn" id="bluesBtn">Блюзовые аккорды</button>
                 <button class="jazz-manouche-btn" id="jazzManoucheBtn">Джаз-мануш прогрессия</button>
                 <button class="style-btn" id="bossaBtn">Босса-нова</button>
             </div>
             
+            <!-- Информация об аккорде -->
             <div class="chord-notes" id="chordNotes"></div>
             <div class="style-info" id="styleInfo"></div>
             <div class="chord-sequence" id="chordSequence" style="display: none;"></div>
+            
+            <!-- Управление арпеджио -->
+            <div class="arpeggio-controls" style="margin-top: 20px; padding: 15px; background: rgba(223, 175, 143, 0.05); border-radius: 4px; border-left: 3px solid var(--zenburn-orange);">
+                <div style="margin-bottom: 10px; color: var(--zenburn-orange); font-weight: 500;">
+                    Расширения арпеджио:
+                </div>
+                <div class="arpeggio-extensions">
+                    <label><input type="checkbox" id="addSecond"> +2 ступень</label>
+                    <label><input type="checkbox" id="addSixth"> +6 ступень</label>
+                    <label><input type="checkbox" id="addSeventh"> +7 ступень</label>
+                </div>
+            </div>
         </div>
         
         <div class="guitar-neck-full">
@@ -39,8 +54,6 @@
         </div>
     </div>
 
-<script src="js/script.js"></script>
-
-
+    <script src="js/script.js"></script>
 </body>
 </html>
