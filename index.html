@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гриф гитары - визуализация</title>
+    <link rel="stylesheet" href="css/style.css">
+
+
+</head>
+
+
+<body>
+    <div class="container">
+        <h1>Визуализация грифа гитары</h1>
+        
+        <div class="controls">
+            <div class="chord-input">
+                <input type="text" id="chordInput" placeholder="Введите аккорд (C, Am7, G7, C6, D9...)" value="C">
+                <button id="highlightChordBtn">Показать ноты аккорда</button>
+            </div>
+            
+            <div class="style-buttons">
+                <button class="style-btn" id="bluesBtn">Блюзовые аккорды</button>
+                <button class="jazz-manouche-btn" id="jazzManoucheBtn">Джаз-мануш прогрессия</button>
+                <button class="style-btn" id="bossaBtn">Босса-нова</button>
+            </div>
+            
+            <div class="chord-notes" id="chordNotes"></div>
+            <div class="style-info" id="styleInfo"></div>
+            <div class="chord-sequence" id="chordSequence" style="display: none;"></div>
+        </div>
+        
+        <div class="guitar-neck-full">
+            <div id="fretBoard"></div>
+        </div>
+    </div>
+
+<script src="js/script.js"></script>
+
+
+</body>
+</html>
