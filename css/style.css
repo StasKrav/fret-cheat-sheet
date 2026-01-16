@@ -570,3 +570,56 @@ button:hover {
   color: var(--zenburn-bg);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
+
+@media (max-width: 768px) {
+  .fret { height: 60px !important; font-size: 16px !important; } /* Больше ладов */
+  .guitar-neck-full { padding: 15px; min-height: 400px; }
+  
+  button { 
+    min-height: 48px; 
+    padding: 12px 20px; 
+    font-size: 16px; /* Touch-friendly */
+  }
+  
+  .controls { height: 320px; } /* Меньше для телефонов */
+  input[type="text"] { font-size: 18px; padding: 15px; }
+  
+  .container { padding: 10px; max-width: 100vw; }
+}
+
+@media (max-width: 768px) {
+  /* Равная ширина для всех элементов формы */
+  .chord-input, 
+  .style-buttons,
+  button,
+  input[type="text"],
+  .jazz-manouche-btn {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  
+  /* Унифицированные отступы */
+  .chord-input {
+    gap: 12px;
+    flex-direction: column;
+  }
+  
+  .style-buttons {
+    justify-content: stretch;
+    gap: 12px;
+  }
+  
+  button {
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 16px;
+    flex: 1; /* Равномерно распределяются */
+  }
+  
+  input[type="text"] {
+    font-size: 18px;
+    padding: 15px;
+    height: 48px; /* Как кнопки */
+  }
+}

@@ -633,21 +633,19 @@ class PentatonicManager {
 window.activeMode = null; // Отслеживает активный режим
 
 function setActiveMode(mode) {
-  // Скрыть все панели
   document.querySelector('.arpeggio-controls')?.style.setProperty('display', 'none');
   document.getElementById('pentatonicControls')?.style.setProperty('display', 'none');
-  document.getElementById('chordSequence')?.style.setProperty('display', 'none');
+  // ✅ УБРАЛИ: document.getElementById('chordSequence')?.style.setProperty('display', 'none');
   
-  // Очистить все выделения на грифе
   clearAllHighlights();
   
-  // Убрать активные состояния кнопок
   document.querySelectorAll('.pentatonic-btn, .arpeggio-btn').forEach(btn => {
     btn.classList.remove('active');
   });
   
   window.activeMode = mode;
 }
+
 
 
 // ============ ИНИЦИАЛИЗАЦИЯ ПЕНТАТОНИКИ ============
@@ -758,7 +756,8 @@ function clearAllHighlights() {
 
 
 function highlightChordNotes(chord) {
-  setActiveMode('chord');  // ✅ Скрывает все доп. панели
+  // ✅ НЕ вызываем setActiveMode для аккорда — оставляем Gypsy Jazz
+  clearAllHighlights();
   
   const neck = new GuitarNeck();
   const chordNotes = neck.getChordNotes(chord);
@@ -773,6 +772,7 @@ function highlightChordNotes(chord) {
   
   document.getElementById('chordNotes').textContent = `${chord}: ${chordNotes.join(', ')}`;
 }
+
 
 
 
