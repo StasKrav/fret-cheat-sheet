@@ -181,6 +181,9 @@ h1 {
   border-radius: 4px;
   margin-bottom: 20px;
   border: 1px solid var(--border-color);
+  height: 400px;        /* ✅ ФИКСИРОВАННЫЙ РАЗМЕР ВСЕГДА */
+    overflow: hidden;     /* ✅ Без полосы прокрутки */
+    box-sizing: border-box; 
 }
 
 .chord-input {
