@@ -149,82 +149,83 @@ class PentatonicManager {
 
     // Паттерны боксов для минорной пентатоники (0 лад = открытая струна)
     // Формат: [бокс][степень][позиция] = [струна, лад, степень]
+    // Заменяем boxPatterns в конструкторе PentatonicManager:
     this.boxPatterns = {
       minor: {
         1: [
-          // Бокс 1: все 5 нот пентатоники
-          [5, 0],
-          [5, 3], // 1 струна: 1, 4
-          [4, 0],
-          [4, 2], // 2 струна: 1, ♭3
-          [3, 0],
-          [3, 2], // 3 струна: 1, ♭3
-          [2, 0],
-          [2, 2], // 4 струна: 1, ♭3
-          [1, 0],
-          [1, 3], // 5 струна: 1, 4
-          [0, 0],
-          [0, 3], // 6 струна: 1, 4
+          // Бокс 1: начинается с корня на 6 струне, лад 0
+          [5, 0],  // 6 струна, лад 0 - 1
+          [5, 3],  // 6 струна, лад 3 - 4
+          [4, 0],  // 5 струна, лад 0 - 1
+          [4, 2],  // 5 струна, лад 2 - ♭3
+          [3, 0],  // 4 струна, лад 0 - 1
+          [3, 2],  // 4 струна, лад 2 - ♭3
+          [2, 0],  // 3 струна, лад 0 - 1
+          [2, 2],  // 3 струна, лад 2 - ♭3
+          [1, 0],  // 2 струна, лад 0 - 1
+          [1, 3],  // 2 струна, лад 3 - 4
+          [0, 0],  // 1 струна, лад 0 - 1
+          [0, 3],  // 1 струна, лад 3 - 4
         ],
         2: [
-          // Бокс 2
-          [5, 3],
-          [5, 5], // 1: 4, 5
-          [4, 2],
-          [4, 5], // 2: ♭3, ♭7
-          [3, 2],
-          [3, 5], // 3: ♭3, ♭7
-          [2, 2],
-          [2, 5], // 4: ♭3, ♭7
-          [1, 3],
-          [1, 5], // 5: 4, 5
-          [0, 3],
-          [0, 5], // 6: 4, 5
+          // Бокс 2: следующий за боксом 1
+          [5, 3],  // 6 струна, лад 3 - 4
+          [5, 5],  // 6 струна, лад 5 - 5
+          [4, 2],  // 5 струна, лад 2 - ♭3
+          [4, 5],  // 5 струна, лад 5 - ♭7
+          [3, 2],  // 4 струна, лад 2 - ♭3
+          [3, 5],  // 4 струна, лад 5 - ♭7
+          [2, 2],  // 3 струна, лад 2 - ♭3
+          [2, 4],  // 3 струна, лад 5 - ♭7
+          [1, 3],  // 2 струна, лад 3 - 4
+          [1, 5],  // 2 струна, лад 5 - 5
+          [0, 3],  // 1 струна, лад 3 - 4
+          [0, 5],  // 1 струна, лад 5 - 5
         ],
         3: [
           // Бокс 3
-          [5, 5],
-          [5, 8], // 1: 5, ♭7
-          [4, 5],
-          [4, 7], // 2: ♭7, 1
-          [3, 5],
-          [3, 7], // 3: ♭7, 1
-          [2, 5],
-          [2, 7], // 4: ♭7, 1
-          [1, 5],
-          [1, 8], // 5: 5, ♭7
-          [0, 5],
-          [0, 8], // 6: 5, ♭7
+          [5, 5],  // 6 струна, лад 5 - 5
+          [5, 7],  // 6 струна, лад 7 - ♭7
+          [4, 5],  // 5 струна, лад 5 - ♭7
+          [4, 7],  // 5 струна, лад 7 - 1 (октава выше)
+          [3, 5],  // 4 струна, лад 5 - ♭7
+          [3, 7],  // 4 струна, лад 7 - 1
+          [2, 4],  // 3 струна, лад 5 - ♭7
+          [2, 7],  // 3 струна, лад 7 - 1
+          [1, 5],  // 2 струна, лад 5 - 5
+          [1, 8],  // 2 струна, лад 7 - ♭7
+          [0, 5],  // 1 струна, лад 5 - 5
+          [0, 7],  // 1 струна, лад 7 - ♭7
         ],
         4: [
           // Бокс 4
-          [5, 8],
-          [5, 10], // 1: ♭7, 1
-          [4, 7],
-          [4, 10], // 2: 1, ♭3
-          [3, 7],
-          [3, 9], // 3: 1, 4
-          [2, 7],
-          [2, 10], // 4: 1, ♭3
-          [1, 8],
-          [1, 10], // 5: ♭7, 1
-          [0, 8],
-          [0, 10], // 6: ♭7, 1
+          [5, 7],  // 6 струна, лад 7 - ♭7
+          [5, 10],  // 6 струна, лад 8 - 1 (октава выше)
+          [4, 7],  // 5 струна, лад 7 - 1
+          [4, 10],  // 5 струна, лад 9 - ♭3
+          [3, 7],  // 4 струна, лад 7 - 1
+          [3, 9],  // 4 струна, лад 9 - ♭3
+          [2, 7],  // 3 струна, лад 7 - 1
+          [2, 9],  // 3 струна, лад 9 - ♭3
+          [1, 8],  // 2 струна, лад 7 - ♭7
+          [1, 10],  // 2 струна, лад 8 - 1
+          [0, 7],  // 1 струна, лад 7 - ♭7
+          [0, 10],  // 1 струна, лад 8 - 1
         ],
         5: [
           // Бокс 5
-          [5, 10],
-          [5, 12], // 1: 1, ♭3
-          [4, 10],
-          [4, 12], // 2: ♭3, 4
-          [3, 9],
-          [3, 12], // 3: 4, ♭7
-          [2, 10],
-          [2, 12], // 4: ♭3, 4
-          [1, 10],
-          [1, 12], // 5: 1, ♭3
-          [0, 10],
-          [0, 12], // 6: 1, ♭3
+          [5, 10],  // 6 струна, лад 8 - 1
+          [5, 12], // 6 струна, лад 10 - ♭3
+          [4, 10],  // 5 струна, лад 9 - ♭3
+          [4, 12], // 5 струна, лад 10 - 4
+          [3, 9],  // 4 струна, лад 9 - ♭3
+          [3, 12], // 4 струна, лад 10 - 4
+          [2, 9],  // 3 струна, лад 9 - ♭3
+          [2, 12], // 3 струна, лад 10 - 4
+          [1, 10],  // 2 струна, лад 8 - 1
+          [1, 12], // 2 струна, лад 10 - ♭3
+          [0, 10],  // 1 струна, лад 8 - 1
+          [0, 12], // 1 струна, лад 10 - ♭3
         ],
       },
     };
@@ -344,10 +345,11 @@ class PentatonicManager {
         this.highlightAllPentatonicNotes(root, pentatonicNotes, bluesNote);
       } else {
         const boxNum = parseInt(box);
+        // Используем всегда "minor", так как у нас только минорная пентатоника
         this.highlightPentatonicBox(
           root,
           boxNum,
-          selectedType,
+          "minor", // фиксированный тип
           pentatonicNotes,
           bluesNote,
         );
@@ -421,43 +423,73 @@ class PentatonicManager {
   }
 
   // НОВЫЙ МЕТОД: Подсветка конкретного бокса
+  // В классе PentatonicManager заменяем метод highlightPentatonicBox:
+  // Заменяем метод highlightPentatonicBox в классе PentatonicManager:
   highlightPentatonicBox(root, boxNum, type, pentatonicNotes, bluesNote) {
-    const rootIndex = this.neck.notes.sharps.indexOf(
-      this.neck.normalizeToSharps(root),
-    );
-
+    const rootNote = this.neck.normalizeToSharps(root);
+    const rootIndex = this.neck.notes.sharps.indexOf(rootNote);
+  
     // Получаем паттерн бокса
-    const boxPattern = this.boxPatterns[type] && this.boxPatterns[type][boxNum];
-    if (!boxPattern) return;
-
-    // Применяем паттерн
+    const boxPattern = this.boxPatterns.minor[boxNum];
+    if (!boxPattern) {
+      console.error(`Паттерн для бокса ${boxNum} не найден`);
+      return;
+    }
+  
+    // Определяем позицию первого бокса для данной тоники
+    // Бокс 1 всегда начинается с лада, где находится корень на 6 струне
+    // Найдем лад, где на 6 струне находится корень
+    let rootPositionOnString6 = null;
+    for (let fret = 0; fret <= 12; fret++) {
+      const note = this.neck.getBaseNote(5, fret); // 6 струна = индекс 5
+      if (this.neck.normalizeToSharps(note) === rootNote) {
+        rootPositionOnString6 = fret;
+        break;
+      }
+    }
+  
+    if (rootPositionOnString6 === null) {
+      console.error(`Не найдена позиция корня ${rootNote} на 6 струне`);
+      return;
+    }
+  
+    // Смещение для бокса 1
+    // В паттерне бокс 1 начинается с лада 0 на 6 струне
+    // Нужно сместить так, чтобы лад 0 в паттерне соответствовал rootPositionOnString6
+    const shift = rootPositionOnString6;
+  
+    // Применяем паттерн со смещением
     boxPattern.forEach(([string, baseFret]) => {
-      // Сдвигаем паттерн относительно корня
-      const fretNumber = baseFret + rootIndex;
-      if (fretNumber > 12) return; // Не выходим за пределы грифа
-
+      const fretNumber = baseFret + shift;
+      
+      // Проверяем границы грифа
+      if (fretNumber > 12) return;
+      
       // Находим элемент на грифе
       const fretElement = document.querySelector(
         `.fret[data-string="${string}"][data-fret="${fretNumber}"]`,
       );
-
-      if (!fretElement) return;
-
+  
+      if (!fretElement) {
+        console.warn(`Не найден элемент: струна ${string}, лад ${fretNumber}`);
+        return;
+      }
+  
       const note = fretElement.getAttribute("data-note");
       if (!note) return;
-
+  
       const normalizedNote = this.neck.normalizeToSharps(note);
-
+  
       // Проверяем и подсвечиваем
       if (pentatonicNotes.includes(normalizedNote)) {
         fretElement.classList.add("pentatonic-note");
-
-        if (normalizedNote === root) {
+  
+        if (normalizedNote === rootNote) {
           fretElement.classList.add("pentatonic-root");
           fretElement.style.fontWeight = "bold";
         }
       }
-
+  
       if (bluesNote && normalizedNote === bluesNote) {
         fretElement.classList.add("blues-note");
         fretElement.style.animation = "blues-note-pulse 2s infinite";
