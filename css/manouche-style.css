@@ -2,17 +2,29 @@
 
 /* Кнопка Manouche */
 .manouche-btn {
-  background: linear-gradient(135deg, var(--zenburn-orange), var(--zenburn-red));
+  background: linear-gradient(
+    135deg,
+    var(--zenburn-orange),
+    var(--zenburn-red)
+  );
   color: var(--zenburn-bg);
   font-weight: bold;
 }
 
 .manouche-btn:hover {
-  background: linear-gradient(135deg, var(--zenburn-red), var(--zenburn-purple));
+  background: linear-gradient(
+    135deg,
+    var(--zenburn-red),
+    var(--zenburn-purple)
+  );
 }
 
 .manouche-btn.active {
-  background: linear-gradient(135deg, var(--zenburn-red), var(--zenburn-purple));
+  background: linear-gradient(
+    135deg,
+    var(--zenburn-red),
+    var(--zenburn-purple)
+  );
   box-shadow: 0 0 0 2px var(--zenburn-orange);
 }
 
@@ -26,14 +38,16 @@
 }
 
 /* Кнопки гамм */
-.scale-buttons, .lick-buttons {
+.scale-buttons,
+.lick-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
   margin-top: 5px;
 }
 
-.scale-btn, .lick-btn {
+.scale-btn,
+.lick-btn {
   padding: 4px 8px;
   background: var(--zenburn-bg-lighter);
   color: var(--zenburn-fg-dim);
@@ -44,7 +58,8 @@
   transition: all 0.2s;
 }
 
-.scale-btn:hover, .lick-btn:hover {
+.scale-btn:hover,
+.lick-btn:hover {
   background: var(--zenburn-bg-light);
   color: var(--zenburn-fg);
 }
@@ -85,8 +100,13 @@
 }
 
 @keyframes characteristic-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
 }
 
 /* Подсветка фраз Django */
@@ -99,9 +119,15 @@
 }
 
 @keyframes lick-highlight {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .lick-order {
@@ -120,10 +146,18 @@
 }
 
 /* Последовательность нот в лике */
-.lick-note-0 { background: var(--zenburn-yellow) !important; }
-.lick-note-1 { background: var(--zenburn-orange) !important; }
-.lick-note-2 { background: var(--zenburn-red) !important; }
-.lick-note-3 { background: var(--zenburn-purple) !important; }
+.lick-note-0 {
+  background: var(--zenburn-yellow) !important;
+}
+.lick-note-1 {
+  background: var(--zenburn-orange) !important;
+}
+.lick-note-2 {
+  background: var(--zenburn-red) !important;
+}
+.lick-note-3 {
+  background: var(--zenburn-purple) !important;
+}
 
 /* Информация о гаммах */
 .manouche-scale-header {
@@ -134,10 +168,10 @@
 }
 
 .scale-formula {
-  font-family: 'Ubuntu Mono', monospace;
+  font-family: "Ubuntu Mono", monospace;
   font-size: 11px;
   color: var(--zenburn-comment);
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   padding: 2px 6px;
   border-radius: 3px;
 }
@@ -182,7 +216,7 @@
 .lick-tempo {
   font-size: 10px;
   color: var(--zenburn-comment);
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   padding: 1px 4px;
   border-radius: 2px;
 }
@@ -195,7 +229,7 @@
 .lick-notes {
   color: var(--zenburn-cyan);
   margin: 5px 0;
-  font-family: 'Ubuntu Mono', monospace;
+  font-family: "Ubuntu Mono", monospace;
 }
 
 .lick-usage {
