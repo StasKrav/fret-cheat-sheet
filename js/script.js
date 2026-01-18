@@ -307,13 +307,13 @@ class PentatonicManager {
   showPentatonic() {
     const chord = this.getActiveChord();
     if (!chord) return alert("Введите аккорд");
-
-    // Сбрасываем всё на грифе
-    this.clearAllFretboardHighlights();
-
+  
+    // Очищаем гриф перед отрисовкой
+    clearAllHighlights(); // Используем глобальную функцию
+  
     // Определяем настройки
     const root = this.neck.extractTonic(chord);
-
+  
     // Получаем выбранный тип пентатоники
     const typeRadios = document.querySelectorAll(
       'input[name="pentatonicType"]',
@@ -322,21 +322,21 @@ class PentatonicManager {
     typeRadios.forEach((radio) => {
       if (radio.checked) selectedType = radio.value;
     });
-
+  
     // Получаем опции
     const showBlues = document.getElementById("showBluesNote").checked;
     const activeBoxBtn = document.querySelector(".box-btn.active");
     const box = activeBoxBtn ? activeBoxBtn.dataset.box : "all";
-
+  
     // Получаем ноты
     const pentatonicNotes = this.getPentatonicNotes(root, selectedType);
     const bluesNote =
       showBlues && selectedType === "minor" ? this.getBluesNote(root) : null;
-
+  
     // Показываем панель управления
     document.getElementById("pentatonicControls").style.display = "block";
     document.getElementById("togglePentatonicBtn").classList.add("active");
-
+  
     // Подсвечиваем ноты на грифе
     if (box === "all") {
       this.highlightAllPentatonicNotes(root, pentatonicNotes, bluesNote);
@@ -351,7 +351,7 @@ class PentatonicManager {
         bluesNote,
       );
     }
-
+  
     // Обновляем информацию
     this.updatePentatonicInfo(
       root,
@@ -360,7 +360,7 @@ class PentatonicManager {
       bluesNote,
       box,
     );
-
+  
     // Сохраняем конфигурацию
     this.currentConfig = { root, type: selectedType, box, showBlues };
     this.isActive = true;
@@ -526,21 +526,22 @@ class PentatonicManager {
   }
 
   hidePentatonic() {
-    this.clearAllFretboardHighlights();
-
+    // НЕ очищаем здесь гриф!
+    // Вместо этого сбрасываем состояние
+    
     // Скрываем панель пентатоники
     const pentatonicControls = document.getElementById("pentatonicControls");
     if (pentatonicControls) {
       pentatonicControls.style.display = "none";
     }
-
+  
     document.getElementById("togglePentatonicBtn").classList.remove("active");
-
+  
     const pentatonicInfo = document.getElementById("pentatonicInfo");
     if (pentatonicInfo) {
       pentatonicInfo.innerHTML = "";
     }
-
+  
     this.isActive = false;
     this.currentConfig = null;
   }
@@ -1812,6 +1813,8 @@ function initPentatonic() {
   document
     .getElementById("togglePentatonicBtn")
     .addEventListener("click", function () {
+    clearAllHighlights();
+    
       if (pentatonicManager.isActive) {
         pentatonicManager.hidePentatonic();
         this.classList.remove("active");
