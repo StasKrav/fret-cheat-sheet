@@ -18,167 +18,223 @@
     <div class="container">
       <h1>Fret Cheat Sheet</h1>
 
-      <!-- В index.html внутри controls: -->
-      <div class="controls">
-        <!-- Поле ввода и кнопки -->
-        <div class="chord-input">
-          <input
-            type="text"
-            id="chordInput"
-            placeholder="Введите аккорд (C, Am7, G7...)"
-          />
-          <button id="highlightChordBtn">Аккорд</button>
-          <button id="showArpeggioBtn" class="arpeggio-btn">Арпеджио</button>
-          <button id="togglePentatonicBtn" class="pentatonic-btn">
-            Пентатоника
-          </button>
-          <button id="toggleManoucheBtn" class="manouche-btn">Manouche</button>
-        </div>
+      <!-- Вкладки -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="general">Общее</button>
+        <button class="tab-btn" data-tab="blues">Блюз</button>
+        <button class="tab-btn" data-tab="manouche">Мануш</button>
+      </div>
 
-        <!-- Информация об аккорде -->
-        <div class="chord-notes" id="chordNotes"></div>
-        <!-- <div class="style-info" id="styleInfo"></div> -->
-        <div
-          class="chord-sequence"
-          id="chordSequence"
-          style="display: none"
-        ></div>
+      <!-- Основной контент с вкладками -->
+      <div class="main-content">
+        <!-- Вкладка 1: Общее -->
+        <div class="tab-pane active" id="generalTab">
+          <div class="tab-input-area">
+            <div class="chord-input">
+              <input
+                type="text"
+                id="chordInput"
+                placeholder="Введите аккорд (C, Am7, G7...)"
+              />
+              <button id="highlightChordBtn">Аккорд</button>
+              <button id="showArpeggioBtn" class="arpeggio-btn">Арпеджио</button>
+            </div>
+          </div>
 
-        <div class="chord-sequence" id="chordSequence" style="display: none">
-          <strong>Характерные аккорды джаз-мануш:</strong><br />
-          <div id="characteristicChords"></div>
-          <!-- Вот этот элемент добавлен -->
-          <br />
-          <em>Кликните на любой аккорд для просмотра на грифе</em>
-        </div>
-        <!-- Панель управления пентатоникой (скрыта по умолчанию) -->
-        <div
-          class="pentatonic-controls"
-          id="pentatonicControls"
-          style="display: none"
-        >
-          <div class="pentatonic-options" style="margin: 10px 0">
-            <label class="pentatonic-checkbox">
-              <input type="checkbox" id="showBluesNote" /> +Блюзовая нота
-            </label>
+          <div class="tab-scrollable-content">
+            <div class="chord-notes" id="chordNotes" ></div>
+
             <div
-              class="box-selector"
-              style="display: inline-flex; margin-left: 15px"
+              class="arpeggio-controls"
+              style="
+                display: none;
+                margin-top: 15px;
+                padding: 15px;
+                background: rgba(223, 175, 143, 0.05);
+                border-radius: 4px;
+                border-left: 3px solid var(--zenburn-orange);
+              "
             >
-              <span style="margin-right: 8px; color: var(--zenburn-fg-dim)"
-                >Бокс:</span
+              <div
+                style="
+                  margin-bottom: 10px;
+                  color: var(--zenburn-orange);
+                  font-weight: 500;
+                "
               >
-              <div class="box-buttons">
-                <button class="box-btn active" data-box="all">Все</button>
-                <button class="box-btn" data-box="1">1</button>
-                <button class="box-btn" data-box="2">2</button>
-                <button class="box-btn" data-box="3">3</button>
-                <button class="box-btn" data-box="4">4</button>
-                <button class="box-btn" data-box="5">5</button>
+                Расширения арпеджио:
+              </div>
+              <div class="arpeggio-extensions">
+                <label><input type="checkbox" id="addSecond" /> +2 ступень</label>
+                <label><input type="checkbox" id="addSixth" /> +6 ступень</label>
+                <label><input type="checkbox" id="addSeventh" /> +7 ступень</label>
               </div>
             </div>
           </div>
-
-          <div
-            class="pentatonic-info"
-            id="pentatonicInfo"
-            style="margin-top: 8px; font-size: 12px; color: var(--zenburn-cyan)"
-          ></div>
         </div>
 
-        <!-- После pentatonic-controls -->
-        <div
-          class="manouche-controls"
-          id="manoucheControls"
-          style="display: none"
-        >
-          <div class="manouche-options" style="margin: 10px 0">
-            <div class="scale-selector" style="margin-bottom: 10px">
-              <span style="margin-right: 8px; color: var(--zenburn-fg-dim)"
-                >Гамма:</span
-              >
-              <div class="scale-buttons">
-                <button class="scale-btn active" data-scale="auto">Auto</button>
-                <button class="scale-btn" data-scale="gypsyMajor">
-                  Gypsy Major
-                </button>
-                <button class="scale-btn" data-scale="harmonicMajor">
-                  Harmonic Major
-                </button>
-                <button class="scale-btn" data-scale="harmonicMinorNat6">
-                  Harmonic Minor ♮6
-                </button>
-                <button class="scale-btn" data-scale="diminished">
-                  Diminished
-                </button>
-              </div>
-            </div>
-
-            <div class="licks-selector" style="margin-top: 15px">
-              <span style="margin-right: 8px; color: var(--zenburn-yellow)"
-                >Фразы Django:</span
-              >
-              <div class="lick-buttons">
-                <button class="lick-btn" data-lick="dimRun">Dim Run</button>
-                <button class="lick-btn" data-lick="gypsySweep">
-                  Gypsy Sweep
-                </button>
-                <button class="lick-btn" data-lick="chromaticApproach">
-                  Chromatic
-                </button>
-                <button class="lick-btn" data-lick="tremoloPattern">
-                  Tremolo
-                </button>
-              </div>
+        <!-- Вкладка 2: Блюз -->
+        <div class="tab-pane" id="bluesTab">
+          <div class="tab-input-area">
+            <div class="chord-input">
+              <input
+                type="text"
+                id="chordInputBlues"
+                placeholder="Введите аккорд (C, Am7, G7...)"
+              />
+              <button id="togglePentatonicBtn" class="pentatonic-btn">
+                Пентатоника
+              </button>
             </div>
           </div>
 
-          <div
-            class="manouche-info"
-            id="manoucheInfo"
-            style="
-              margin-top: 12px;
-              padding: 10px;
-              background: rgba(223, 175, 143, 0.1);
-              border-radius: 4px;
-              border-left: 3px solid var(--zenburn-orange);
-              font-size: 12px;
-              color: var(--zenburn-fg);
-            "
-          ></div>
+          <div class="tab-scrollable-content">
+            <!-- Панель управления пентатоникой -->
+            <div
+              class="pentatonic-controls"
+              id="pentatonicControls"
+              style="display: none"
+            >
+              <div class="pentatonic-type" style="margin: 10px 0">
+                <label>
+                  <input
+                    type="radio"
+                    name="pentatonicType"
+                    value="minor"
+                    checked
+                  />
+                  Минорная
+                </label>
+                <label>
+                  <input type="radio" name="pentatonicType" value="major" />
+                  Мажорная
+                </label>
+              </div>
+
+              <div class="pentatonic-options" style="margin: 10px 0">
+                <label class="pentatonic-checkbox">
+                  <input type="checkbox" id="showBluesNote" /> +Блюзовая нота
+                </label>
+                <div
+                  class="box-selector"
+                  style="display: inline-flex; margin-left: 15px"
+                >
+                  <span style="margin-right: 8px; color: var(--zenburn-fg-dim)"
+                    >Бокс:</span
+                  >
+                  <div class="box-buttons">
+                    <button class="box-btn active" data-box="all">Все</button>
+                    <button class="box-btn" data-box="1">1</button>
+                    <button class="box-btn" data-box="2">2</button>
+                    <button class="box-btn" data-box="3">3</button>
+                    <button class="box-btn" data-box="4">4</button>
+                    <button class="box-btn" data-box="5">5</button>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="pentatonic-info"
+                id="pentatonicInfo"
+                style="margin-top: 8px; font-size: 12px; color: var(--zenburn-cyan)"
+              ></div>
+            </div>
+          </div>
         </div>
 
-        <!-- Управление арпеджио -->
-        <div
-          class="arpeggio-controls"
-          style="
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(223, 175, 143, 0.05);
-            border-radius: 4px;
-            border-left: 3px solid var(--zenburn-orange);
-          "
-        >
-          <div
-            style="
-              margin-bottom: 10px;
-              color: var(--zenburn-orange);
-              font-weight: 500;
-            "
-          >
-            Расширения арпеджио:
+        <!-- Вкладка 3: Мануш -->
+        <div class="tab-pane" id="manoucheTab">
+          <div class="tab-input-area">
+            <div class="chord-input">
+              <input
+                type="text"
+                id="chordInputManouche"
+                placeholder="Введите аккорд (C, Am7, G7...)"
+              />
+              <button id="toggleManoucheBtn" class="manouche-btn">
+                Гаммы & Аккорды
+              </button>
+            </div>
           </div>
-          <div class="arpeggio-extensions">
-            <label><input type="checkbox" id="addSecond" /> +2 ступень</label>
-            <label><input type="checkbox" id="addSixth" /> +6 ступень</label>
-            <label><input type="checkbox" id="addSeventh" /> +7 ступень</label>
+
+          <div class="tab-scrollable-content">
+            <!-- Панель управления мануш -->
+            <div
+              class="manouche-controls"
+              id="manoucheControls"
+              style="display: none"
+            >
+              <div class="manouche-options" style="margin: 10px 0">
+                <div class="scale-selector" style="margin-bottom: 10px">
+                  <span style="margin-right: 8px; color: var(--zenburn-fg-dim)"
+                    >Гамма:</span
+                  >
+                  <div class="scale-buttons">
+                    <button class="scale-btn active" data-scale="auto">Auto</button>
+                    <button class="scale-btn" data-scale="gypsyMajor">
+                      Gypsy Major
+                    </button>
+                    <button class="scale-btn" data-scale="harmonicMajor">
+                      Harmonic Major
+                    </button>
+                    <button class="scale-btn" data-scale="harmonicMinorNat6">
+                      Harmonic Minor ♮6
+                    </button>
+                    <button class="scale-btn" data-scale="diminished">
+                      Diminished
+                    </button>
+                  </div>
+                </div>
+
+                <div class="licks-selector" style="margin-top: 15px">
+                  <span style="margin-right: 8px; color: var(--zenburn-yellow)"
+                    >Фразы Django:</span
+                  >
+                  <div class="lick-buttons">
+                    <button class="lick-btn" data-lick="dimRun">Dim Run</button>
+                    <button class="lick-btn" data-lick="gypsySweep">
+                      Gypsy Sweep
+                    </button>
+                    <button class="lick-btn" data-lick="chromaticApproach">
+                      Chromatic
+                    </button>
+                    <button class="lick-btn" data-lick="tremoloPattern">
+                      Tremolo
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="manouche-info"
+                id="manoucheInfo"
+                style="
+                  margin-top: 12px;
+                  padding: 10px;
+                  background: rgba(223, 175, 143, 0.1);
+                  border-radius: 4px;
+                  border-left: 3px solid var(--zenburn-orange);
+                  font-size: 12px;
+                  color: var(--zenburn-fg);
+                "
+              ></div>
+            </div>
+
+            <!-- Общий блок последовательности аккордов -->
+            <div
+              class="chord-sequence"
+              id="chordSequence"
+              style="display: none"
+            ></div>
           </div>
         </div>
       </div>
 
-      <div class="guitar-neck-full">
-        <div id="fretBoard"></div>
+      <!-- Гриф -->
+      <div class="guitar-neck-container">
+        <div class="guitar-neck-full">
+          <div id="fretBoard"></div>
+        </div>
       </div>
     </div>
 
