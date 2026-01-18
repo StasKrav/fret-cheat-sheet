@@ -234,6 +234,11 @@
               </li>
             </ul>
             <p>
+              🎸 <em>Используй большой палец для баса (как Django!), 
+              компактные позиции для скорости, 
+              и акцентируй характерные ноты (♭3, ♭6, ♯4)</em>
+            </p>
+            <p>
               💡
               <em
                 >Цыганская мажорная гамма (1-2-♭3-♯4-5-♭6-7) - основа стиля
@@ -270,6 +275,26 @@
                     <button class="scale-btn" data-scale="diminished">
                       Diminished
                     </button>
+                  </div>
+                </div>
+
+                <div class="licks-info-container" id="licksInfoContainer" style="display: none;">
+                  <!-- Здесь будет появляться информация о ликах -->
+                </div>
+
+                <!-- После блока scale-selector -->
+                <div class="fingering-controls" style="margin-top: 15px; padding: 10px; background: rgba(140, 208, 211, 0.05); border-radius: 4px;">
+                  <span style="margin-right: 8px; color: var(--zenburn-cyan);">Аппликатуры:</span>
+                  <div class="fingering-buttons" style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
+                    <button class="fingering-btn active" data-fingering="open">Открытая</button>
+                    <button class="fingering-btn" data-fingering="position3">III позиция</button>
+                    <button class="fingering-btn" data-fingering="position5">V позиция</button>
+                    <button class="fingering-btn" data-fingering="position7">VII позиция</button>
+                    <button class="fingering-btn" data-fingering="djangoFav">Любимая Django</button>
+                    <button class="fingering-btn" data-fingering="chromatic">Хроматическая</button>
+                  </div>
+                  <div id="fingeringDiagram" style="margin-top: 10px; font-size: 11px; color: var(--zenburn-fg-dim);">
+                    <!-- Здесь будет диаграмма аппликатуры -->
                   </div>
                 </div>
 

@@ -244,3 +244,145 @@
   margin-top: 8px;
   font-style: italic;
 }
+
+/* ============ DJANGO FINGERINGS СТИЛИ ============ */
+
+/* Ноты с аппликатурой */
+.django-fingering-note {
+  background: rgba(240, 223, 175, 0.9) !important;
+  color: var(--zenburn-bg) !important;
+  font-weight: bold !important;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 0 8px rgba(240, 223, 175, 0.5);
+}
+
+.fingering-root {
+  background: linear-gradient(135deg, 
+    var(--zenburn-red), 
+    var(--zenburn-orange)
+  ) !important;
+  animation: root-pulse 2s infinite;
+}
+
+@keyframes root-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Цифры пальцев */
+.finger-number {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  font-size: 10px;
+  font-weight: bold;
+  background: var(--zenburn-bg);
+  color: white;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--zenburn-yellow);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Степени аккордов */
+.note-degree {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 8px;
+  color: var(--zenburn-bg);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-weight: bold;
+  min-width: 10px;
+  text-align: center;
+}
+
+/* Кнопки аппликатур */
+.fingering-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.fingering-btn {
+  padding: 6px 10px;
+  background: rgba(140, 208, 211, 0.1);
+  color: var(--zenburn-cyan);
+  border: 1px solid var(--zenburn-cyan);
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fingering-btn:hover {
+  background: rgba(140, 208, 211, 0.2);
+}
+
+.fingering-btn.active {
+  background: var(--zenburn-cyan);
+  color: var(--zenburn-bg);
+  box-shadow: 0 0 5px rgba(140, 208, 211, 0.5);
+}
+
+/* Легенда пальцев */
+.finger-legend {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 14px;
+  font-size: 9px;
+  font-weight: bold;
+  color: var(--zenburn-bg);
+  margin-right: 5px;
+}
+
+/* Информационная панель аппликатур */
+.fingering-diagram {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(223, 175, 143, 0.08);
+  border-radius: 4px;
+  border-left: 3px solid var(--zenburn-orange);
+  font-size: 12px;
+}
+
+.fingering-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.fingering-chords {
+  color: var(--zenburn-green);
+  font-size: 11px;
+  margin: 5px 0;
+  padding: 5px;
+  background: rgba(143, 178, 143, 0.1);
+  border-radius: 3px;
+}
+
+.fingering-tip {
+  color: var(--zenburn-yellow);
+  font-style: italic;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(223, 175, 143, 0.3);
+}
+
+.lick-btn.active {
+  background: var(--zenburn-yellow) !important;
+  color: var(--zenburn-bg) !important;
+  border-color: var(--zenburn-orange) !important;
+}

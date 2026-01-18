@@ -706,6 +706,16 @@ class ManoucheScales {
     // Сохраняем текущую конфигурацию
     this.currentScale = { root, scaleName, notes: scaleNotes };
     this.isActive = true;
+
+    setTimeout(() => {
+      if (window.djangoFingerings) {
+        const suggested = window.djangoFingerings.suggestFingering(chord);
+        const btn = document.querySelector(`.fingering-btn[data-fingering="${suggested}"]`);
+        if (btn) {
+          btn.click();
+        }
+      }
+    }, 300);
   }
 
   // Подсветка нот гаммы на грифе
@@ -885,10 +895,16 @@ class ManoucheScales {
     this.clearAllHighlights();
 
     // Скрываем панель Manouche
-    const manoucheControls = document.getElementById("manoucheControls");
-    if (manoucheControls) {
-      manoucheControls.style.display = "none";
-    }
+      const manoucheControls = document.getElementById("manoucheControls");
+      if (manoucheControls) {
+        manoucheControls.style.display = "none";
+      }
+      
+      // Скрываем информацию о ликах
+      const licksContainer = document.getElementById("licksInfoContainer");
+      if (licksContainer) {
+        licksContainer.style.display = "none";
+      }
 
     document.getElementById("toggleManoucheBtn").classList.remove("active");
     const manoucheInfo = document.getElementById("manoucheInfo");
@@ -1048,22 +1064,26 @@ class DjangoLicks {
   showLick(lickName, position = 0) {
     const lick = this.licks[lickName];
     if (!lick) return;
-
+  
+    // Сначала очищаем ВСЕ подсветки
+    clearAllHighlights();
+    
+    // Очищаем подсветку ликов
     this.clearLickHighlight();
-
+  
     // Применяем позицию (сдвиг ладов)
     lick.pattern.forEach(([string, fret], index) => {
       const actualFret = fret + position;
       if (actualFret > 12) return;
-
+  
       const fretElement = document.querySelector(
         `.fret[data-string="${string}"][data-fret="${actualFret}"]`,
       );
-
+  
       if (fretElement) {
         fretElement.classList.add("django-lick-note");
         fretElement.classList.add(`lick-note-${index % 4}`); // Для последовательности
-
+  
         // Добавляем цифру порядка нот
         const orderSpan = document.createElement("span");
         orderSpan.className = "lick-order";
@@ -1071,33 +1091,30 @@ class DjangoLicks {
         fretElement.appendChild(orderSpan);
       }
     });
-
+  
     this.showLickInfo(lick);
   }
 
   // Информация о лике
   showLickInfo(lick) {
-    const infoDiv =
-      document.getElementById("djangoLicksInfo") ||
-      document.createElement("div");
-
-    infoDiv.id = "djangoLicksInfo";
-    infoDiv.className = "django-lick-info";
-    infoDiv.innerHTML = `
-      <div class="lick-header">
-        <strong>🎸 ${lick.name}</strong>
-        <span class="lick-tempo">${lick.tempo}</span>
+    const container = document.getElementById("licksInfoContainer");
+    if (!container) return;
+    
+    // Показываем контейнер
+    container.style.display = "block";
+    
+    container.innerHTML = `
+      <div class="django-lick-info">
+        <div class="lick-header">
+          <strong>🎸 ${lick.name}</strong>
+          <span class="lick-tempo">${lick.tempo}</span>
+        </div>
+        <div class="lick-description">${lick.description}</div>
+        <div class="lick-notes">Ноты: <strong>${lick.notes.join(" - ")}</strong></div>
+        <div class="lick-usage">Использование: ${lick.usage}</div>
+        <div class="lick-tip">💡 <em>Практикуй медленно, затем увеличивай темп</em></div>
       </div>
-      <div class="lick-description">${lick.description}</div>
-      <div class="lick-notes">Ноты: <strong>${lick.notes.join(" - ")}</strong></div>
-      <div class="lick-usage">Использование: ${lick.usage}</div>
-      <div class="lick-tip">💡 <em>Практикуй медленно, затем увеличивай темп</em></div>
     `;
-
-    const controls = document.querySelector(".controls");
-    if (!document.getElementById("djangoLicksInfo")) {
-      controls.appendChild(infoDiv);
-    }
   }
 
   clearLickHighlight() {
@@ -1114,6 +1131,255 @@ class DjangoLicks {
     });
   }
 }
+
+// ============ DJANGO TYPICAL FINGERINGS ============
+
+class DjangoFingerings {
+  constructor() {
+    this.neck = new GuitarNeck();
+    
+    // Типичные аппликатуры Django для разных гамм
+    this.fingerings = {
+      // 1. ОТКРЫТАЯ ПОЗИЦИЯ (для аккордов Am, Dm, E7)
+      'open': {
+        name: 'Открытая позиция',
+        description: 'Базовая позиция для стандартных аккордов мануш',
+        fingers: [
+          // [string, fret, finger, isRoot, noteDegree]
+          [5, 0, 'T', true, '1'],   // 6 струна, открытая, большой палец, корень
+          [4, 2, '1', false, '3'],  // 5 струна, 2 лад, указательный
+          [3, 2, '2', false, '5'],  // 4 струна, 2 лад, средний
+          [2, 1, '3', false, '♭7'], // 3 струна, 1 лад, безымянный
+          [1, 0, '0', false, '2'],  // 2 струна, открытая
+          [0, 0, 'T', false, '5']   // 1 струна, открытая, большой палец
+        ],
+        chords: ['Am', 'Dm', 'E7', 'G'],
+        tip: 'Используй большой палец для басовых нот на 6 и 1 струнах'
+      },
+
+      // 2. III ПОЗИЦИЯ (характерная для быстрых пассажей)
+      'position3': {
+        name: 'III позиция (любимая Django)',
+        description: 'Центральная позиция для импровизации',
+        fingers: [
+          [5, 3, '1', true, '1'],   // 6 струна, 3 лад, указательный, корень
+          [4, 5, '3', false, '3'],  // 5 струна, 5 лад, безымянный
+          [3, 5, '4', false, '5'],  // 4 струна, 5 лад, мизинец
+          [2, 4, '2', false, '♭7'], // 3 струна, 4 лад, средний
+          [1, 3, '1', false, '2'],  // 2 струна, 3 лад, указательный
+          [0, 3, '1', false, '5']   // 1 струна, 3 лад, указательный
+        ],
+        chords: ['C', 'F', 'A7'],
+        tip: 'Держи пальцы компактно для быстрых перемещений'
+      },
+
+      // 3. V ПОЗИЦИЯ (для diminished арпеджио)
+      'position5': {
+        name: 'V позиция (diminished)',
+        description: 'Оптимальная позиция для уменьшенных арпеджио',
+        fingers: [
+          [5, 5, '1', true, '1'],   // Корень
+          [4, 7, '3', false, '♭3'], 
+          [3, 5, '1', false, '♭5'], // Тот же палец, другая струна
+          [2, 7, '3', false, '6'],  // ♭♭7
+          [1, 6, '2', false, '♭3'], // Повтор ♭3 октавой выше
+          [0, 5, '1', false, '1']   // Корень октавой выше
+        ],
+        chords: ['Gdim7', 'Bbdim7', 'Dbdim7', 'Edim7'],
+        tip: 'Используй симметричность diminished - паттерн повторяется каждые 3 лада'
+      },
+
+      // 4. VII ПОЗИЦИЯ (цыганская мажорная гамма)
+      'position7': {
+        name: 'VII позиция (цыганская мажорная)',
+        description: 'Высокая позиция для соло и быстрых пассажей',
+        fingers: [
+          [5, 7, '2', true, '1'],    // Корень
+          [4, 9, '4', false, '♭3'],  // ♭3
+          [3, 8, '3', false, '♯4'],  // ♯4 (характерная!)
+          [2, 7, '2', false, '5'],   // 5
+          [1, 10, '4', false, '♭6'], // ♭6
+          [0, 7, '1', false, '7']    // 7
+        ],
+        chords: ['G6', 'Bm7', 'D7#9'],
+        tip: 'Акцентируй ♭3 и ♭6 для аутентичного звучания'
+      },
+
+      // 5. ЛЮБИМАЯ АППЛИКАТУРА DJANGO (для Am6)
+      'djangoFav': {
+        name: 'Любимая аппликатура Django',
+        description: 'Классическая форма для Am6 как в "Minor Swing"',
+        fingers: [
+          [5, 0, 'T', true, '1'],   // Открытая A
+          [4, 1, '1', false, '♭3'], // Bb
+          [3, 2, '2', false, '4'],  // C
+          [2, 2, '3', false, '6'],  // F# (характерная!)
+          [1, 0, '0', false, '1'],  // A октавой выше
+          [0, 0, 'T', false, '4']   // C октавой выше
+        ],
+        chords: ['Am6', 'Dm6', 'E7b9'],
+        tip: 'Используй большой палец для баса и верхней ноты одновременно'
+      },
+
+      // 6. ХРОМАТИЧЕСКАЯ АППЛИКАТУРА (для подходов)
+      'chromatic': {
+        name: 'Хроматическая аппликатура',
+        description: 'Для хроматических подходов и мелизмов',
+        fingers: [
+          [5, 5, '1', true, '1'],   // Корень
+          [5, 6, '1', false, '♭2'], // Полутон вверх
+          [4, 5, '1', false, '5'],  // Квинта
+          [4, 6, '2', false, '♭6'], // Полутон
+          [3, 5, '1', false, '1'],  // Корень
+          [3, 6, '2', false, '♭2']  // Полутон
+        ],
+        chords: ['любые доминанты'],
+        tip: 'Играй соседними пальцами для точности хроматических ходов'
+      }
+    };
+  }
+
+  // Показать аппликатуру на грифе
+  showFingering(fingeringKey, root = 'A') {
+    const fingering = this.fingerings[fingeringKey];
+    if (!fingering) return;
+
+    // Очищаем предыдущую аппликатуру
+    this.clearFingeringHighlight();
+
+    // Применяем позицию в зависимости от тоники
+    const rootNote = this.neck.normalizeToSharps(root);
+    let rootPositionOnString6 = null;
+    
+    // Находим позицию корня на 6 струне
+    for (let fret = 0; fret <= 12; fret++) {
+      const note = this.neck.getBaseNote(5, fret);
+      if (this.neck.normalizeToSharps(note) === rootNote) {
+        rootPositionOnString6 = fret;
+        break;
+      }
+    }
+
+    // Если не нашли корень на 6 струне, используем 5 струну
+    if (rootPositionOnString6 === null) {
+      for (let fret = 0; fret <= 12; fret++) {
+        const note = this.neck.getBaseNote(4, fret);
+        if (this.neck.normalizeToSharps(note) === rootNote) {
+          rootPositionOnString6 = fret - 5; // Компенсируем разницу
+          break;
+        }
+      }
+    }
+
+    // Применяем аппликатуру со сдвигом
+    fingering.fingers.forEach(([string, baseFret, finger, isRoot, degree]) => {
+      const fretNumber = baseFret + (rootPositionOnString6 || 0);
+      
+      if (fretNumber < 0 || fretNumber > 12) return;
+
+      const fretElement = document.querySelector(
+        `.fret[data-string="${string}"][data-fret="${fretNumber}"]`
+      );
+
+      if (fretElement) {
+        // Добавляем классы
+        fretElement.classList.add('django-fingering-note');
+        if (isRoot) {
+          fretElement.classList.add('fingering-root');
+        }
+        
+        // Добавляем цифру пальца
+        const fingerSpan = document.createElement('span');
+        fingerSpan.className = 'finger-number';
+        fingerSpan.textContent = finger;
+        fingerSpan.title = this.getFingerName(finger);
+        fretElement.appendChild(fingerSpan);
+
+        // Добавляем степень аккорда
+        if (degree) {
+          const degreeSpan = document.createElement('span');
+          degreeSpan.className = 'note-degree';
+          degreeSpan.textContent = degree;
+          fretElement.appendChild(degreeSpan);
+        }
+      }
+    });
+
+    // Показываем информацию об аппликатуре
+    this.showFingeringInfo(fingering);
+  }
+
+  // Имя пальца по символу
+  getFingerName(finger) {
+    const names = {
+      'T': 'Большой палец',
+      '1': 'Указательный',
+      '2': 'Средний',
+      '3': 'Безымянный',
+      '4': 'Мизинец',
+      '0': 'Открытая струна'
+    };
+    return names[finger] || finger;
+  }
+
+  // Информация об аппликатуре
+  showFingeringInfo(fingering) {
+    const diagramDiv = document.getElementById('fingeringDiagram');
+    if (!diagramDiv) return;
+
+    let html = `
+      <div style="margin-bottom: 8px;">
+        <strong style="color: var(--zenburn-yellow);">${fingering.name}</strong>
+      </div>
+      <div style="font-size: 10px; margin-bottom: 5px; color: var(--zenburn-fg-dim);">
+        ${fingering.description}
+      </div>
+      <div style="margin: 5px 0;">
+        <span style="color: var(--zenburn-green);">Подходит для:</span> 
+        ${fingering.chords.join(', ')}
+      </div>
+      <div style="margin-top: 8px; padding: 8px; background: rgba(223, 175, 143, 0.1); border-radius: 3px;">
+        <span style="color: var(--zenburn-orange);">💡 Совет:</span> 
+        <em style="font-size: 10px;">${fingering.tip}</em>
+      </div>
+      <div style="margin-top: 10px; font-size: 9px; color: var(--zenburn-comment);">
+        <div><span class="finger-legend" style="background: var(--zenburn-red);">T</span> = Большой палец</div>
+        <div><span class="finger-legend" style="background: var(--zenburn-green);">1</span> = Указательный</div>
+        <div><span class="finger-legend" style="background: var(--zenburn-blue);">2</span> = Средний</div>
+        <div><span class="finger-legend" style="background: var(--zenburn-purple);">3</span> = Безымянный</div>
+        <div><span class="finger-legend" style="background: var(--zenburn-orange);">4</span> = Мизинец</div>
+      </div>
+    `;
+
+    diagramDiv.innerHTML = html;
+  }
+
+  clearFingeringHighlight() {
+    document.querySelectorAll('.fret').forEach((fret) => {
+      fret.classList.remove('django-fingering-note', 'fingering-root');
+      // Удаляем старые спан
+      const fingerSpan = fret.querySelector('.finger-number');
+      const degreeSpan = fret.querySelector('.note-degree');
+      if (fingerSpan) fingerSpan.remove();
+      if (degreeSpan) degreeSpan.remove();
+    });
+  }
+
+  // Автоматически выбрать аппликатуру по аккорду
+  suggestFingering(chord) {
+    const chordUpper = chord.toUpperCase();
+    
+    if (chord.includes('dim')) return 'position5';
+    if (chord.includes('m6')) return 'djangoFav';
+    if (chord.includes('7#9') || chord.includes('7b9')) return 'position7';
+    if (chord.includes('m')) return 'open';
+    if (chord.includes('6')) return 'position3';
+    
+    return 'open'; // по умолчанию
+  }
+}
+
+
 // -------- конец классов ---------
 
 // ============ АРПЕДЖИО ============
@@ -1329,6 +1595,7 @@ let pentatonicManager;
 let manoucheScales;
 let djangoLicks;
 let arpeggioManager;
+let djangoFingerings;
 
 // ============ ОСНОВНЫЕ ФУНКЦИИ ============
 
@@ -1583,6 +1850,13 @@ function initManouche() {
   document.querySelectorAll(".lick-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
       const lickName = this.dataset.lick;
+      
+      // Сбрасываем активные состояния других кнопок
+      document.querySelectorAll(".lick-btn").forEach((b) => {
+        b.classList.remove("active");
+      });
+      this.classList.add("active");
+      
       djangoLicks.showLick(lickName);
     });
   });
@@ -1710,9 +1984,11 @@ document.addEventListener("DOMContentLoaded", function () {
   initArpeggio();
   initPentatonic();
   initManouche();
+  initDjangoFingerings();
   createHideHelpButton();
   setupAutoHideHelpText();
   showHelpText();
+  
 
   // Кнопка показа аккорда
   document
@@ -1774,4 +2050,49 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   });
+
+  // ============ ИНИЦИАЛИЗАЦИЯ DJANGO FINGERINGS ============
+  function initDjangoFingerings() {
+    djangoFingerings = new DjangoFingerings();
+    window.djangoFingerings = djangoFingerings;
+  
+    // Обработчики для кнопок аппликатур
+    document.querySelectorAll('.fingering-btn').forEach((btn) => {
+      btn.addEventListener('click', function () {
+        // Активная кнопка
+        document.querySelectorAll('.fingering-btn').forEach((b) => {
+          b.classList.remove('active');
+        });
+        this.classList.add('active');
+  
+        // Получаем выбранную аппликатуру
+        const fingeringKey = this.dataset.fingering;
+        
+        // Получаем текущий аккорд
+        const chord = manoucheScales.getActiveChord();
+        const root = manoucheScales.neck.extractTonic(chord);
+        
+        // Показываем аппликатуру
+        djangoFingerings.showFingering(fingeringKey, root);
+      });
+    });
+  
+    // Автоматически предлагать аппликатуру при выборе гаммы
+    document.querySelectorAll('.scale-btn').forEach((btn) => {
+      btn.addEventListener('click', function () {
+        // Через 100ms показываем рекомендованную аппликатуру
+        setTimeout(() => {
+          const chord = manoucheScales.getActiveChord();
+          if (chord) {
+            const suggested = djangoFingerings.suggestFingering(chord);
+            const btn = document.querySelector(`.fingering-btn[data-fingering="${suggested}"]`);
+            if (btn) {
+              btn.click();
+            }
+          }
+        }, 100);
+      });
+    });
+  }
+  
 });
