@@ -6,6 +6,7 @@
     <title>Fret Cheat Sheet</title>
 	<link rel="icon" href="./favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/manouche-style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -30,6 +31,9 @@
           <button id="showArpeggioBtn" class="arpeggio-btn">Арпеджио</button>
           <button id="togglePentatonicBtn" class="pentatonic-btn">
             Пентатоника
+          </button>
+          <button id="toggleManoucheBtn" class="manouche-btn">
+            Manouche
           </button>
         </div>
 
@@ -90,6 +94,39 @@
             style="margin-top: 8px; font-size: 12px; color: var(--zenburn-cyan)"
           ></div>
         </div>
+
+		<!-- После pentatonic-controls -->
+		<div class="manouche-controls" id="manoucheControls" style="display: none">
+		  <div class="manouche-options" style="margin: 10px 0">
+		    <div class="scale-selector" style="margin-bottom: 10px">
+		      <span style="margin-right: 8px; color: var(--zenburn-fg-dim)">Гамма:</span>
+		      <div class="scale-buttons">
+		        <button class="scale-btn active" data-scale="auto">Auto</button>
+		        <button class="scale-btn" data-scale="gypsyMajor">Gypsy Major</button>
+		        <button class="scale-btn" data-scale="harmonicMajor">Harmonic Major</button>
+		        <button class="scale-btn" data-scale="harmonicMinorNat6">Harmonic Minor ♮6</button>
+		        <button class="scale-btn" data-scale="diminished">Diminished</button>
+		      </div>
+		    </div>
+		    
+		    <div class="licks-selector" style="margin-top: 15px">
+		      <span style="margin-right: 8px; color: var(--zenburn-yellow)">Фразы Django:</span>
+		      <div class="lick-buttons">
+		        <button class="lick-btn" data-lick="dimRun">Dim Run</button>
+		        <button class="lick-btn" data-lick="gypsySweep">Gypsy Sweep</button>
+		        <button class="lick-btn" data-lick="chromaticApproach">Chromatic</button>
+		        <button class="lick-btn" data-lick="tremoloPattern">Tremolo</button>
+		      </div>
+		    </div>
+		  </div>
+		
+		  <div class="manouche-info" id="manoucheInfo"
+		       style="margin-top: 12px; padding: 10px; 
+		              background: rgba(223, 175, 143, 0.1);
+		              border-radius: 4px; border-left: 3px solid var(--zenburn-orange);
+		              font-size: 12px; color: var(--zenburn-fg)">
+		  </div>
+		</div>
 
         <!-- Управление арпеджио -->
         <div

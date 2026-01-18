@@ -423,8 +423,6 @@ class PentatonicManager {
   }
 
   // НОВЫЙ МЕТОД: Подсветка конкретного бокса
-  // В классе PentatonicManager заменяем метод highlightPentatonicBox:
-  // Заменяем метод highlightPentatonicBox в классе PentatonicManager:
   highlightPentatonicBox(root, boxNum, type, pentatonicNotes, bluesNote) {
     const rootNote = this.neck.normalizeToSharps(root);
     const rootIndex = this.neck.notes.sharps.indexOf(rootNote);
@@ -656,7 +654,426 @@ class PentatonicManager {
     return degree === 1 ? "root" : ""; // Упрощаем
   }
 }
+// Конец PentatonicManager
 
+// ============ MANOUCHE SCALES - СПЕЦИФИЧЕСКИЕ ГАММЫ ДЖАЗ-МАНУШ ============
+
+class ManoucheScales {
+  constructor() {
+    this.neck = new GuitarNeck();
+    this.isActive = false;
+    this.currentScale = null;
+
+    // Цвета для разных типов нот в мануш-гаммах
+    this.noteColors = {
+      root: 'var(--zenburn-red)',
+      characteristic: 'var(--zenburn-orange)', // Характерные ноты (♭3, ♭6, ♯4)
+      tension: 'var(--zenburn-blue)',          // Напряженные ноты
+      resolution: 'var(--zenburn-green)',      // Разрешающиеся ноты
+      passing: 'var(--zenburn-purple)'         // Проходящие хроматические
+    };
+  }
+
+  // Определяем все специфические гаммы мануш
+  getScaleIntervals(scaleName) {
+    const intervals = {
+      // 1. ЦЫГАНСКАЯ МАЖОРНАЯ (основная)
+      gypsyMajor: [0, 2, 3, 6, 7, 8, 11], // 1-2-♭3-♯4-5-♭6-7
+      
+      // 2. МАЖОРНАЯ ГАРМОНИЧЕСКАЯ
+      harmonicMajor: [0, 2, 4, 5, 7, 8, 11], // 1-2-3-4-5-♭6-7
+      
+      // 3. МИНОРНАЯ ГАРМОНИЧЕСКАЯ С ♮6 (Django style)
+      harmonicMinorNat6: [0, 2, 3, 5, 7, 9, 11], // 1-2-♭3-4-5-6-7
+      
+      // 4. ДОРИЙСКИЙ С ♯4
+      dorianSharp4: [0, 2, 3, 6, 7, 9, 10], // 1-2-♭3-♯4-5-6-♭7
+      
+      // 5. DIMINISHED АРПЕДЖИО (симметричное)
+      diminished: [0, 3, 6, 9], // 1-♭3-♭5-6 (♭♭7)
+      
+      // 6. ДВОЙНАЯ ХРОМАТИКА (характерные подходы)
+      doubleChromatic: [0, 1, 2, 3, 4, 5], // Полутоновые пары
+      
+      // 7. МИКСОЛИДИЙСКИЙ ♭6 (для доминант)
+      mixolydianFlat6: [0, 2, 4, 5, 7, 8, 10], // 1-2-3-4-5-♭6-♭7
+      
+      // 8. АЛЬТЕРИРОВАННАЯ (для V7alt)
+      altered: [0, 1, 3, 4, 6, 8, 10], // 1-♭9-♯9-3-♯11-♭13-♭7
+    };
+    return intervals[scaleName] || intervals.gypsyMajor;
+  }
+
+  // Получаем ноты гаммы от тоники
+  getScaleNotes(root, scaleName) {
+    const rootNote = this.neck.normalizeToSharps(root);
+    const rootIndex = this.neck.notes.sharps.indexOf(rootNote);
+    
+    if (rootIndex === -1) return [];
+
+    const intervals = this.getScaleIntervals(scaleName);
+    return intervals.map(interval => {
+      const noteIndex = (rootIndex + interval) % 12;
+      return this.neck.notes.sharps[noteIndex];
+    });
+  }
+
+  // Определяем тип гаммы по аккорду
+  detectScaleForChord(chord) {
+    const chordUpper = chord.toUpperCase();
+    
+    if (chord.includes('m')) {
+      // Минорные аккорды
+      if (chord.includes('m6') || chord.includes('m7')) {
+        return 'dorianSharp4'; // Для Am6, Am7
+      }
+      return 'harmonicMinorNat6'; // Для Am, Am(maj7)
+    } else if (chord.includes('7')) {
+      // Доминанты
+      if (chord.includes('7#9') || chord.includes('7alt')) {
+        return 'altered';
+      } else if (chord.includes('7b9')) {
+        return 'mixolydianFlat6';
+      }
+      return 'diminished'; // Django часто использует diminished над V7
+    } else {
+      // Мажорные аккорды
+      if (chord.includes('6') || chord.includes('maj7')) {
+        return 'harmonicMajor';
+      }
+      return 'gypsyMajor'; // По умолчанию для мажора
+    }
+  }
+
+  // Показываем гамму на грифе
+  showScale(scaleName = null) {
+    const chord = document.getElementById('chordInput').value.trim();
+    if (!chord) return alert('Введите аккорд');
+    
+    // Определяем гамму, если не указана
+    if (!scaleName) {
+      scaleName = this.detectScaleForChord(chord);
+    }
+    
+    const root = this.neck.extractTonic(chord);
+    const scaleNotes = this.getScaleNotes(root, scaleName);
+    
+    if (!scaleNotes.length) {
+      console.error('Не удалось получить ноты гаммы');
+      return;
+    }
+    
+    // Устанавливаем активный режим
+    setActiveMode('manouche');
+    
+    // Показываем панель управления
+    document.getElementById('manoucheControls').style.display = 'block';
+    document.getElementById('toggleManoucheBtn').classList.add('active');
+    
+    // Очищаем гриф
+    this.clearAllHighlights();
+    
+    // Подсвечиваем ноты гаммы
+    this.highlightScaleNotes(root, scaleNotes, scaleName);
+    
+    // Обновляем информацию
+    this.updateScaleInfo(root, scaleName, scaleNotes);
+    
+    // Сохраняем текущую конфигурацию
+    this.currentScale = { root, scaleName, notes: scaleNotes };
+    this.isActive = true;
+  }
+
+  // Подсветка нот гаммы на грифе
+  highlightScaleNotes(root, scaleNotes, scaleName) {
+    const allFrets = document.querySelectorAll('.fret');
+    const rootNote = this.neck.normalizeToSharps(root);
+    
+    // Определяем характерные ноты для этой гаммы
+    const characteristicNotes = this.getCharacteristicNotes(root, scaleName);
+    
+    allFrets.forEach(fret => {
+      const note = fret.getAttribute('data-note');
+      if (!note) return;
+      
+      const normalizedNote = this.neck.normalizeToSharps(note);
+      
+      // Проверяем, принадлежит ли нота гамме
+      if (scaleNotes.includes(normalizedNote)) {
+        fret.classList.add('manouche-note');
+        
+        // Корневая нота
+        if (normalizedNote === rootNote) {
+          fret.classList.add('manouche-root');
+          fret.style.backgroundColor = this.noteColors.root;
+          fret.style.fontWeight = 'bold';
+        }
+        // Характерные ноты (♭3, ♭6, ♯4)
+        else if (characteristicNotes.includes(normalizedNote)) {
+          fret.classList.add('manouche-characteristic');
+          fret.style.backgroundColor = this.noteColors.characteristic;
+        }
+        // Остальные ноты гаммы
+        else {
+          fret.style.backgroundColor = this.noteColors.resolution;
+        }
+      }
+    });
+  }
+
+  // Получаем характерные ноты для каждой гаммы
+  getCharacteristicNotes(root, scaleName) {
+    const rootNote = this.neck.normalizeToSharps(root);
+    const rootIndex = this.neck.notes.sharps.indexOf(rootNote);
+    
+    const characteristicMap = {
+      gypsyMajor: [
+        this.neck.notes.sharps[(rootIndex + 3) % 12],  // ♭3
+        this.neck.notes.sharps[(rootIndex + 6) % 12],  // ♯4
+        this.neck.notes.sharps[(rootIndex + 8) % 12],  // ♭6
+      ],
+      harmonicMajor: [
+        this.neck.notes.sharps[(rootIndex + 8) % 12],  // ♭6
+      ],
+      harmonicMinorNat6: [
+        this.neck.notes.sharps[(rootIndex + 11) % 12], // 7 (мажорная)
+      ],
+      dorianSharp4: [
+        this.neck.notes.sharps[(rootIndex + 6) % 12],  // ♯4
+      ],
+      diminished: [
+        this.neck.notes.sharps[(rootIndex + 3) % 12],  // ♭3
+        this.neck.notes.sharps[(rootIndex + 6) % 12],  // ♭5
+        this.neck.notes.sharps[(rootIndex + 9) % 12],  // 6 (♭♭7)
+      ]
+    };
+    
+    return characteristicMap[scaleName] || [];
+  }
+
+  // Обновляем информацию о гамме
+  updateScaleInfo(root, scaleName, scaleNotes) {
+    const infoDiv = document.getElementById('manoucheInfo');
+    const scaleNames = {
+      gypsyMajor: 'Цыганская мажорная',
+      harmonicMajor: 'Мажорная гармоническая',
+      harmonicMinorNat6: 'Минорная гармоническая с ♮6',
+      dorianSharp4: 'Дорийский с ♯4',
+      diminished: 'Diminished арпеджио',
+      doubleChromatic: 'Двойная хроматика',
+      mixolydianFlat6: 'Миксолидийский ♭6',
+      altered: 'Альтерированная'
+    };
+    
+    const formula = this.getScaleFormula(scaleName);
+    const characteristic = this.getCharacteristicDescription(scaleName);
+    
+    let info = `
+      <div class="manouche-scale-header">
+        <strong>${scaleNames[scaleName] || scaleName} от ${root}</strong>
+        <span class="scale-formula">${formula}</span>
+      </div>
+      <div class="scale-notes">Ноты: <strong>${scaleNotes.join(', ')}</strong></div>
+      <div class="scale-characteristic">${characteristic}</div>
+      <div class="django-tip">${this.getDjangoTip(scaleName)}</div>
+    `;
+    
+    infoDiv.innerHTML = info;
+  }
+
+  // Формулы гамм
+  getScaleFormula(scaleName) {
+    const formulas = {
+      gypsyMajor: '1 - 2 - ♭3 - ♯4 - 5 - ♭6 - 7',
+      harmonicMajor: '1 - 2 - 3 - 4 - 5 - ♭6 - 7',
+      harmonicMinorNat6: '1 - 2 - ♭3 - 4 - 5 - 6 - 7',
+      dorianSharp4: '1 - 2 - ♭3 - ♯4 - 5 - 6 - ♭7',
+      diminished: '1 - ♭3 - ♭5 - 6 (♭♭7)',
+      doubleChromatic: 'Полутоновые пары',
+      mixolydianFlat6: '1 - 2 - 3 - 4 - 5 - ♭6 - ♭7',
+      altered: '1 - ♭9 - ♯9 - 3 - ♯11 - ♭13 - ♭7'
+    };
+    return formulas[scaleName] || '';
+  }
+
+  // Описание характерных особенностей
+  getCharacteristicDescription(scaleName) {
+    const descriptions = {
+      gypsyMajor: '🎻 <em>Классический "цыганский" звук Django. Используй ♭3 и ♭6 для аутентичного колорита.</em>',
+      harmonicMajor: '🎵 <em>Мажор с напряжённой ♭6. Отлично подходит для аккордов 6 и maj7.</em>',
+      harmonicMinorNat6: '🎹 <em>Минор с мажорной септимой. Характерно для "Minor Swing".</em>',
+      diminished: '⚡ <em>Симметричное арпеджио - основа техники Django! Используй как проходящие аккорды.</em>',
+      dorianSharp4: '✨ <em>Дорийский с повышенной квартой. Придаёт современное звучание.</em>'
+    };
+    return descriptions[scaleName] || '';
+  }
+
+  // Советы Django для каждой гаммы
+  getDjangoTip(scaleName) {
+    const tips = {
+      gypsyMajor: '💡 <strong>Совет Django:</strong> Акцентируй ♭3 и ♭6 в быстрых пассажах.',
+      harmonicMajor: '💡 <strong>Совет Django:</strong> Разрешай ♭6 в 5 или ♭7.',
+      diminished: '💡 <strong>Совет Django:</strong> Играй diminished арпеджио через каждые полтона.',
+      harmonicMinorNat6: '💡 <strong>Совет Django:</strong> Используй мажорную септиму как подход к тонике.'
+    };
+    return tips[scaleName] || '';
+  }
+
+  // Очистка подсветки
+  clearAllHighlights() {
+    document.querySelectorAll('.fret').forEach(fret => {
+      fret.classList.remove(
+        'manouche-note',
+        'manouche-root',
+        'manouche-characteristic',
+        'manouche-tension'
+      );
+      fret.style.backgroundColor = '';
+      fret.style.fontWeight = '';
+    });
+  }
+
+  // Переключение видимости
+  toggleManouche() {
+    if (this.isActive) {
+      this.hideManouche();
+    } else {
+      this.showScale();
+    }
+  }
+
+  // Скрыть панель
+  hideManouche() {
+    this.clearAllHighlights();
+    document.getElementById('manoucheControls').style.display = 'none';
+    document.getElementById('toggleManoucheBtn').classList.remove('active');
+    document.getElementById('manoucheInfo').innerHTML = '';
+    this.isActive = false;
+    this.currentScale = null;
+  }
+
+  // Обновить при изменении аккорда
+  updateFromChordChange() {
+    if (this.isActive) {
+      this.showScale();
+    }
+  }
+}
+
+// ============ DJANGO LICKS - ХАРАКТЕРНЫЕ ФРАЗЫ ============
+
+class DjangoLicks {
+  constructor() {
+    this.neck = new GuitarNeck();
+    this.licks = {
+      // 1. Классический diminished run
+      dimRun: {
+        name: 'Diminished Run',
+        description: 'Классическое diminished арпеджио Django',
+        pattern: [[5, 0], [5, 3], [4, 1], [4, 4], [3, 2], [3, 5], [2, 3], [2, 6]],
+        notes: ['G', 'Bb', 'Db', 'E', 'G'],
+        tempo: 'Быстро',
+        usage: 'Over G7 → Cmaj'
+      },
+      
+      // 2. Цыганская мажорная гамма
+      gypsySweep: {
+        name: 'Gypsy Major Sweep',
+        description: 'Быстрый пассаж цыганской мажорной гаммы',
+        pattern: [[5, 0], [4, 2], [4, 0], [3, 1], [3, 0], [2, 2], [2, 0], [1, 3], [1, 0]],
+        notes: ['G', 'A', 'Bb', 'C#', 'D', 'Eb', 'F#', 'G'],
+        tempo: 'Очень быстро',
+        usage: 'Over G6'
+      },
+      
+      // 3. Хроматический подход
+      chromaticApproach: {
+        name: 'Chromatic Approach',
+        description: 'Хроматический подход к аккордовому тону',
+        pattern: [[2, 5], [2, 6], [2, 7], [1, 5], [1, 6]],
+        notes: ['A', 'Bb', 'B', 'C', 'C#'],
+        tempo: 'Средне',
+        usage: 'Approaching Dm'
+      },
+      
+      // 4. Тремоло-паттерн
+      tremoloPattern: {
+        name: 'Tremolo Pattern',
+        description: 'Характерное тремоло Django',
+        pattern: [[1, 3], [1, 3], [1, 3], [1, 3], [2, 2], [2, 2], [2, 2], [2, 2]],
+        notes: ['C', 'C', 'C', 'C', 'B', 'B', 'B', 'B'],
+        tempo: 'Медленно с тремоло',
+        usage: 'Over Am7'
+      }
+    };
+  }
+
+  // Показать лик на грифе
+  showLick(lickName, position = 0) {
+    const lick = this.licks[lickName];
+    if (!lick) return;
+
+    this.clearLickHighlight();
+    
+    // Применяем позицию (сдвиг ладов)
+    lick.pattern.forEach(([string, fret], index) => {
+      const actualFret = fret + position;
+      if (actualFret > 12) return;
+      
+      const fretElement = document.querySelector(
+        `.fret[data-string="${string}"][data-fret="${actualFret}"]`
+      );
+      
+      if (fretElement) {
+        fretElement.classList.add('django-lick-note');
+        fretElement.classList.add(`lick-note-${index % 4}`); // Для последовательности
+        
+        // Добавляем цифру порядка нот
+        const orderSpan = document.createElement('span');
+        orderSpan.className = 'lick-order';
+        orderSpan.textContent = (index + 1).toString();
+        fretElement.appendChild(orderSpan);
+      }
+    });
+    
+    this.showLickInfo(lick);
+  }
+
+  // Информация о лике
+  showLickInfo(lick) {
+    const infoDiv = document.getElementById('djangoLicksInfo') || 
+                    document.createElement('div');
+    
+    infoDiv.id = 'djangoLicksInfo';
+    infoDiv.className = 'django-lick-info';
+    infoDiv.innerHTML = `
+      <div class="lick-header">
+        <strong>🎸 ${lick.name}</strong>
+        <span class="lick-tempo">${lick.tempo}</span>
+      </div>
+      <div class="lick-description">${lick.description}</div>
+      <div class="lick-notes">Ноты: <strong>${lick.notes.join(' - ')}</strong></div>
+      <div class="lick-usage">Использование: ${lick.usage}</div>
+      <div class="lick-tip">💡 <em>Практикуй медленно, затем увеличивай темп</em></div>
+    `;
+    
+    const controls = document.querySelector('.controls');
+    if (!document.getElementById('djangoLicksInfo')) {
+      controls.appendChild(infoDiv);
+    }
+  }
+
+  clearLickHighlight() {
+    document.querySelectorAll('.fret').forEach(fret => {
+      fret.classList.remove(
+        'django-lick-note',
+        'lick-note-0', 'lick-note-1', 'lick-note-2', 'lick-note-3'
+      );
+      const orderSpan = fret.querySelector('.lick-order');
+      if (orderSpan) orderSpan.remove();
+    });
+  }
+}
 // -------- конец классов ---------
 
 
@@ -1092,6 +1509,57 @@ function hideArpeggioInfo() {
   }
 }
 
+
+// ============ ИНИЦИАЛИЗАЦИЯ MANOUCHE ============
+
+let manoucheScales;
+let djangoLicks;
+
+function initManouche() {
+  // Инициализация гамм
+  manoucheScales = new ManoucheScales();
+  window.manoucheScales = manoucheScales;
+  
+  // Инициализация ликов
+  djangoLicks = new DjangoLicks();
+  window.djangoLicks = djangoLicks;
+
+  // Кнопка переключения
+  document.getElementById('toggleManoucheBtn').addEventListener('click', function() {
+    manoucheScales.toggleManouche();
+  });
+
+  // Кнопки выбора гаммы
+  document.querySelectorAll('.scale-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      
+      const scaleName = this.dataset.scale;
+      if (scaleName === 'auto') {
+        manoucheScales.showScale();
+      } else {
+        manoucheScales.showScale(scaleName);
+      }
+    });
+  });
+
+  // Кнопки фраз Django
+  document.querySelectorAll('.lick-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const lickName = this.dataset.lick;
+      djangoLicks.showLick(lickName);
+    });
+  });
+
+  // Обновление при изменении аккорда
+  document.getElementById('chordInput').addEventListener('change', function() {
+    if (manoucheScales && manoucheScales.isActive) {
+      manoucheScales.updateFromChordChange();
+    }
+  });
+}
+
 // ============ ОБРАБОТЧИКИ СОБЫТИЙ ============
 document.addEventListener("DOMContentLoaded", function () {
   renderFretBoard();
@@ -1104,7 +1572,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if (chord) {
         // Скрываем все дополнительные панели
         document.getElementById("chordSequence").style.display = "none";
-        // document.getElementById('styleInfo').style.display = 'none';
 
         // Очищаем другие режимы
         if (window.arpeggioManager) {
@@ -1153,7 +1620,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Показываем арпеджио
-        arpeggioManager.showArpeggio(chord);
+        if (arpeggioManager) {
+          arpeggioManager.showArpeggio(chord);
+        }
       }
     });
 
@@ -1163,5 +1632,20 @@ document.addEventListener("DOMContentLoaded", function () {
   // Инициализация пентатоники
   initPentatonic();
 
-
-});
+  // Инициализация Manouche
+  initManouche();
+  
+  // Обновляем setActiveMode для поддержки Manouche
+  window.setActiveMode = function(mode) {
+    document.querySelector('.arpeggio-controls')?.style.setProperty('display', 'none');
+    document.getElementById('pentatonicControls')?.style.setProperty('display', 'none');
+    document.getElementById('manoucheControls')?.style.setProperty('display', 'none');
+    clearAllHighlights();
+    
+    document.querySelectorAll('.pentatonic-btn, .arpeggio-btn, .manouche-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    window.activeMode = mode;
+  };
+}); 

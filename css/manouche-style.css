@@ -1,0 +1,212 @@
+/* ============ MANOUCHE СТИЛИ ============ */
+
+/* Кнопка Manouche */
+.manouche-btn {
+  background: linear-gradient(135deg, var(--zenburn-orange), var(--zenburn-red));
+  color: var(--zenburn-bg);
+  font-weight: bold;
+}
+
+.manouche-btn:hover {
+  background: linear-gradient(135deg, var(--zenburn-red), var(--zenburn-purple));
+}
+
+.manouche-btn.active {
+  background: linear-gradient(135deg, var(--zenburn-red), var(--zenburn-purple));
+  box-shadow: 0 0 0 2px var(--zenburn-orange);
+}
+
+/* Панель управления Manouche */
+.manouche-controls {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(204, 147, 147, 0.08);
+  border-radius: 4px;
+  border: 1px solid rgba(204, 147, 147, 0.3);
+}
+
+/* Кнопки гамм */
+.scale-buttons, .lick-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.scale-btn, .lick-btn {
+  padding: 4px 8px;
+  background: var(--zenburn-bg-lighter);
+  color: var(--zenburn-fg-dim);
+  border: 1px solid var(--zenburn-comment);
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.scale-btn:hover, .lick-btn:hover {
+  background: var(--zenburn-bg-light);
+  color: var(--zenburn-fg);
+}
+
+.scale-btn.active {
+  background: var(--zenburn-red);
+  color: var(--zenburn-bg);
+  border-color: var(--zenburn-red);
+}
+
+.lick-btn {
+  background: rgba(140, 208, 211, 0.2);
+  border-color: var(--zenburn-cyan);
+}
+
+.lick-btn:hover {
+  background: rgba(140, 208, 211, 0.3);
+}
+
+/* Подсветка нот Manouche на грифе */
+.manouche-note {
+  color: var(--zenburn-bg) !important;
+  font-weight: 500;
+  position: relative;
+  z-index: 2;
+}
+
+.manouche-root {
+  background: var(--zenburn-red) !important;
+  box-shadow: 0 0 5px rgba(204, 147, 147, 0.5);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.manouche-characteristic {
+  background: var(--zenburn-orange) !important;
+  animation: characteristic-pulse 3s infinite;
+}
+
+@keyframes characteristic-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Подсветка фраз Django */
+.django-lick-note {
+  background: var(--zenburn-yellow) !important;
+  color: var(--zenburn-bg) !important;
+  border-color: var(--zenburn-orange) !important;
+  position: relative;
+  animation: lick-highlight 1s ease-in-out;
+}
+
+@keyframes lick-highlight {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.lick-order {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 8px;
+  background: var(--zenburn-bg);
+  color: var(--zenburn-yellow);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Последовательность нот в лике */
+.lick-note-0 { background: var(--zenburn-yellow) !important; }
+.lick-note-1 { background: var(--zenburn-orange) !important; }
+.lick-note-2 { background: var(--zenburn-red) !important; }
+.lick-note-3 { background: var(--zenburn-purple) !important; }
+
+/* Информация о гаммах */
+.manouche-scale-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.scale-formula {
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 11px;
+  color: var(--zenburn-comment);
+  background: rgba(255,255,255,0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.scale-notes {
+  margin: 5px 0;
+  font-size: 12px;
+}
+
+.scale-characteristic {
+  color: var(--zenburn-orange);
+  font-style: italic;
+  margin: 5px 0;
+  font-size: 11px;
+}
+
+.django-tip {
+  color: var(--zenburn-yellow);
+  font-size: 11px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(223, 175, 143, 0.3);
+}
+
+/* Информация о ликах Django */
+.django-lick-info {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(240, 223, 175, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid var(--zenburn-yellow);
+  font-size: 12px;
+}
+
+.lick-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.lick-tempo {
+  font-size: 10px;
+  color: var(--zenburn-comment);
+  background: rgba(255,255,255,0.1);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.lick-description {
+  color: var(--zenburn-fg-dim);
+  margin: 3px 0;
+}
+
+.lick-notes {
+  color: var(--zenburn-cyan);
+  margin: 5px 0;
+  font-family: 'Ubuntu Mono', monospace;
+}
+
+.lick-usage {
+  color: var(--zenburn-green);
+  font-size: 11px;
+  margin: 3px 0;
+}
+
+.lick-tip {
+  color: var(--zenburn-yellow);
+  font-size: 10px;
+  margin-top: 8px;
+  font-style: italic;
+}
