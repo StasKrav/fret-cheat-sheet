@@ -1653,7 +1653,7 @@ function createHideHelpButton() {
     const helpText = pane.querySelector(".tab-help-text");
     if (helpText) {
       const hideButton = document.createElement("button");
-      hideButton.textContent = "Скрыть подсказки";
+      hideButton.textContent = "Скрыть подсказки навсегда";
       hideButton.style.cssText = `
         margin-top: 10px;
         padding: 4px 8px;
