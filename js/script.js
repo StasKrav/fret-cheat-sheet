@@ -1812,11 +1812,34 @@ function initPentatonic() {
 }
 
 function initManouche() {
+	document.querySelectorAll('.fingering-btn').forEach(btn => {
+	    btn.classList.remove('active');
+	  });
+	  
   manoucheScales = new ManoucheScales();
   window.manoucheScales = manoucheScales;
 
   djangoLicks = new DjangoLicks();
   window.djangoLicks = djangoLicks;
+
+  // В initManouche() после djangoLicks = new DjangoLicks();
+  document.querySelectorAll('.fingering-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Сначала сбрасываем ВСЕ другие кнопки аппликатуры
+      document.querySelectorAll('.fingering-btn').forEach(b => {
+        b.classList.remove('active');
+      });
+      
+      // Делаем эту кнопку активной
+      this.classList.add('active');
+      
+      // Только теперь показываем аппликатуру
+      const fingeringKey = this.dataset.fingering;
+      const chord = manoucheScales.getActiveChord();
+      const root = manoucheScales.neck.extractTonic(chord || 'Am');
+      djangoFingerings.showFingering(fingeringKey, root);
+    });
+  });
 
   document
     .getElementById("toggleManoucheBtn")
