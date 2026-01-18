@@ -382,7 +382,8 @@ class PentatonicManager {
   }
 
   // НОВЫЙ МЕТОД: Полная очистка грифа
-  clearAllFretboardHighlights() {
+
+  FretboardHighlights() {
     const allFrets = document.querySelectorAll(".fret");
     allFrets.forEach((fret) => {
       // Удаляем ВСЕ классы подсветки
@@ -676,46 +677,36 @@ class ManoucheScales {
   showScale(scaleName = null) {
     const chord = this.getActiveChord();
     if (!chord) return alert("Введите аккорд");
-
+  
     // Определяем гамму, если не указана
     if (!scaleName) {
       scaleName = this.detectScaleForChord(chord);
     }
-
+  
     const root = this.neck.extractTonic(chord);
     const scaleNotes = this.getScaleNotes(root, scaleName);
-
+  
     if (!scaleNotes.length) {
       console.error("Не удалось получить ноты гаммы");
       return;
     }
-
-    // Очищаем гриф
-    this.clearAllHighlights();
-
+  
+    // НЕ очищаем здесь! Очистка делается в обработчиках кнопок
+  
     // Показываем панель управления
     document.getElementById("manoucheControls").style.display = "block";
     document.getElementById("toggleManoucheBtn").classList.add("active");
-
+  
     // Подсвечиваем ноты гаммы
     this.highlightScaleNotes(root, scaleNotes, scaleName);
-
+  
     // Обновляем информацию
     this.updateScaleInfo(root, scaleName, scaleNotes);
-
+  
     // Сохраняем текущую конфигурацию
     this.currentScale = { root, scaleName, notes: scaleNotes };
     this.isActive = true;
-
-    setTimeout(() => {
-      if (window.djangoFingerings) {
-        const suggested = window.djangoFingerings.suggestFingering(chord);
-        const btn = document.querySelector(`.fingering-btn[data-fingering="${suggested}"]`);
-        if (btn) {
-          btn.click();
-        }
-      }
-    }, 300);
+  
   }
 
   // Подсветка нот гаммы на грифе
@@ -865,16 +856,35 @@ class ManoucheScales {
   }
 
   // Очистка подсветки
-  clearAllHighlights() {
-    document.querySelectorAll(".fret").forEach((fret) => {
-      fret.classList.remove(
-        "manouche-note",
-        "manouche-root",
-        "manouche-characteristic",
-        "manouche-tension",
-      );
-      fret.style.backgroundColor = "";
-      fret.style.fontWeight = "";
+  // В ManoucheScales
+  highlightScaleNotes(root, scaleNotes, scaleName) {
+    // НЕ очищаем здесь! Очистка делается в обработчиках
+    const allFrets = document.querySelectorAll(".fret");
+    const rootNote = this.neck.normalizeToSharps(root);
+    
+    // Определяем характерные ноты
+    const characteristicNotes = this.getCharacteristicNotes(root, scaleName);
+  
+    allFrets.forEach((fret) => {
+      const note = fret.getAttribute("data-note");
+      if (!note) return;
+  
+      const normalizedNote = this.neck.normalizeToSharps(note);
+  
+      if (scaleNotes.includes(normalizedNote)) {
+        fret.classList.add("manouche-note");
+  
+        if (normalizedNote === rootNote) {
+          fret.classList.add("manouche-root");
+          fret.style.backgroundColor = this.noteColors.root;
+          fret.style.fontWeight = "bold";
+        } else if (characteristicNotes.includes(normalizedNote)) {
+          fret.classList.add("manouche-characteristic");
+          fret.style.backgroundColor = this.noteColors.characteristic;
+        } else {
+          fret.style.backgroundColor = this.noteColors.resolution;
+        }
+      }
     });
   }
 
@@ -892,20 +902,21 @@ class ManoucheScales {
 
   // Скрыть панель
   hideManouche() {
-    this.clearAllHighlights();
-
+    // НЕ очищаем здесь! Очистка делается в централизованной функции
+    // this.clearAllHighlights(); // <-- УДАЛИТЕ или ЗАКОММЕНТИРУЙТЕ
+  
     // Скрываем панель Manouche
-      const manoucheControls = document.getElementById("manoucheControls");
-      if (manoucheControls) {
-        manoucheControls.style.display = "none";
-      }
-      
-      // Скрываем информацию о ликах
-      const licksContainer = document.getElementById("licksInfoContainer");
-      if (licksContainer) {
-        licksContainer.style.display = "none";
-      }
-
+    const manoucheControls = document.getElementById("manoucheControls");
+    if (manoucheControls) {
+      manoucheControls.style.display = "none";
+    }
+    
+    // Скрываем информацию о ликах
+    const licksContainer = document.getElementById("licksInfoContainer");
+    if (licksContainer) {
+      licksContainer.style.display = "none";
+    }
+  
     document.getElementById("toggleManoucheBtn").classList.remove("active");
     const manoucheInfo = document.getElementById("manoucheInfo");
     if (manoucheInfo) {
@@ -1061,17 +1072,13 @@ class DjangoLicks {
   }
 
   // Показать лик на грифе
+  // В DjangoLicks
   showLick(lickName, position = 0) {
     const lick = this.licks[lickName];
     if (!lick) return;
-  
-    // Сначала очищаем ВСЕ подсветки
-    clearAllHighlights();
     
-    // Очищаем подсветку ликов
-    this.clearLickHighlight();
-  
-    // Применяем позицию (сдвиг ладов)
+    // НЕ очищаем здесь! Очистка делается в обработчиках
+    
     lick.pattern.forEach(([string, fret], index) => {
       const actualFret = fret + position;
       if (actualFret > 12) return;
@@ -1082,9 +1089,8 @@ class DjangoLicks {
   
       if (fretElement) {
         fretElement.classList.add("django-lick-note");
-        fretElement.classList.add(`lick-note-${index % 4}`); // Для последовательности
+        fretElement.classList.add(`lick-note-${index % 4}`);
   
-        // Добавляем цифру порядка нот
         const orderSpan = document.createElement("span");
         orderSpan.className = "lick-order";
         orderSpan.textContent = (index + 1).toString();
@@ -1377,8 +1383,24 @@ class DjangoFingerings {
     
     return 'open'; // по умолчанию
   }
-}
 
+  // В классе DjangoFingerings добавьте:
+  clearAllFingerings() {
+    this.clearFingeringHighlight();
+    
+    // Сбрасываем все кнопки
+    document.querySelectorAll('.fingering-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    // Очищаем диаграмму
+    const diagramDiv = document.getElementById('fingeringDiagram');
+    if (diagramDiv) {
+      diagramDiv.innerHTML = '';
+    }
+  
+}
+}
 
 // -------- конец классов ---------
 
@@ -1722,6 +1744,25 @@ function setActiveTab(tabId) {
     )
     .forEach((btn) => btn.classList.remove("active"));
 
+    document.querySelectorAll(
+        ".arpeggio-btn.active, .pentatonic-btn.active, .manouche-btn.active, .fingering-btn.active, .lick-btn.active"
+      ).forEach((btn) => btn.classList.remove("active"));
+    
+      // Очищаем подсветку Django аппликатур
+      if (window.djangoFingerings) {
+        djangoFingerings.clearFingeringHighlight();
+        document.getElementById("fingeringDiagram").innerHTML = "";
+      }
+    
+      // Очищаем подсветку Django фраз
+      if (window.djangoLicks) {
+        djangoLicks.clearLickHighlight();
+        const licksContainer = document.getElementById("licksInfoContainer");
+        if (licksContainer) {
+          licksContainer.style.display = "none";
+        }
+      }
+
   // Скрываем блок аккордов
   document.getElementById("chordSequence").style.display = "none";
 
@@ -1811,76 +1852,209 @@ function initPentatonic() {
   });
 }
 
+// ============ ИНИЦИАЛИЗАЦИЯ DJANGO FINGERINGS ============
+  function initDjangoFingerings() {
+    djangoFingerings = new DjangoFingerings();
+    window.djangoFingerings = djangoFingerings;
+  
+    // Обработчики для кнопок аппликатур
+    document.querySelectorAll('.fingering-btn').forEach((btn) => {
+      btn.addEventListener('click', function () {
+        // Сбрасываем активность у ВСЕХ кнопок
+        document.querySelectorAll('.fingering-btn, .lick-btn').forEach((b) => {
+          b.classList.remove('active');
+        });
+        
+        // Активируем только текущую кнопку
+        this.classList.add('active');
+        
+        // Получаем выбранную аппликатуру
+        const fingeringKey = this.dataset.fingering;
+        
+        // Получаем текущий аккорд
+        const chord = manoucheScales.getActiveChord();
+        const root = manoucheScales.neck.extractTonic(chord || 'Am');
+        
+        // Показываем аппликатуру
+        djangoFingerings.showFingering(fingeringKey, root);
+      });
+    });
+  }
+
 function initManouche() {
-	document.querySelectorAll('.fingering-btn').forEach(btn => {
-	    btn.classList.remove('active');
-	  });
-	  
   manoucheScales = new ManoucheScales();
   window.manoucheScales = manoucheScales;
 
   djangoLicks = new DjangoLicks();
   window.djangoLicks = djangoLicks;
 
-  // В initManouche() после djangoLicks = new DjangoLicks();
-  document.querySelectorAll('.fingering-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      // Сначала сбрасываем ВСЕ другие кнопки аппликатуры
-      document.querySelectorAll('.fingering-btn').forEach(b => {
-        b.classList.remove('active');
-      });
+  djangoFingerings = new DjangoFingerings();
+  window.djangoFingerings = djangoFingerings;
+
+  // Глобальная переменная - какая кнопка сейчас активна
+  window.activeManoucheButton = null;
+
+  // Функция для полной очистки грифа в Manouche
+  function clearManoucheFretboard() {
+    // Удаляем ВСЁ с грифа
+    document.querySelectorAll('.fret').forEach(fret => {
+      // Удаляем все классы мануш
+      fret.classList.remove(
+        'manouche-note',
+        'manouche-root',
+        'manouche-characteristic',
+        'django-lick-note',
+        'lick-note-0',
+        'lick-note-1',
+        'lick-note-2',
+        'lick-note-3',
+        'django-fingering-note',
+        'fingering-root'
+      );
       
-      // Делаем эту кнопку активной
-      this.classList.add('active');
+      // Удаляем динамические элементы
+      const fingerSpan = fret.querySelector('.finger-number');
+      const degreeSpan = fret.querySelector('.note-degree');
+      const orderSpan = fret.querySelector('.lick-order');
+      if (fingerSpan) fingerSpan.remove();
+      if (degreeSpan) degreeSpan.remove();
+      if (orderSpan) orderSpan.remove();
       
-      // Только теперь показываем аппликатуру
-      const fingeringKey = this.dataset.fingering;
-      const chord = manoucheScales.getActiveChord();
-      const root = manoucheScales.neck.extractTonic(chord || 'Am');
-      djangoFingerings.showFingering(fingeringKey, root);
+      // Сбрасываем стили
+      fret.style.backgroundColor = '';
+      fret.style.fontWeight = '';
+      fret.style.animation = '';
     });
+    
+    // Очищаем информационные панели
+    document.getElementById('licksInfoContainer').style.display = 'none';
+    document.getElementById('licksInfoContainer').innerHTML = '';
+    document.getElementById('fingeringDiagram').innerHTML = '';
+    
+    // Сбрасываем активную кнопку
+    window.activeManoucheButton = null;
+  }
+
+  // ОБРАБОТЧИК ОСНОВНОЙ КНОПКИ "Гаммы & Аккорды"
+  document.getElementById("toggleManoucheBtn").addEventListener("click", function () {
+    const chord = manoucheScales.getActiveChord();
+    if (!chord) return alert("Введите аккорд");
+    
+    // Если эта кнопка уже активна - выключаем
+    if (this.classList.contains('active')) {
+      clearManoucheFretboard();
+      this.classList.remove('active');
+      document.getElementById("manoucheControls").style.display = "none";
+      window.activeManoucheButton = null;
+      return;
+    }
+    
+    // Иначе включаем
+    clearManoucheFretboard(); // Очищаем всё
+    
+    // Делаем активной только эту кнопку
+    document.querySelectorAll('.manouche-btn, .scale-btn, .lick-btn, .fingering-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    this.classList.add('active');
+    window.activeManoucheButton = this;
+    
+    // Показываем панель управления
+    document.getElementById("manoucheControls").style.display = "block";
+    
+    // Показываем гамму по умолчанию
+    manoucheScales.showScale();
   });
 
-  document
-    .getElementById("toggleManoucheBtn")
-    .addEventListener("click", function () {
-      if (manoucheScales.isActive) {
-        manoucheScales.hideManouche();
-        this.classList.remove("active");
-      } else {
-        manoucheScales.showScale();
-        this.classList.add("active");
-      }
-    });
-
-  // Кнопки выбора гаммы
+  // ОБРАБОТЧИКИ КНОПОК ГАММ
   document.querySelectorAll(".scale-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
-      document
-        .querySelectorAll(".scale-btn")
-        .forEach((b) => b.classList.remove("active"));
-      this.classList.add("active");
+      const chord = manoucheScales.getActiveChord();
+      if (!chord) return alert("Введите аккорд");
+      
+      // Очищаем ВСЁ на грифе
+      clearManoucheFretboard();
+      
+      // Делаем активной только эту кнопку
+      document.querySelectorAll('.scale-btn, .lick-btn, .fingering-btn').forEach(b => {
+        b.classList.remove('active');
+      });
+      this.classList.add('active');
+      window.activeManoucheButton = this;
+      
       const scaleName = this.dataset.scale;
       if (scaleName === "auto") {
         manoucheScales.showScale();
       } else {
         manoucheScales.showScale(scaleName);
       }
+      
+      // Очищаем информационные панели других типов
+      document.getElementById('licksInfoContainer').style.display = 'none';
+      document.getElementById('fingeringDiagram').innerHTML = '';
     });
   });
 
-  // Кнопки фраз Django
+  // ОБРАБОТЧИКИ КНОПОК ФРАЗ Django
   document.querySelectorAll(".lick-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
-      const lickName = this.dataset.lick;
+      const chord = manoucheScales.getActiveChord();
+      if (!chord) return alert("Введите аккорд");
       
-      // Сбрасываем активные состояния других кнопок
-      document.querySelectorAll(".lick-btn").forEach((b) => {
-        b.classList.remove("active");
+      // Очищаем ВСЁ на грифе
+      clearManoucheFretboard();
+      
+      // Делаем активной только эту кнопку
+      document.querySelectorAll('.scale-btn, .lick-btn, .fingering-btn').forEach(b => {
+        b.classList.remove('active');
       });
-      this.classList.add("active");
+      this.classList.add('active');
+      window.activeManoucheButton = this;
       
+      // Очищаем информационные панели других типов
+      document.getElementById('fingeringDiagram').innerHTML = '';
+      
+      const lickName = this.dataset.lick;
       djangoLicks.showLick(lickName);
+    });
+  });
+
+  // ОБРАБОТЧИКИ КНОПОК АППЛИКАТУР
+  document.querySelectorAll('.fingering-btn').forEach((btn) => {
+    btn.addEventListener('click', function () {
+      const chord = manoucheScales.getActiveChord();
+      if (!chord) return alert("Введите аккорд");
+      
+      // Очищаем ВСЁ на грифе
+      clearManoucheFretboard();
+      
+      // Делаем активной только эту кнопку
+      document.querySelectorAll('.scale-btn, .lick-btn, .fingering-btn').forEach(b => {
+        b.classList.remove('active');
+      });
+      this.classList.add('active');
+      window.activeManoucheButton = this;
+      
+      // Очищаем информационные панели других типов
+      document.getElementById('licksInfoContainer').style.display = 'none';
+      
+      const fingeringKey = this.dataset.fingering;
+      const root = manoucheScales.neck.extractTonic(chord);
+      djangoFingerings.showFingering(fingeringKey, root);
+    });
+  });
+
+  // Очищаем при переключении вкладок
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      if (window.activeManoucheButton) {
+        clearManoucheFretboard();
+        document.querySelectorAll('.manouche-btn, .scale-btn, .lick-btn, .fingering-btn').forEach(b => {
+          b.classList.remove('active');
+        });
+        window.activeManoucheButton = null;
+        document.getElementById("manoucheControls").style.display = "none";
+      }
     });
   });
 }
@@ -2073,49 +2247,5 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   });
-
-  // ============ ИНИЦИАЛИЗАЦИЯ DJANGO FINGERINGS ============
-  function initDjangoFingerings() {
-    djangoFingerings = new DjangoFingerings();
-    window.djangoFingerings = djangoFingerings;
-  
-    // Обработчики для кнопок аппликатур
-    document.querySelectorAll('.fingering-btn').forEach((btn) => {
-      btn.addEventListener('click', function () {
-        // Активная кнопка
-        document.querySelectorAll('.fingering-btn').forEach((b) => {
-          b.classList.remove('active');
-        });
-        this.classList.add('active');
-  
-        // Получаем выбранную аппликатуру
-        const fingeringKey = this.dataset.fingering;
-        
-        // Получаем текущий аккорд
-        const chord = manoucheScales.getActiveChord();
-        const root = manoucheScales.neck.extractTonic(chord);
-        
-        // Показываем аппликатуру
-        djangoFingerings.showFingering(fingeringKey, root);
-      });
-    });
-  
-    // Автоматически предлагать аппликатуру при выборе гаммы
-    document.querySelectorAll('.scale-btn').forEach((btn) => {
-      btn.addEventListener('click', function () {
-        // Через 100ms показываем рекомендованную аппликатуру
-        setTimeout(() => {
-          const chord = manoucheScales.getActiveChord();
-          if (chord) {
-            const suggested = djangoFingerings.suggestFingering(chord);
-            const btn = document.querySelector(`.fingering-btn[data-fingering="${suggested}"]`);
-            if (btn) {
-              btn.click();
-            }
-          }
-        }, 100);
-      });
-    });
-  }
-  
+   
 });
