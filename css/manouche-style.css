@@ -28,55 +28,149 @@
   box-shadow: 0 0 0 2px var(--zenburn-orange);
 }
 
-/* Панель управления Manouche */
-.manouche-controls {
-  margin-top: 15px;
+/* Секции управления */
+.control-section {
+  margin-bottom: 20px;
   padding: 15px;
-  background: rgba(204, 147, 147, 0.08);
-  border-radius: 4px;
-  border: 1px solid rgba(204, 147, 147, 0.3);
+  background: rgba(204, 147, 147, 0.05);
+  border-radius: 6px;
+  border: 1px solid rgba(204, 147, 147, 0.15);
 }
 
-/* Кнопки гамм */
+.section-title {
+  color: var(--zenburn-orange);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(204, 147, 147, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Панель управления мануш */
+.manouche-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 0;
+  padding: 20px;
+  background: rgba(60, 60, 60, 0.7);
+  border-radius: 8px;
+  border: 1px solid var(--zenburn-bg-lighter);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Контейнеры кнопок */
+.scale-selector,
+.licks-selector,
+.fingering-controls {
+  margin-bottom: 15px;
+}
+
+/* Кнопки в ряд */
 .scale-buttons,
-.lick-buttons {
+.lick-buttons,
+.fingering-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 5px;
+  gap: 8px;
+  margin-top: 10px;
 }
 
+/* Стили кнопок внутри секций */
 .scale-btn,
-.lick-btn {
-  padding: 4px 8px;
-  background: var(--zenburn-bg-lighter);
+.lick-btn,
+.fingering-btn {
+  padding: 8px 12px;
+  background: var(--zenburn-bg);
+  border: 1px solid var(--zenburn-bg-lighter);
+  border-radius: 4px;
   color: var(--zenburn-fg-dim);
-  border: 1px solid var(--zenburn-comment);
-  border-radius: 3px;
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
   transition: all 0.2s;
+  flex: 1;
+  min-width: 80px;
+  text-align: center;
 }
 
 .scale-btn:hover,
-.lick-btn:hover {
+.lick-btn:hover,
+.fingering-btn:hover {
   background: var(--zenburn-bg-light);
   color: var(--zenburn-fg);
+  border-color: var(--zenburn-orange);
 }
 
 .scale-btn.active {
-  background: var(--zenburn-red);
+  background: linear-gradient(135deg, var(--zenburn-red), var(--zenburn-orange));
+  color: var(--zenburn-bg);
+  border-color: var(--zenburn-red);
+  font-weight: 500;
+}
+
+.lick-btn {
+  background: rgba(140, 208, 211, 0.1);
+  border-color: var(--zenburn-cyan);
+}
+
+.lick-btn.active {
+  background: var(--zenburn-yellow);
+  color: var(--zenburn-bg);
+  border-color: var(--zenburn-orange);
+}
+
+.fingering-btn {
+  background: rgba(223, 175, 143, 0.1);
+  border-color: var(--zenburn-orange);
+}
+
+.fingering-btn.active {
+  background: var(--zenburn-orange);
   color: var(--zenburn-bg);
   border-color: var(--zenburn-red);
 }
 
-.lick-btn {
-  background: rgba(140, 208, 211, 0.2);
-  border-color: var(--zenburn-cyan);
+/* Информационные блоки */
+.manouche-info {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(223, 175, 143, 0.08);
+  border-radius: 4px;
+  border-left: 3px solid var(--zenburn-orange);
+  font-size: 12px;
+  line-height: 1.5;
 }
 
-.lick-btn:hover {
-  background: rgba(140, 208, 211, 0.3);
+#fingeringDiagram {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(140, 208, 211, 0.08);
+  border-radius: 4px;
+  border-left: 3px solid var(--zenburn-cyan);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* Контейнер для фраз */
+.licks-info-container {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(240, 223, 175, 0.08);
+  border-radius: 4px;
+  border-left: 3px solid var(--zenburn-yellow);
+  font-size: 12px;
+}
+
+/* Аккордовая последовательность */
+.chord-sequence {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(143, 178, 143, 0.08);
+  border-radius: 4px;
+  border-left: 3px solid var(--zenburn-green);
+  font-size: 12px;
 }
 
 /* Подсветка нот Manouche на грифе */
@@ -198,12 +292,7 @@
 
 /* Информация о ликах Django */
 .django-lick-info {
-  margin-top: 15px;
-  padding: 12px;
-  background: rgba(240, 223, 175, 0.1);
-  border-radius: 4px;
-  border-left: 3px solid var(--zenburn-yellow);
-  font-size: 12px;
+  margin-top: 0;
 }
 
 .lick-header {
@@ -289,8 +378,8 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-/* Степени аккордов */
-.note-degree {
+/* Названия нот */
+.note-name {
   position: absolute;
   bottom: 2px;
   right: 2px;
@@ -302,35 +391,6 @@
   font-weight: bold;
   min-width: 10px;
   text-align: center;
-}
-
-/* Кнопки аппликатур */
-.fingering-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 5px;
-}
-
-.fingering-btn {
-  padding: 6px 10px;
-  background: rgba(140, 208, 211, 0.1);
-  color: var(--zenburn-cyan);
-  border: 1px solid var(--zenburn-cyan);
-  border-radius: 4px;
-  font-size: 11px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.fingering-btn:hover {
-  background: rgba(140, 208, 211, 0.2);
-}
-
-.fingering-btn.active {
-  background: var(--zenburn-cyan);
-  color: var(--zenburn-bg);
-  box-shadow: 0 0 5px rgba(140, 208, 211, 0.5);
 }
 
 /* Легенда пальцев */
@@ -345,44 +405,4 @@
   font-weight: bold;
   color: var(--zenburn-bg);
   margin-right: 5px;
-}
-
-/* Информационная панель аппликатур */
-.fingering-diagram {
-  margin-top: 15px;
-  padding: 12px;
-  background: rgba(223, 175, 143, 0.08);
-  border-radius: 4px;
-  border-left: 3px solid var(--zenburn-orange);
-  font-size: 12px;
-}
-
-.fingering-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.fingering-chords {
-  color: var(--zenburn-green);
-  font-size: 11px;
-  margin: 5px 0;
-  padding: 5px;
-  background: rgba(143, 178, 143, 0.1);
-  border-radius: 3px;
-}
-
-.fingering-tip {
-  color: var(--zenburn-yellow);
-  font-style: italic;
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid rgba(223, 175, 143, 0.3);
-}
-
-.lick-btn.active {
-  background: var(--zenburn-yellow) !important;
-  color: var(--zenburn-bg) !important;
-  border-color: var(--zenburn-orange) !important;
 }

@@ -204,14 +204,14 @@
           </div>
         </div>
 
-        <!-- Вкладка 3: Мануш -->
+            <!-- Вкладка 3: Мануш -->
         <div class="tab-pane" id="manoucheTab">
           <div class="tab-input-area">
             <div class="chord-input">
               <input
                 type="text"
                 id="chordInputManouche"
-                placeholder="Введите аккорд (C, Am7, G7...)"
+                placeholder="Введите аккорд (Am6, G6, D7...)"
               />
               <button id="toggleManoucheBtn" class="manouche-btn">
                 Гаммы & Аккорды
@@ -232,113 +232,80 @@
               <li>
                 Используйте "Фразы Django" для изучения характерных пассажей
               </li>
+              <li>
+                Кликните на аппликатуры Django для изучения его техники
+              </li>
             </ul>
             <p>
-              🎸 <em>Используй большой палец для баса (как Django!), 
-              компактные позиции для скорости, 
-              и акцентируй характерные ноты (♭3, ♭6, ♯4)</em>
+              🎸 <em>Характерные элементы стиля Django:</em>
             </p>
-            <p>
-              💡
-              <em
-                >Цыганская мажорная гамма (1-2-♭3-♯4-5-♭6-7) - основа стиля
-                Django</em
-              >
-            </p>
+            <ul>
+              <li>Большой палец на грифе (обхват)</li>
+              <li>Компактные позиции (редко выше 7 лада)</li>
+              <li>Характерные ноты: ♭3, ♭6, ♯4</li>
+              <li>Уменьшенные арпеджио для переходов</li>
+            </ul>
           </div>
 
           <div class="tab-scrollable-content">
             <!-- Панель управления мануш -->
-            <div
-              class="manouche-controls"
-              id="manoucheControls"
-              style="display: none"
-            >
-              <div class="manouche-options" style="margin: 10px 0">
-                <div class="scale-selector" style="margin-bottom: 10px">
-                  <span style="margin-right: 8px; color: var(--zenburn-fg-dim)"
-                    >Гамма:</span
-                  >
+            <div class="manouche-controls" id="manoucheControls" style="display: none;">
+              
+              <!-- Секция 1: Гаммы Django -->
+              <div class="control-section">
+                <div class="section-title">Гаммы Django</div>
+                <div class="scale-selector">
                   <div class="scale-buttons">
-                    <button class="scale-btn active" data-scale="auto">
-                      Auto
-                    </button>
-                    <button class="scale-btn" data-scale="gypsyMajor">
-                      Gypsy Major
-                    </button>
-                    <button class="scale-btn" data-scale="harmonicMajor">
-                      Harmonic Major
-                    </button>
-                    <button class="scale-btn" data-scale="harmonicMinorNat6">
-                      Harmonic Minor ♮6
-                    </button>
-                    <button class="scale-btn" data-scale="diminished">
-                      Diminished
-                    </button>
+                    <button class="scale-btn active" data-scale="auto">Auto</button>
+                    <button class="scale-btn" data-scale="gypsyMajor">Gypsy Major</button>
+                    <button class="scale-btn" data-scale="harmonicMajor">Harmonic Major</button>
+                    <button class="scale-btn" data-scale="harmonicMinorNat6">Harmonic Minor ♮6</button>
+                    <button class="scale-btn" data-scale="diminished">Diminished</button>
                   </div>
                 </div>
-
-                <div class="licks-info-container" id="licksInfoContainer" style="display: none;">
-                  <!-- Здесь будет появляться информация о ликах -->
-                </div>
-
-                <!-- После блока scale-selector -->
-                <!-- В manoucheTab замените fingering-buttons: -->
-                <div class="fingering-controls" style="margin-top: 15px; padding: 10px; background: rgba(140, 208, 211, 0.05); border-radius: 4px;">
-                    <span style="margin-right: 8px; color: var(--zenburn-cyan);">Аппликатуры Django:</span>
-                    <div class="fingering-buttons" style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
-                        <button class="fingering-btn" data-fingering="Am6">Am6 (Minor Swing)</button>
-                        <button class="fingering-btn" data-fingering="G6">G6 (цыганский)</button>
-                        <button class="fingering-btn" data-fingering="D7sharp9">D7#9</button>
-                        <button class="fingering-btn" data-fingering="E7">E7 (открытый)</button>
-                        <button class="fingering-btn" data-fingering="Bdim7">Bdim7</button>
-                    </div>
-                    <div id="fingeringDiagram" style="margin-top: 10px; font-size: 11px; color: var(--zenburn-fg-dim);">
-                        <!-- Здесь будет диаграмма аппликатуры -->
-                    </div>
-                </div>
-
-                <div class="licks-selector" style="margin-top: 15px">
-                  <span style="margin-right: 8px; color: var(--zenburn-yellow)"
-                    >Фразы Django:</span
-                  >
-                  <div class="lick-buttons">
-                    <button class="lick-btn" data-lick="dimRun">Dim Run</button>
-                    <button class="lick-btn" data-lick="gypsySweep">
-                      Gypsy Sweep
-                    </button>
-                    <button class="lick-btn" data-lick="chromaticApproach">
-                      Chromatic
-                    </button>
-                    <button class="lick-btn" data-lick="tremoloPattern">
-                      Tremolo
-                    </button>
+                <!-- Информация о гамме -->
+                <div class="manouche-info" id="manoucheInfo"></div>
+              </div>
+              
+              <!-- Секция 2: Аппликатуры Django -->
+              <div class="control-section">
+                <div class="section-title">Аппликатуры Django</div>
+                <div class="fingering-controls">
+                  <div class="fingering-buttons">
+                    <button class="fingering-btn" data-fingering="Am6">Am6 (Minor Swing)</button>
+                    <button class="fingering-btn" data-fingering="G6">G6 (цыганский)</button>
+                    <button class="fingering-btn" data-fingering="D7">D7 (открытый)</button>
+                    <button class="fingering-btn" data-fingering="E7">E7 (переход)</button>
+                    <button class="fingering-btn" data-fingering="Bdim7">Bdim7 (симметричный)</button>
                   </div>
+                  <div id="fingeringDiagram" style="margin-top: 10px; font-size: 11px; color: var(--zenburn-fg-dim);"></div>
                 </div>
               </div>
-
-              <div
-                class="manouche-info"
-                id="manoucheInfo"
-                style="
-                  margin-top: 12px;
-                  padding: 10px;
-                  background: rgba(223, 175, 143, 0.1);
-                  border-radius: 4px;
-                  border-left: 3px solid var(--zenburn-orange);
-                  font-size: 12px;
-                  color: var(--zenburn-fg);
-                "
-              ></div>
-            </div>
-
-            <!-- Общий блок последовательности аккордов -->
-            <div
-              class="chord-sequence"
-              id="chordSequence"
-              style="display: none"
-            ></div>
-          </div>
+              
+              <!-- Секция 3: Фразы Django -->
+              <div class="control-section">
+                <div class="section-title">Фразы Django</div>
+                <div class="licks-selector">
+                  <div class="lick-buttons">
+                    <button class="lick-btn" data-lick="dimRun">Dim Run</button>
+                    <button class="lick-btn" data-lick="gypsySweep">Gypsy Sweep</button>
+                    <button class="lick-btn" data-lick="chromaticApproach">Chromatic</button>
+                    <button class="lick-btn" data-lick="tremoloPattern">Tremolo</button>
+                  </div>
+                </div>
+                <!-- Информация о фразах -->
+                <div class="licks-info-container" id="licksInfoContainer" style="display: none;"></div>
+              </div>
+              
+              <!-- Секция 4: Аккорды мануш -->
+              <div class="control-section">
+                <div class="section-title">Аккордовые последовательности</div>
+                <div class="chord-sequence" id="chordSequence" style="display: none;"></div>
+              </div>
+              
+            </div> <!-- конец manouche-controls -->
+            
+          </div> <!-- конец tab-scrollable-content -->
         </div>
       </div>
 
