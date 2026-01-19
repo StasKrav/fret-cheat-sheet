@@ -307,13 +307,13 @@ class PentatonicManager {
   showPentatonic() {
     const chord = this.getActiveChord();
     if (!chord) return alert("Введите аккорд");
-  
+
     // Очищаем гриф перед отрисовкой
     clearAllHighlights(); // Используем глобальную функцию
-  
+
     // Определяем настройки
     const root = this.neck.extractTonic(chord);
-  
+
     // Получаем выбранный тип пентатоники
     const typeRadios = document.querySelectorAll(
       'input[name="pentatonicType"]',
@@ -322,21 +322,21 @@ class PentatonicManager {
     typeRadios.forEach((radio) => {
       if (radio.checked) selectedType = radio.value;
     });
-  
+
     // Получаем опции
     const showBlues = document.getElementById("showBluesNote").checked;
     const activeBoxBtn = document.querySelector(".box-btn.active");
     const box = activeBoxBtn ? activeBoxBtn.dataset.box : "all";
-  
+
     // Получаем ноты
     const pentatonicNotes = this.getPentatonicNotes(root, selectedType);
     const bluesNote =
       showBlues && selectedType === "minor" ? this.getBluesNote(root) : null;
-  
+
     // Показываем панель управления
     document.getElementById("pentatonicControls").style.display = "block";
     document.getElementById("togglePentatonicBtn").classList.add("active");
-  
+
     // Подсвечиваем ноты на грифе
     if (box === "all") {
       this.highlightAllPentatonicNotes(root, pentatonicNotes, bluesNote);
@@ -351,7 +351,7 @@ class PentatonicManager {
         bluesNote,
       );
     }
-  
+
     // Обновляем информацию
     this.updatePentatonicInfo(
       root,
@@ -360,7 +360,7 @@ class PentatonicManager {
       bluesNote,
       box,
     );
-  
+
     // Сохраняем конфигурацию
     this.currentConfig = { root, type: selectedType, box, showBlues };
     this.isActive = true;
@@ -528,20 +528,20 @@ class PentatonicManager {
   hidePentatonic() {
     // НЕ очищаем здесь гриф!
     // Вместо этого сбрасываем состояние
-    
+
     // Скрываем панель пентатоники
     const pentatonicControls = document.getElementById("pentatonicControls");
     if (pentatonicControls) {
       pentatonicControls.style.display = "none";
     }
-  
+
     document.getElementById("togglePentatonicBtn").classList.remove("active");
-  
+
     const pentatonicInfo = document.getElementById("pentatonicInfo");
     if (pentatonicInfo) {
       pentatonicInfo.innerHTML = "";
     }
-  
+
     this.isActive = false;
     this.currentConfig = null;
   }
@@ -678,36 +678,35 @@ class ManoucheScales {
   showScale(scaleName = null) {
     const chord = this.getActiveChord();
     if (!chord) return alert("Введите аккорд");
-  
+
     // Определяем гамму, если не указана
     if (!scaleName) {
       scaleName = this.detectScaleForChord(chord);
     }
-  
+
     const root = this.neck.extractTonic(chord);
     const scaleNotes = this.getScaleNotes(root, scaleName);
-  
+
     if (!scaleNotes.length) {
       console.error("Не удалось получить ноты гаммы");
       return;
     }
-  
+
     // НЕ очищаем здесь! Очистка делается в обработчиках кнопок
-  
+
     // Показываем панель управления
     document.getElementById("manoucheControls").style.display = "block";
     document.getElementById("toggleManoucheBtn").classList.add("active");
-  
+
     // Подсвечиваем ноты гаммы
     this.highlightScaleNotes(root, scaleNotes, scaleName);
-  
+
     // Обновляем информацию
     this.updateScaleInfo(root, scaleName, scaleNotes);
-  
+
     // Сохраняем текущую конфигурацию
     this.currentScale = { root, scaleName, notes: scaleNotes };
     this.isActive = true;
-  
   }
 
   // Подсветка нот гаммы на грифе
@@ -862,19 +861,19 @@ class ManoucheScales {
     // НЕ очищаем здесь! Очистка делается в обработчиках
     const allFrets = document.querySelectorAll(".fret");
     const rootNote = this.neck.normalizeToSharps(root);
-    
+
     // Определяем характерные ноты
     const characteristicNotes = this.getCharacteristicNotes(root, scaleName);
-  
+
     allFrets.forEach((fret) => {
       const note = fret.getAttribute("data-note");
       if (!note) return;
-  
+
       const normalizedNote = this.neck.normalizeToSharps(note);
-  
+
       if (scaleNotes.includes(normalizedNote)) {
         fret.classList.add("manouche-note");
-  
+
         if (normalizedNote === rootNote) {
           fret.classList.add("manouche-root");
           fret.style.backgroundColor = this.noteColors.root;
@@ -905,19 +904,19 @@ class ManoucheScales {
   hideManouche() {
     // НЕ очищаем здесь! Очистка делается в централизованной функции
     // this.clearAllHighlights(); // <-- УДАЛИТЕ или ЗАКОММЕНТИРУЙТЕ
-  
+
     // Скрываем панель Manouche
     const manoucheControls = document.getElementById("manoucheControls");
     if (manoucheControls) {
       manoucheControls.style.display = "none";
     }
-    
+
     // Скрываем информацию о ликах
     const licksContainer = document.getElementById("licksInfoContainer");
     if (licksContainer) {
       licksContainer.style.display = "none";
     }
-  
+
     document.getElementById("toggleManoucheBtn").classList.remove("active");
     const manoucheInfo = document.getElementById("manoucheInfo");
     if (manoucheInfo) {
@@ -1077,28 +1076,28 @@ class DjangoLicks {
   showLick(lickName, position = 0) {
     const lick = this.licks[lickName];
     if (!lick) return;
-    
+
     // НЕ очищаем здесь! Очистка делается в обработчиках
-    
+
     lick.pattern.forEach(([string, fret], index) => {
       const actualFret = fret + position;
       if (actualFret > 12) return;
-  
+
       const fretElement = document.querySelector(
         `.fret[data-string="${string}"][data-fret="${actualFret}"]`,
       );
-  
+
       if (fretElement) {
         fretElement.classList.add("django-lick-note");
         fretElement.classList.add(`lick-note-${index % 4}`);
-  
+
         const orderSpan = document.createElement("span");
         orderSpan.className = "lick-order";
         orderSpan.textContent = (index + 1).toString();
         fretElement.appendChild(orderSpan);
       }
     });
-  
+
     this.showLickInfo(lick);
   }
 
@@ -1106,10 +1105,10 @@ class DjangoLicks {
   showLickInfo(lick) {
     const container = document.getElementById("licksInfoContainer");
     if (!container) return;
-    
+
     // Показываем контейнер
     container.style.display = "block";
-    
+
     container.innerHTML = `
       <div class="django-lick-info">
         <div class="lick-header">
@@ -1144,284 +1143,354 @@ class DjangoLicks {
 class DjangoFingerings {
   constructor() {
     this.neck = new GuitarNeck();
-    
+
     // Типичные аппликатуры Django для разных гамм
     // В классе DjangoFingerings (в конструкторе) ЗАМЕНИТЕ fingerings:
     this.fingerings = {
-        // 1. АМ6 (Minor Swing) - самая известная
-        'Am6': {
-            name: 'Am6 (Minor Swing)',
-            description: 'Классический аккорд из "Minor Swing"',
-            chord: 'Am6',
-            fingers: [
-                // [string, fret, finger, note]
-                [5, 5,  'A'],  // Открытая A - большой палец
-                [4, 0,  'C', true],  // 1 лад - C (3 ступень)
-                [3, 4,  'D'],  // 2 лад - D (4 ступень)
-                [2, 5,  'F#'], // 2 лад - F# (6 ступень - характерно!)
-                [1, 5,  'A'],  // Открытая A
-                [0, 0,  'A', true]   // Открытая A
-            ],
-            tip: 'F# (6 ступень) - фирменный звук мануш! Django играл этот аккорд постоянно.'
-        },
-    
-        // 2. Д7#9 (характерный доминант)
-        'D7sharp9': {
-            name: 'D7#9 (блюзовый доминант)',
-            description: 'Доминанта с повышенной ноной - любимый звук Django',
-            chord: 'D7#9',
-            fingers: [
-                [5, 0, 'A', true],   // Открытая A (5 ступень)
-                [4, 5, 'D'],   // Открытая D (1)
-                [3, 4, 'F#'],   // 1 лад - F (♭3 или #9)
-                [2, 5, 'B'],   // 2 лад - A (5)
-                [1, 6, 'F'],  // 1 лад - C# (3)
-                [0, 0, 'E', true]    // 2 лад - E (♭7)
-            ],
-            tip: '#9 создаёт "блюзовое" напряжение - как между мажором и минором'
-        },
-    
-        // 3. G6 (цыганский мажор)
-        'G6': {
-            name: 'G6 (цыганский мажор)',
-            description: 'Мажорный секстаккорд - основа мануш',
-            chord: 'G6',
-            fingers: [
-                [5, 3, 'G'],   // 3 лад - G
-                [4, 0, 'F#', true],  // 2 лад - F# (7)
-                [3, 2, 'E'],   // Открытая D (5)
-                [2, 4, 'B'],   // Открытая B (3)
-                [1, 3, 'D'],   // Открытая G (1)
-                [0, 0, 'B', true]    // 3 лад - B (3 октавой выше)
-            ],
-            tip: 'Большой палец редко используется выше 5 лада - это нижние позиции'
-        },
-    
-        // 4. E7 (проходящий доминант)
-        'E7': {
-            name: 'E7 (открытая позиция)',
-            description: 'Открытый доминантсептаккорд',
-            chord: 'E7',
-            fingers: [
-                [5, 0, 'E', true],   // Открытая E
-                [4, 7, 'B'],   // 2 лад - B (5)
-                [3, 6, 'G'],   // 1 лад - G (♭7)
-                [2, 7, 'E'],   // Открытая E
-                [1, 5, 'B'],   // Открытая B
-                [0, 0, 'E', true]    // Открытая E
-            ],
-            tip: 'Простая форма - Django часто использовал в быстрых сменах'
-        },
-    
-        // 5. DIM7 (уменьшенный проходящий)
-        'Bdim7': {
-            name: 'Bdim7 (симметричный)',
-            description: 'Уменьшенный аккорд для переходов',
-            chord: 'Bdim7',
-            fingers: [
-                [5, 0, 'B', true],   // 7 лад - B
-                [4, 0, 'G', true],   // 6 лад - G (♭5)
-                [3, 9, 'E♭'],  // 5 лад - E♭ (♭♭7)
-                [2, 10, 'B'],   // 4 лад - B (1 октавой выше)
-                [1, 9, 'G'],   // 6 лад - G
-                [0, 10, 'E♭']   // 5 лад - E♭
-            ],
-            tip: 'Все пальцы на 1-2 ладах друг от друга - "паучья" аппликатура Django'
-        },
+      // 1. АМ6 (Minor Swing) - самая известная
+      Am6: {
+        name: "Am6 (Minor Swing)",
+        description: 'Классический аккорд из "Minor Swing"',
+        chord: "Am6",
+        fingers: [
+          // [string, fret, finger, note]
+          [5, 5, "A"], // Открытая A - большой палец
+          [4, 0, "C", true], // 1 лад - C (3 ступень)
+          [3, 4, "D"], // 2 лад - D (4 ступень)
+          [2, 5, "F#"], // 2 лад - F# (6 ступень - характерно!)
+          [1, 5, "A"], // Открытая A
+          [0, 0, "A", true], // Открытая A
+        ],
+        tip: "F# (6 ступень) - фирменный звук мануш! Django играл этот аккорд постоянно.",
+      },
 
-        // 1. DМ6 (Minor Swing) - самая известная
-                'Dm6': {
-                    name: 'Dm6 (Minor Swing)',
-                    description: 'Классический аккорд из "Minor Swing"',
-                    chord: 'Dm6',
-                    fingers: [
-                        // [string, fret, finger, note]
-                        [5, 10,  'D'],  // Открытая A - большой палец
-                        [4, 0,  'A', true],  // 1 лад - C (3 ступень)
-                        [3, 9,  'B'],  // 2 лад - D (4 ступень)
-                        [2, 10,  'F'], // 2 лад - F# (6 ступень - характерно!)
-                        [1, 10,  'A'],  // Открытая A
-                        [0, 0,  'E', true]   // Открытая A
-                    ],
-                    tip: 'F# (6 ступень) - фирменный звук мануш! Django играл этот аккорд постоянно.'
-                },
+      // 2. Д7#9 (характерный доминант)
+      D7sharp9: {
+        name: "D7#9 (блюзовый доминант)",
+        description: "Доминанта с повышенной ноной - любимый звук Django",
+        chord: "D7#9",
+        fingers: [
+          [5, 0, "A", true], // Открытая A (5 ступень)
+          [4, 5, "D"], // Открытая D (1)
+          [3, 4, "F#"], // 1 лад - F (♭3 или #9)
+          [2, 5, "B"], // 2 лад - A (5)
+          [1, 6, "F"], // 1 лад - C# (3)
+          [0, 0, "E", true], // 2 лад - E (♭7)
+        ],
+        tip: '#9 создаёт "блюзовое" напряжение - как между мажором и минором',
+      },
 
-        // 4. Am (проходящий доминант)
-                'Am7': {
-                    name: 'Am7',
-                    description: 'Простой ля-минор септ-аккорд',
-                    chord: 'Am',
-                    fingers: [
-                        [5, 5, 'A'],   // Открытая E
-                        [4, 0, 'A', true],   // 2 лад - B (5)
-                        [3, 5, 'G'],   // 1 лад - G (♭7)
-                        [2, 5, 'C'],   // Открытая E
-                        [1, 5, 'E'],   // Открытая B
-                        [0, 0, 'E', true]    // Открытая E
-                    ],
-                    tip: 'Простая форма - Django часто использовал в быстрых сменах'
-                },
+      // 3. G6 (цыганский мажор)
+      G6: {
+        name: "G6 (цыганский мажор)",
+        description: "Мажорный секстаккорд - основа мануш",
+        chord: "G6",
+        fingers: [
+          [5, 3, "G"], // 3 лад - G
+          [4, 0, "F#", true], // 2 лад - F# (7)
+          [3, 2, "E"], // Открытая D (5)
+          [2, 4, "B"], // Открытая B (3)
+          [1, 3, "D"], // Открытая G (1)
+          [0, 0, "B", true], // 3 лад - B (3 октавой выше)
+        ],
+        tip: "Большой палец редко используется выше 5 лада - это нижние позиции",
+      },
 
-            // 4. В9 (проходящий доминант)
-                    'D9': {
-                        name: 'D9',
-                        description: 'D9',
-                        chord: 'D9',
-                        fingers: [
-                            [5, 0, 'E', true],   // Открытая E
-                            [4, 5, 'D'],   // 2 лад - B (5)
-                            [3, 4, 'F#'],   // 1 лад - G (♭7)
-                            [2, 5, 'C'],   // Открытая E
-                            [1, 5, 'E'],   // Открытая B
-                            [0, 0, 'E', true]    // Открытая E
-                        ],
-                        tip: 'Простая форма - Django часто использовал в быстрых сменах'
-                    },
+      // 4. E7 (проходящий доминант)
+      E7: {
+        name: "E7 (открытая позиция)",
+        description: "Открытый доминантсептаккорд",
+        chord: "E7",
+        fingers: [
+          [5, 0, "E", true], // Открытая E
+          [4, 7, "B"], // 2 лад - B (5)
+          [3, 6, "G"], // 1 лад - G (♭7)
+          [2, 7, "E"], // Открытая E
+          [1, 5, "B"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      // 5. DIM7 (уменьшенный проходящий)
+      Bdim7: {
+        name: "Bdim7 (симметричный)",
+        description: "Уменьшенный аккорд для переходов",
+        chord: "Bdim7",
+        fingers: [
+          [5, 0, "B", true], // 7 лад - B
+          [4, 0, "G", true], // 6 лад - G (♭5)
+          [3, 9, "E♭"], // 5 лад - E♭ (♭♭7)
+          [2, 10, "B"], // 4 лад - B (1 октавой выше)
+          [1, 9, "G"], // 6 лад - G
+          [0, 10, "E♭"], // 5 лад - E♭
+        ],
+        tip: 'Все пальцы на 1-2 ладах друг от друга - "паучья" аппликатура Django',
+      },
+
+      // 6. DМ6 (Minor Swing) - самая известная
+      Dm6: {
+        name: "Dm6 (Minor Swing)",
+        description: 'Классический аккорд из "Minor Swing"',
+        chord: "Dm6",
+        fingers: [
+          // [string, fret, finger, note]
+          [5, 10, "D"], // Открытая A - большой палец
+          [4, 0, "A", true], // 1 лад - C (3 ступень)
+          [3, 9, "B"], // 2 лад - D (4 ступень)
+          [2, 10, "F"], // 2 лад - F# (6 ступень - характерно!)
+          [1, 10, "A"], // Открытая A
+          [0, 0, "E", true], // Открытая A
+        ],
+        tip: "F# (6 ступень) - фирменный звук мануш! Django играл этот аккорд постоянно.",
+      },
+
+      // 7. Am (проходящий доминант)
+      Am7: {
+        name: "Am7",
+        description: "Простой ля-минор септ-аккорд",
+        chord: "Am",
+        fingers: [
+          [5, 5, "A"], // Открытая E
+          [4, 0, "A", true], // 2 лад - B (5)
+          [3, 5, "G"], // 1 лад - G (♭7)
+          [2, 5, "C"], // Открытая E
+          [1, 5, "E"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      // 8. В9 (проходящий доминант)
+      D9: {
+        name: "D9",
+        description: "D9",
+        chord: "D9",
+        fingers: [
+          [5, 0, "E", true], // Открытая E
+          [4, 5, "D"], // 2 лад - B (5)
+          [3, 4, "F#"], // 1 лад - G (♭7)
+          [2, 5, "C"], // Открытая E
+          [1, 5, "E"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      // 9. C#dim7 (проходящий доминант)
+      "C#dim7": {
+        name: "C#dim7",
+        description: "C#dim7",
+        chord: "C#dim7",
+        fingers: [
+          [5, 0, "E", true], // Открытая E
+          [4, 4, "C#"], // 2 лад - B (5)
+          [3, 5, "G"], // 1 лад - G (♭7)
+          [2, 3, "A#"], // Открытая E
+          [1, 5, "E"], // Открытая B
+          [0, 3, "G"], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      // 10. Cmaj7 (проходящий доминант)
+      Cmaj7: {
+        name: "Cmaj7",
+        description: "Cmaj7",
+        chord: "Cmaj7",
+        fingers: [
+          [5, 0, "E", true], // Открытая E
+          [4, 3, "C"], // 2 лад - B (5)
+          [3, 5, "G"], // 1 лад - G (♭7)
+          [2, 4, "B"], // Открытая E
+          [1, 5, "E"], // Открытая B
+          [0, 3, "G"], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      // 11. Cmaj7 (проходящий доминант)
+      Cm7: {
+        name: "Cm7",
+        description: "Cm7",
+        chord: "Cm7",
+        fingers: [
+          [5, 0, "E", true], // Открытая E
+          [4, 3, "C"], // 2 лад - B (5)
+          [3, 0, "D", true], // 1 лад - G (♭7)
+          [2, 3, "A#"], // Открытая E
+          [1, 4, "D#"], // Открытая B
+          [0, 3, "G"], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      // 12. G♯ dim7
+      "G♯dim7": {
+        name: "G♯ dim7",
+        description: "G♯ dim7",
+        chord: "G♯ dim7",
+        fingers: [
+          [5, 4, "G#"], // Открытая E
+          [4, 0, "C", true], // 2 лад - B (5)
+          [3, 3, "F"], // 1 лад - G (♭7)
+          [2, 4, "B"], // Открытая E
+          [1, 3, "D"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
     };
   }
 
   // Показать аппликатуру на грифе
   showFingering(fingeringKey) {
-      const fingering = this.fingerings[fingeringKey];
-      if (!fingering) {
-          console.error(`Аппликатура "${fingeringKey}" не найдена`);
-          return;
-      }
-  
-      this.clearFingeringHighlight();
-      clearAllHighlights();
-  
-      fingering.fingers.forEach(([string, fret, note, isMuted = false]) => {
-          // Теперь третий параметр - note, четвертый - isMuted
-          if (fret < 0 || fret > 12) return;
-  
-          const fretElement = document.querySelector(
-              `.fret[data-string="${string}"][data-fret="${fret}"]`
-          );
-  
-          if (fretElement) {
-              // Очищаем элемент
-              fretElement.classList.remove('highlight', 'manouche-note', 'manouche-root');
-              
-              if (isMuted) {
-                  // ЗАГЛУШЕННАЯ СТРУНА
-                  fretElement.classList.add('muted-string');
-                  fretElement.innerHTML = '×';
-                  fretElement.style.color = 'var(--zenburn-comment)';
-                  fretElement.style.fontWeight = 'bold';
-                  fretElement.style.fontSize = '16px';
-                  fretElement.style.opacity = '0.7';
-              } else {
-                  // ОБЫЧНАЯ НОТА
-                  fretElement.classList.add('django-fingering-note');
-                  
-                  // Очищаем старые цифры пальцев (если остались)
-                  const oldFingerSpan = fretElement.querySelector('.finger-number');
-                  if (oldFingerSpan) oldFingerSpan.remove();
-                  
-                  // Для открытой струны (лад 0) показываем кружок
-                  if (fret === 0) {
-                      fretElement.innerHTML = '○';
-                      fretElement.style.color = 'var(--zenburn-green)';
-                      fretElement.style.fontWeight = 'bold';
-                      fretElement.style.fontSize = '14px';
-                  }
-                  // Для нажатых ладов оставляем оригинальную ноту
-                  // (она уже отображена при рендеринге грифа)
-              }
+    const fingering = this.fingerings[fingeringKey];
+    if (!fingering) {
+      console.error(`Аппликатура "${fingeringKey}" не найдена`);
+      return;
+    }
+
+    this.clearFingeringHighlight();
+    clearAllHighlights();
+
+    fingering.fingers.forEach(([string, fret, note, isMuted = false]) => {
+      // Теперь третий параметр - note, четвертый - isMuted
+      if (fret < 0 || fret > 12) return;
+
+      const fretElement = document.querySelector(
+        `.fret[data-string="${string}"][data-fret="${fret}"]`,
+      );
+
+      if (fretElement) {
+        // Очищаем элемент
+        fretElement.classList.remove(
+          "highlight",
+          "manouche-note",
+          "manouche-root",
+        );
+
+        if (isMuted) {
+          // ЗАГЛУШЕННАЯ СТРУНА
+          fretElement.classList.add("muted-string");
+          fretElement.innerHTML = "×";
+          fretElement.style.color = "var(--zenburn-comment)";
+          fretElement.style.fontWeight = "bold";
+          fretElement.style.fontSize = "16px";
+          fretElement.style.opacity = "0.7";
+        } else {
+          // ОБЫЧНАЯ НОТА
+          fretElement.classList.add("django-fingering-note");
+
+          // Очищаем старые цифры пальцев (если остались)
+          const oldFingerSpan = fretElement.querySelector(".finger-number");
+          if (oldFingerSpan) oldFingerSpan.remove();
+
+          // Для открытой струны (лад 0) показываем кружок
+          if (fret === 0) {
+            fretElement.innerHTML = "○";
+            fretElement.style.color = "var(--zenburn-green)";
+            fretElement.style.fontWeight = "bold";
+            fretElement.style.fontSize = "14px";
           }
-      });
-  
-      this.showFingeringInfo(fingering);
-  }
-  
-  // Добавьте метод для получения текущего аккорда
-  getActiveChord() {
-      const activeTab = document.querySelector(".tab-btn.active").dataset.tab;
-      switch (activeTab) {
-          case "manouche":
-              return document.getElementById("chordInputManouche").value.trim();
-          case "general":
-              return document.getElementById("chordInput").value.trim();
-          case "blues":
-              return document.getElementById("chordInputBlues").value.trim();
-          default:
-              return document.getElementById("chordInputManouche").value.trim();
+          // Для нажатых ладов оставляем оригинальную ноту
+          // (она уже отображена при рендеринге грифа)
+        }
       }
+    });
+
+    this.showFingeringInfo(fingering);
   }
 
+  // Добавьте метод для получения текущего аккорда
+  getActiveChord() {
+    const activeTab = document.querySelector(".tab-btn.active").dataset.tab;
+    switch (activeTab) {
+      case "manouche":
+        return document.getElementById("chordInputManouche").value.trim();
+      case "general":
+        return document.getElementById("chordInput").value.trim();
+      case "blues":
+        return document.getElementById("chordInputBlues").value.trim();
+      default:
+        return document.getElementById("chordInputManouche").value.trim();
+    }
+  }
 
   // Информация об аппликатуре
   showFingeringInfo(fingering) {
-      const diagramDiv = document.getElementById('fingeringDiagram');
-      if (!diagramDiv || !fingering) return;
-  
-      let html = `
+    const diagramDiv = document.getElementById("fingeringDiagram");
+    if (!diagramDiv || !fingering) return;
+
+    let html = `
           <div style="margin-bottom: 8px;">
-              <strong style="color: var(--zenburn-yellow);">${fingering.name || 'Аппликатура Django'}</strong>
+              <strong style="color: var(--zenburn-yellow);">${fingering.name || "Аппликатура Django"}</strong>
           </div>
           <div style="font-size: 10px; margin-bottom: 5px; color: var(--zenburn-fg-dim);">
-              ${fingering.description || ''}
+              ${fingering.description || ""}
           </div>
           <div style="margin: 5px 0; padding: 5px; background: rgba(140, 208, 211, 0.1); border-radius: 3px;">
-              <strong style="color: var(--zenburn-cyan);">Аккорд:</strong> ${fingering.chord || 'Не указан'}
+              <strong style="color: var(--zenburn-cyan);">Аккорд:</strong> ${fingering.chord || "Не указан"}
           </div>
           <div style="margin-top: 8px; padding: 8px; background: rgba(223, 175, 143, 0.1); border-radius: 3px;">
               <span style="color: var(--zenburn-orange);">💡 Характерно для Django:</span> 
-              <em style="font-size: 10px;">${fingering.tip || 'Используй большой палец для баса!'}</em>
+              <em style="font-size: 10px;">${fingering.tip || "Используй большой палец для баса!"}</em>
           </div>
           <!-- УБИРАЕМ ЛЕГЕНДУ ПАЛЬЦЕВ - ОНА БОЛЬШЕ НЕ НУЖНА -->
       `;
-  
-      diagramDiv.innerHTML = html;
+
+    diagramDiv.innerHTML = html;
   }
 
   clearFingeringHighlight() {
-      document.querySelectorAll('.fret').forEach((fret) => {
-          fret.classList.remove('django-fingering-note', 'fingering-root', 'muted-string');
-          
-          // Удаляем цифры пальцев (если остались)
-          const fingerSpan = fret.querySelector('.finger-number');
-          if (fingerSpan) fingerSpan.remove();
-          
-          // Сбрасываем стили
-          fret.style.backgroundColor = '';
-          fret.style.fontWeight = '';
-          fret.style.color = '';
-          fret.style.fontSize = '';
-          fret.style.opacity = '';
-      });
+    document.querySelectorAll(".fret").forEach((fret) => {
+      fret.classList.remove(
+        "django-fingering-note",
+        "fingering-root",
+        "muted-string",
+      );
+
+      // Удаляем цифры пальцев (если остались)
+      const fingerSpan = fret.querySelector(".finger-number");
+      if (fingerSpan) fingerSpan.remove();
+
+      // Сбрасываем стили
+      fret.style.backgroundColor = "";
+      fret.style.fontWeight = "";
+      fret.style.color = "";
+      fret.style.fontSize = "";
+      fret.style.opacity = "";
+    });
   }
 
   // Автоматически выбрать аппликатуру по аккорду
   suggestFingering(chord) {
     const chordUpper = chord.toUpperCase();
-    
-    if (chord.includes('dim')) return 'position5';
-    if (chord.includes('m6')) return 'djangoFav';
-    if (chord.includes('7#9') || chord.includes('7b9')) return 'position7';
-    if (chord.includes('m')) return 'open';
-    if (chord.includes('6')) return 'position3';
-    
-    return 'open'; // по умолчанию
+
+    if (chord.includes("dim")) return "position5";
+    if (chord.includes("m6")) return "djangoFav";
+    if (chord.includes("7#9") || chord.includes("7b9")) return "position7";
+    if (chord.includes("m")) return "open";
+    if (chord.includes("6")) return "position3";
+
+    return "open"; // по умолчанию
   }
 
   // В классе DjangoFingerings добавьте:
   clearAllFingerings() {
     this.clearFingeringHighlight();
-    
+
     // Сбрасываем все кнопки
-    document.querySelectorAll('.fingering-btn').forEach(btn => {
-      btn.classList.remove('active');
+    document.querySelectorAll(".fingering-btn").forEach((btn) => {
+      btn.classList.remove("active");
     });
-    
+
     // Очищаем диаграмму
-    const diagramDiv = document.getElementById('fingeringDiagram');
+    const diagramDiv = document.getElementById("fingeringDiagram");
     if (diagramDiv) {
-      diagramDiv.innerHTML = '';
+      diagramDiv.innerHTML = "";
     }
-  
-}
+  }
 }
 
 // -------- конец классов ---------
@@ -1675,54 +1744,54 @@ function renderFretBoard() {
 }
 
 function clearAllHighlights() {
-    document.querySelectorAll(".fret").forEach((fret) => {
-        // Удаляем ВСЕ классы подсветки
-        fret.classList.remove(
-            "highlight",
-            "pentatonic-note",
-            "pentatonic-root",
-            "blues-note",
-            "arpeggio-root",
-            "arpeggio-third",
-            "arpeggio-fifth",
-            "arpeggio-second",
-            "arpeggio-sixth",
-            "arpeggio-seventh",
-            "manouche-note",
-            "manouche-root",
-            "manouche-characteristic",
-            "django-lick-note",
-            "lick-note-0",
-            "lick-note-1",
-            "lick-note-2",
-            "lick-note-3",
-            "django-fingering-note",
-            "fingering-root"
-        );
-        
-        // Сбрасываем ВСЕ стили
-        fret.style.fontWeight = "";
-        fret.style.animation = "";
-        fret.style.backgroundColor = "";
-        fret.style.color = "";
-        fret.style.borderColor = "";
+  document.querySelectorAll(".fret").forEach((fret) => {
+    // Удаляем ВСЕ классы подсветки
+    fret.classList.remove(
+      "highlight",
+      "pentatonic-note",
+      "pentatonic-root",
+      "blues-note",
+      "arpeggio-root",
+      "arpeggio-third",
+      "arpeggio-fifth",
+      "arpeggio-second",
+      "arpeggio-sixth",
+      "arpeggio-seventh",
+      "manouche-note",
+      "manouche-root",
+      "manouche-characteristic",
+      "django-lick-note",
+      "lick-note-0",
+      "lick-note-1",
+      "lick-note-2",
+      "lick-note-3",
+      "django-fingering-note",
+      "fingering-root",
+    );
 
-        // Удаляем порядковые номера из фраз Django
-        const orderSpan = fret.querySelector(".lick-order");
-        if (orderSpan) orderSpan.remove();
-        
-        // Удаляем цифры пальцев Django
-        const fingerSpan = fret.querySelector(".finger-number");
-        if (fingerSpan) fingerSpan.remove();
-        
-        // Удаляем названия нот
-        const noteNameSpan = fret.querySelector(".note-name");
-        if (noteNameSpan) noteNameSpan.remove();
-        
-        // Удаляем степени аккордов
-        const degreeSpan = fret.querySelector(".note-degree");
-        if (degreeSpan) degreeSpan.remove();
-    });
+    // Сбрасываем ВСЕ стили
+    fret.style.fontWeight = "";
+    fret.style.animation = "";
+    fret.style.backgroundColor = "";
+    fret.style.color = "";
+    fret.style.borderColor = "";
+
+    // Удаляем порядковые номера из фраз Django
+    const orderSpan = fret.querySelector(".lick-order");
+    if (orderSpan) orderSpan.remove();
+
+    // Удаляем цифры пальцев Django
+    const fingerSpan = fret.querySelector(".finger-number");
+    if (fingerSpan) fingerSpan.remove();
+
+    // Удаляем названия нот
+    const noteNameSpan = fret.querySelector(".note-name");
+    if (noteNameSpan) noteNameSpan.remove();
+
+    // Удаляем степени аккордов
+    const degreeSpan = fret.querySelector(".note-degree");
+    if (degreeSpan) degreeSpan.remove();
+  });
 }
 
 function highlightChordNotes(chord) {
@@ -1783,24 +1852,26 @@ function setActiveTab(tabId) {
     )
     .forEach((btn) => btn.classList.remove("active"));
 
-    document.querySelectorAll(
-        ".arpeggio-btn.active, .pentatonic-btn.active, .manouche-btn.active, .fingering-btn.active, .lick-btn.active"
-      ).forEach((btn) => btn.classList.remove("active"));
-    
-      // Очищаем подсветку Django аппликатур
-      if (window.djangoFingerings) {
-        djangoFingerings.clearFingeringHighlight();
-        document.getElementById("fingeringDiagram").innerHTML = "";
-      }
-    
-      // Очищаем подсветку Django фраз
-      if (window.djangoLicks) {
-        djangoLicks.clearLickHighlight();
-        const licksContainer = document.getElementById("licksInfoContainer");
-        if (licksContainer) {
-          licksContainer.style.display = "none";
-        }
-      }
+  document
+    .querySelectorAll(
+      ".arpeggio-btn.active, .pentatonic-btn.active, .manouche-btn.active, .fingering-btn.active, .lick-btn.active",
+    )
+    .forEach((btn) => btn.classList.remove("active"));
+
+  // Очищаем подсветку Django аппликатур
+  if (window.djangoFingerings) {
+    djangoFingerings.clearFingeringHighlight();
+    document.getElementById("fingeringDiagram").innerHTML = "";
+  }
+
+  // Очищаем подсветку Django фраз
+  if (window.djangoLicks) {
+    djangoLicks.clearLickHighlight();
+    const licksContainer = document.getElementById("licksInfoContainer");
+    if (licksContainer) {
+      licksContainer.style.display = "none";
+    }
+  }
 
   // Скрываем блок аккордов
   document.getElementById("chordSequence").style.display = "none";
@@ -1851,8 +1922,8 @@ function initPentatonic() {
   document
     .getElementById("togglePentatonicBtn")
     .addEventListener("click", function () {
-    clearAllHighlights();
-    
+      clearAllHighlights();
+
       if (pentatonicManager.isActive) {
         pentatonicManager.hidePentatonic();
         this.classList.remove("active");
@@ -1894,33 +1965,33 @@ function initPentatonic() {
 }
 
 // ============ ИНИЦИАЛИЗАЦИЯ DJANGO FINGERINGS ============
-  function initDjangoFingerings() {
-    djangoFingerings = new DjangoFingerings();
-    window.djangoFingerings = djangoFingerings;
-  
-    // Обработчики для кнопок аппликатур
-    document.querySelectorAll('.fingering-btn').forEach((btn) => {
-      btn.addEventListener('click', function () {
-        // Сбрасываем активность у ВСЕХ кнопок
-        document.querySelectorAll('.fingering-btn, .lick-btn').forEach((b) => {
-          b.classList.remove('active');
-        });
-        
-        // Активируем только текущую кнопку
-        this.classList.add('active');
-        
-        // Получаем выбранную аппликатуру
-        const fingeringKey = this.dataset.fingering;
-        
-        // Получаем текущий аккорд
-        const chord = manoucheScales.getActiveChord();
-        const root = manoucheScales.neck.extractTonic(chord || 'Am');
-        
-        // Показываем аппликатуру
-        djangoFingerings.showFingering(fingeringKey, root);
+function initDjangoFingerings() {
+  djangoFingerings = new DjangoFingerings();
+  window.djangoFingerings = djangoFingerings;
+
+  // Обработчики для кнопок аппликатур
+  document.querySelectorAll(".fingering-btn").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      // Сбрасываем активность у ВСЕХ кнопок
+      document.querySelectorAll(".fingering-btn, .lick-btn").forEach((b) => {
+        b.classList.remove("active");
       });
+
+      // Активируем только текущую кнопку
+      this.classList.add("active");
+
+      // Получаем выбранную аппликатуру
+      const fingeringKey = this.dataset.fingering;
+
+      // Получаем текущий аккорд
+      const chord = manoucheScales.getActiveChord();
+      const root = manoucheScales.neck.extractTonic(chord || "Am");
+
+      // Показываем аппликатуру
+      djangoFingerings.showFingering(fingeringKey, root);
     });
-  }
+  });
+}
 
 function initManouche() {
   manoucheScales = new ManoucheScales();
@@ -1938,115 +2009,122 @@ function initManouche() {
   // Функция для полной очистки грифа в Manouche
   function clearManoucheFretboard() {
     // Удаляем ВСЁ с грифа
-    document.querySelectorAll('.fret').forEach(fret => {
+    document.querySelectorAll(".fret").forEach((fret) => {
       // Удаляем все классы мануш
       fret.classList.remove(
-        'manouche-note',
-        'manouche-root',
-        'manouche-characteristic',
-        'django-lick-note',
-        'lick-note-0',
-        'lick-note-1',
-        'lick-note-2',
-        'lick-note-3',
-        'django-fingering-note',
-        'fingering-root'
+        "manouche-note",
+        "manouche-root",
+        "manouche-characteristic",
+        "django-lick-note",
+        "lick-note-0",
+        "lick-note-1",
+        "lick-note-2",
+        "lick-note-3",
+        "django-fingering-note",
+        "fingering-root",
       );
-      
+
       // Удаляем динамические элементы
-      const fingerSpan = fret.querySelector('.finger-number');
-      const degreeSpan = fret.querySelector('.note-degree');
-      const orderSpan = fret.querySelector('.lick-order');
+      const fingerSpan = fret.querySelector(".finger-number");
+      const degreeSpan = fret.querySelector(".note-degree");
+      const orderSpan = fret.querySelector(".lick-order");
       if (fingerSpan) fingerSpan.remove();
       if (degreeSpan) degreeSpan.remove();
       if (orderSpan) orderSpan.remove();
-      
+
       // Сбрасываем стили
-      fret.style.backgroundColor = '';
-      fret.style.fontWeight = '';
-      fret.style.animation = '';
+      fret.style.backgroundColor = "";
+      fret.style.fontWeight = "";
+      fret.style.animation = "";
     });
-    
+
     // Очищаем информационные панели
-    document.getElementById('licksInfoContainer').style.display = 'none';
-    document.getElementById('licksInfoContainer').innerHTML = '';
-    document.getElementById('fingeringDiagram').innerHTML = '';
-    
+    document.getElementById("licksInfoContainer").style.display = "none";
+    document.getElementById("licksInfoContainer").innerHTML = "";
+    document.getElementById("fingeringDiagram").innerHTML = "";
+
     // Сбрасываем активную кнопку
     window.activeManoucheButton = null;
   }
 
-  
   // ОБРАБОТЧИК ОСНОВНОЙ КНОПКИ "Гаммы & Аккорды"
-  document.getElementById("toggleManoucheBtn").addEventListener("click", function () {
+  document
+    .getElementById("toggleManoucheBtn")
+    .addEventListener("click", function () {
       const manoucheControls = document.getElementById("manoucheControls");
       const isVisible = manoucheControls.style.display !== "none";
-      
+
       if (isVisible) {
-          // Скрываем всё
-          manoucheControls.style.display = "none";
-          this.classList.remove("active");
-          
-          // Очищаем гриф
-          clearManoucheFretboard();
-          
-          // Скрываем информационные блоки
-          document.getElementById("licksInfoContainer").style.display = "none";
-          document.getElementById("fingeringDiagram").innerHTML = "";
-          
-          window.activeManoucheButton = null;
+        // Скрываем всё
+        manoucheControls.style.display = "none";
+        this.classList.remove("active");
+
+        // Очищаем гриф
+        clearManoucheFretboard();
+
+        // Скрываем информационные блоки
+        document.getElementById("licksInfoContainer").style.display = "none";
+        document.getElementById("fingeringDiagram").innerHTML = "";
+
+        window.activeManoucheButton = null;
       } else {
-          const chord = manoucheScales.getActiveChord();
-          if (!chord) return alert("Введите аккорд");
-          
-          // Показываем панель
-          manoucheControls.style.display = "flex";
-          this.classList.add("active");
-          
-          // Очищаем гриф
-          clearManoucheFretboard();
-          
-          // Сбрасываем активные кнопки внутри
-          document.querySelectorAll('.scale-btn, .lick-btn, .fingering-btn').forEach(b => {
-              b.classList.remove('active');
+        const chord = manoucheScales.getActiveChord();
+        if (!chord) return alert("Введите аккорд");
+
+        // Показываем панель
+        manoucheControls.style.display = "flex";
+        this.classList.add("active");
+
+        // Очищаем гриф
+        clearManoucheFretboard();
+
+        // Сбрасываем активные кнопки внутри
+        document
+          .querySelectorAll(".scale-btn, .lick-btn, .fingering-btn")
+          .forEach((b) => {
+            b.classList.remove("active");
           });
-          
-          // Активируем Auto гамму по умолчанию
-          document.querySelector('.scale-btn[data-scale="auto"]').classList.add('active');
-          
-          // Показываем гамму по умолчанию
-          manoucheScales.showScale();
-          
-          window.activeManoucheButton = this;
+
+        // Активируем Auto гамму по умолчанию
+        document
+          .querySelector('.scale-btn[data-scale="auto"]')
+          .classList.add("active");
+
+        // Показываем гамму по умолчанию
+        manoucheScales.showScale();
+
+        window.activeManoucheButton = this;
       }
-  });
+    });
 
   // ОБРАБОТЧИКИ КНОПОК ГАММ
   document.querySelectorAll(".scale-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
       const chord = manoucheScales.getActiveChord();
       if (!chord) return alert("Введите аккорд");
-      
+
       // Очищаем ВСЁ на грифе
       clearManoucheFretboard();
-      
+
       // Делаем активной только эту кнопку
-      document.querySelectorAll('.scale-btn, .lick-btn, .fingering-btn').forEach(b => {
-        b.classList.remove('active');
-      });
-      this.classList.add('active');
+      document
+        .querySelectorAll(".scale-btn, .lick-btn, .fingering-btn")
+        .forEach((b) => {
+          b.classList.remove("active");
+        });
+      this.classList.add("active");
       window.activeManoucheButton = this;
-      
+
       const scaleName = this.dataset.scale;
       if (scaleName === "auto") {
         manoucheScales.showScale();
       } else {
         manoucheScales.showScale(scaleName);
       }
-      
+
       // Очищаем информационные панели других типов
-      document.getElementById('licksInfoContainer').style.display = 'none';
-      document.getElementById('fingeringDiagram').innerHTML = '';
+      document.getElementById("licksInfoContainer").style.display = "none";
+      document.getElementById("fingeringDiagram").innerHTML = "";
     });
   });
 
@@ -2055,44 +2133,48 @@ function initManouche() {
     btn.addEventListener("click", function () {
       const chord = manoucheScales.getActiveChord();
       if (!chord) return alert("Введите аккорд");
-      
+
       // Очищаем ВСЁ на грифе
       clearManoucheFretboard();
-      
+
       // Делаем активной только эту кнопку
-      document.querySelectorAll('.scale-btn, .lick-btn, .fingering-btn').forEach(b => {
-        b.classList.remove('active');
-      });
-      this.classList.add('active');
+      document
+        .querySelectorAll(".scale-btn, .lick-btn, .fingering-btn")
+        .forEach((b) => {
+          b.classList.remove("active");
+        });
+      this.classList.add("active");
       window.activeManoucheButton = this;
-      
+
       // Очищаем информационные панели других типов
-      document.getElementById('fingeringDiagram').innerHTML = '';
-      
+      document.getElementById("fingeringDiagram").innerHTML = "";
+
       const lickName = this.dataset.lick;
       djangoLicks.showLick(lickName);
     });
   });
 
   // ОБРАБОТЧИКИ КНОПОК АППЛИКАТУР
-  document.querySelectorAll('.fingering-btn').forEach((btn) => {
-    btn.addEventListener('click', function () {
+  document.querySelectorAll(".fingering-btn").forEach((btn) => {
+    btn.addEventListener("click", function () {
       const chord = manoucheScales.getActiveChord();
       if (!chord) return alert("Введите аккорд");
-      
+
       // Очищаем ВСЁ на грифе
       clearManoucheFretboard();
-      
+
       // Делаем активной только эту кнопку
-      document.querySelectorAll('.scale-btn, .lick-btn, .fingering-btn').forEach(b => {
-        b.classList.remove('active');
-      });
-      this.classList.add('active');
+      document
+        .querySelectorAll(".scale-btn, .lick-btn, .fingering-btn")
+        .forEach((b) => {
+          b.classList.remove("active");
+        });
+      this.classList.add("active");
       window.activeManoucheButton = this;
-      
+
       // Очищаем информационные панели других типов
-      document.getElementById('licksInfoContainer').style.display = 'none';
-      
+      document.getElementById("licksInfoContainer").style.display = "none";
+
       const fingeringKey = this.dataset.fingering;
       const root = manoucheScales.neck.extractTonic(chord);
       djangoFingerings.showFingering(fingeringKey, root);
@@ -2100,13 +2182,17 @@ function initManouche() {
   });
 
   // Очищаем при переключении вкладок
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
+  document.querySelectorAll(".tab-btn").forEach((btn) => {
+    btn.addEventListener("click", function () {
       if (window.activeManoucheButton) {
         clearManoucheFretboard();
-        document.querySelectorAll('.manouche-btn, .scale-btn, .lick-btn, .fingering-btn').forEach(b => {
-          b.classList.remove('active');
-        });
+        document
+          .querySelectorAll(
+            ".manouche-btn, .scale-btn, .lick-btn, .fingering-btn",
+          )
+          .forEach((b) => {
+            b.classList.remove("active");
+          });
         window.activeManoucheButton = null;
         document.getElementById("manoucheControls").style.display = "none";
       }
@@ -2240,7 +2326,6 @@ document.addEventListener("DOMContentLoaded", function () {
   createHideHelpButton();
   setupAutoHideHelpText();
   showHelpText();
-  
 
   // Кнопка показа аккорда
   document
@@ -2302,5 +2387,4 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   });
-   
 });

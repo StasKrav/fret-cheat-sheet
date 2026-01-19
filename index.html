@@ -204,7 +204,7 @@
           </div>
         </div>
 
-            <!-- Вкладка 3: Мануш -->
+        <!-- Вкладка 3: Мануш -->
         <div class="tab-pane" id="manoucheTab">
           <div class="tab-input-area">
             <div class="chord-input">
@@ -232,13 +232,9 @@
               <li>
                 Используйте "Фразы Django" для изучения характерных пассажей
               </li>
-              <li>
-                Кликните на аппликатуры Django для изучения его техники
-              </li>
+              <li>Кликните на аппликатуры Django для изучения его техники</li>
             </ul>
-            <p>
-              🎸 <em>Характерные элементы стиля Django:</em>
-            </p>
+            <p>🎸 <em>Характерные элементы стиля Django:</em></p>
             <ul>
               <li>Большой палец на грифе (обхват)</li>
               <li>Компактные позиции (редко выше 7 лада)</li>
@@ -249,66 +245,128 @@
 
           <div class="tab-scrollable-content">
             <!-- Панель управления мануш -->
-            <div class="manouche-controls" id="manoucheControls" style="display: none;">
-              
+            <div
+              class="manouche-controls"
+              id="manoucheControls"
+              style="display: none"
+            >
               <!-- Секция 1: Гаммы Django -->
               <div class="control-section">
                 <div class="section-title">Гаммы Django</div>
                 <div class="scale-selector">
                   <div class="scale-buttons">
-                    <button class="scale-btn active" data-scale="auto">Auto</button>
-                    <button class="scale-btn" data-scale="gypsyMajor">Gypsy Major</button>
-                    <button class="scale-btn" data-scale="harmonicMajor">Harmonic Major</button>
-                    <button class="scale-btn" data-scale="harmonicMinorNat6">Harmonic Minor ♮6</button>
-                    <button class="scale-btn" data-scale="diminished">Diminished</button>
+                    <button class="scale-btn active" data-scale="auto">
+                      Auto
+                    </button>
+                    <button class="scale-btn" data-scale="gypsyMajor">
+                      Gypsy Major
+                    </button>
+                    <button class="scale-btn" data-scale="harmonicMajor">
+                      Harmonic Major
+                    </button>
+                    <button class="scale-btn" data-scale="harmonicMinorNat6">
+                      Harmonic Minor ♮6
+                    </button>
+                    <button class="scale-btn" data-scale="diminished">
+                      Diminished
+                    </button>
                   </div>
                 </div>
                 <!-- Информация о гамме -->
                 <div class="manouche-info" id="manoucheInfo"></div>
               </div>
-              
+
               <!-- Секция 2: Аппликатуры Django -->
               <div class="control-section">
                 <div class="section-title">Аппликатуры Django</div>
                 <div class="fingering-controls">
                   <div class="fingering-buttons">
-                    <button class="fingering-btn" data-fingering="Am6">Am6</button>
-                    <button class="fingering-btn" data-fingering="G6">G6</button>
-                    <button class="fingering-btn" data-fingering="D7sharp9">D7#9</button>
-                    <button class="fingering-btn" data-fingering="E7">E7</button>
-                    <button class="fingering-btn" data-fingering="Bdim7">Bdim7</button>
-                    <button class="fingering-btn" data-fingering="Dm6">Dm6</button>
-                    <button class="fingering-btn" data-fingering="Am7">Am7</button>
-                    <button class="fingering-btn" data-fingering="D9">D9</button>
+                    <button class="fingering-btn" data-fingering="Am6">
+                      Am6
+                    </button>
+                    <button class="fingering-btn" data-fingering="G6">
+                      G6
+                    </button>
+                    <button class="fingering-btn" data-fingering="D7sharp9">
+                      D7#9
+                    </button>
+                    <button class="fingering-btn" data-fingering="E7">
+                      E7
+                    </button>
+                    <button class="fingering-btn" data-fingering="Bdim7">
+                      Bdim7
+                    </button>
+                    <button class="fingering-btn" data-fingering="Dm6">
+                      Dm6
+                    </button>
+                    <button class="fingering-btn" data-fingering="Am7">
+                      Am7
+                    </button>
+                    <button class="fingering-btn" data-fingering="D9">
+                      D9
+                    </button>
+                    <button class="fingering-btn" data-fingering="C#dim7">
+                      C#dim7
+                    </button>
+                    <button class="fingering-btn" data-fingering="Cmaj7">
+                      Cmaj7
+                    </button>
+                    <button class="fingering-btn" data-fingering="Cm7">
+                      Cm7
+                    </button>
+                    <button class="fingering-btn" data-fingering="G♯dim7">
+                      G♯dim7
+                    </button>
                   </div>
-                  <div id="fingeringDiagram" style="margin-top: 10px; font-size: 11px; color: var(--zenburn-fg-dim);"></div>
+                  <div
+                    id="fingeringDiagram"
+                    style="
+                      margin-top: 10px;
+                      font-size: 11px;
+                      color: var(--zenburn-fg-dim);
+                    "
+                  ></div>
                 </div>
               </div>
-              
+
               <!-- Секция 3: Фразы Django -->
               <div class="control-section">
                 <div class="section-title">Фразы Django</div>
                 <div class="licks-selector">
                   <div class="lick-buttons">
                     <button class="lick-btn" data-lick="dimRun">Dim Run</button>
-                    <button class="lick-btn" data-lick="gypsySweep">Gypsy Sweep</button>
-                    <button class="lick-btn" data-lick="chromaticApproach">Chromatic</button>
-                    <button class="lick-btn" data-lick="tremoloPattern">Tremolo</button>
+                    <button class="lick-btn" data-lick="gypsySweep">
+                      Gypsy Sweep
+                    </button>
+                    <button class="lick-btn" data-lick="chromaticApproach">
+                      Chromatic
+                    </button>
+                    <button class="lick-btn" data-lick="tremoloPattern">
+                      Tremolo
+                    </button>
                   </div>
                 </div>
                 <!-- Информация о фразах -->
-                <div class="licks-info-container" id="licksInfoContainer" style="display: none;"></div>
+                <div
+                  class="licks-info-container"
+                  id="licksInfoContainer"
+                  style="display: none"
+                ></div>
               </div>
-              
+
               <!-- Секция 4: Аккорды мануш -->
               <div class="control-section">
                 <div class="section-title">Аккордовые последовательности</div>
-                <div class="chord-sequence" id="chordSequence" style="display: none;"></div>
+                <div
+                  class="chord-sequence"
+                  id="chordSequence"
+                  style="display: none"
+                ></div>
               </div>
-              
-            </div> <!-- конец manouche-controls -->
-            
-          </div> <!-- конец tab-scrollable-content -->
+            </div>
+            <!-- конец manouche-controls -->
+          </div>
+          <!-- конец tab-scrollable-content -->
         </div>
       </div>
 
