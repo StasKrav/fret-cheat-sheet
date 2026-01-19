@@ -138,7 +138,7 @@
   padding: 12px;
   background: rgba(223, 175, 143, 0.08);
   border-radius: 4px;
-  border-left: 3px solid var(--zenburn-orange);
+  border-left: 0px solid var(--zenburn-orange);
   font-size: 12px;
   line-height: 1.5;
 }
@@ -148,7 +148,7 @@
   padding: 12px;
   background: rgba(140, 208, 211, 0.08);
   border-radius: 4px;
-  border-left: 3px solid var(--zenburn-cyan);
+  border-left: 0px solid var(--zenburn-cyan);
   font-size: 11px;
   line-height: 1.4;
 }
