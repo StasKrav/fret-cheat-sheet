@@ -1146,174 +1146,181 @@ class DjangoFingerings {
     this.neck = new GuitarNeck();
     
     // Типичные аппликатуры Django для разных гамм
+    // В классе DjangoFingerings (в конструкторе) ЗАМЕНИТЕ fingerings:
     this.fingerings = {
-      // 1. ОТКРЫТАЯ ПОЗИЦИЯ (для аккордов Am, Dm, E7)
-      'open': {
-        name: 'Открытая позиция',
-        description: 'Базовая позиция для стандартных аккордов мануш',
-        fingers: [
-          // [string, fret, finger, isRoot, noteDegree]
-          [5, 0, 'T', true, '1'],   // 6 струна, открытая, большой палец, корень
-          [4, 2, '1', false, '3'],  // 5 струна, 2 лад, указательный
-          [3, 2, '2', false, '5'],  // 4 струна, 2 лад, средний
-          [2, 1, '3', false, '♭7'], // 3 струна, 1 лад, безымянный
-          [1, 0, '0', false, '2'],  // 2 струна, открытая
-          [0, 0, 'T', false, '5']   // 1 струна, открытая, большой палец
-        ],
-        chords: ['Am', 'Dm', 'E7', 'G'],
-        tip: 'Используй большой палец для басовых нот на 6 и 1 струнах'
-      },
-
-      // 2. III ПОЗИЦИЯ (характерная для быстрых пассажей)
-      'position3': {
-        name: 'III позиция (любимая Django)',
-        description: 'Центральная позиция для импровизации',
-        fingers: [
-          [5, 3, '1', true, '1'],   // 6 струна, 3 лад, указательный, корень
-          [4, 5, '3', false, '3'],  // 5 струна, 5 лад, безымянный
-          [3, 5, '4', false, '5'],  // 4 струна, 5 лад, мизинец
-          [2, 4, '2', false, '♭7'], // 3 струна, 4 лад, средний
-          [1, 3, '1', false, '2'],  // 2 струна, 3 лад, указательный
-          [0, 3, '1', false, '5']   // 1 струна, 3 лад, указательный
-        ],
-        chords: ['C', 'F', 'A7'],
-        tip: 'Держи пальцы компактно для быстрых перемещений'
-      },
-
-      // 3. V ПОЗИЦИЯ (для diminished арпеджио)
-      'position5': {
-        name: 'V позиция (diminished)',
-        description: 'Оптимальная позиция для уменьшенных арпеджио',
-        fingers: [
-          [5, 5, '1', true, '1'],   // Корень
-          [4, 7, '3', false, '♭3'], 
-          [3, 5, '1', false, '♭5'], // Тот же палец, другая струна
-          [2, 7, '3', false, '6'],  // ♭♭7
-          [1, 6, '2', false, '♭3'], // Повтор ♭3 октавой выше
-          [0, 5, '1', false, '1']   // Корень октавой выше
-        ],
-        chords: ['Gdim7', 'Bbdim7', 'Dbdim7', 'Edim7'],
-        tip: 'Используй симметричность diminished - паттерн повторяется каждые 3 лада'
-      },
-
-      // 4. VII ПОЗИЦИЯ (цыганская мажорная гамма)
-      'position7': {
-        name: 'VII позиция (цыганская мажорная)',
-        description: 'Высокая позиция для соло и быстрых пассажей',
-        fingers: [
-          [5, 7, '2', true, '1'],    // Корень
-          [4, 9, '4', false, '♭3'],  // ♭3
-          [3, 8, '3', false, '♯4'],  // ♯4 (характерная!)
-          [2, 7, '2', false, '5'],   // 5
-          [1, 10, '4', false, '♭6'], // ♭6
-          [0, 7, '1', false, '7']    // 7
-        ],
-        chords: ['G6', 'Bm7', 'D7#9'],
-        tip: 'Акцентируй ♭3 и ♭6 для аутентичного звучания'
-      },
-
-      // 5. ЛЮБИМАЯ АППЛИКАТУРА DJANGO (для Am6)
-      'djangoFav': {
-        name: 'Любимая аппликатура Django',
-        description: 'Классическая форма для Am6 как в "Minor Swing"',
-        fingers: [
-          [5, 0, 'T', true, '1'],   // Открытая A
-          [4, 1, '1', false, '♭3'], // Bb
-          [3, 2, '2', false, '4'],  // C
-          [2, 2, '3', false, '6'],  // F# (характерная!)
-          [1, 0, '0', false, '1'],  // A октавой выше
-          [0, 0, 'T', false, '4']   // C октавой выше
-        ],
-        chords: ['Am6', 'Dm6', 'E7b9'],
-        tip: 'Используй большой палец для баса и верхней ноты одновременно'
-      },
-
-      // 6. ХРОМАТИЧЕСКАЯ АППЛИКАТУРА (для подходов)
-      'chromatic': {
-        name: 'Хроматическая аппликатура',
-        description: 'Для хроматических подходов и мелизмов',
-        fingers: [
-          [5, 5, '1', true, '1'],   // Корень
-          [5, 6, '1', false, '♭2'], // Полутон вверх
-          [4, 5, '1', false, '5'],  // Квинта
-          [4, 6, '2', false, '♭6'], // Полутон
-          [3, 5, '1', false, '1'],  // Корень
-          [3, 6, '2', false, '♭2']  // Полутон
-        ],
-        chords: ['любые доминанты'],
-        tip: 'Играй соседними пальцами для точности хроматических ходов'
-      }
+        // 1. АМ6 (Minor Swing) - самая известная
+        'Am6': {
+            name: 'Am6 (Minor Swing)',
+            description: 'Классический аккорд из "Minor Swing"',
+            chord: 'Am6',
+            fingers: [
+                // [string, fret, finger, note]
+                [5, 0, 'T', 'A'],  // Открытая A - большой палец
+                [4, 1, '1', 'C'],  // 1 лад - C (3 ступень)
+                [3, 2, '2', 'D'],  // 2 лад - D (4 ступень)
+                [2, 2, '3', 'F#'], // 2 лад - F# (6 ступень - характерно!)
+                [1, 0, '0', 'A'],  // Открытая A
+                [0, 0, 'T', 'A']   // Открытая A
+            ],
+            tip: 'F# (6 ступень) - фирменный звук мануш! Django играл этот аккорд постоянно.'
+        },
+    
+        // 2. Д7#9 (характерный доминант)
+        'D7sharp9': {
+            name: 'D7#9 (блюзовый доминант)',
+            description: 'Доминанта с повышенной ноной - любимый звук Django',
+            chord: 'D7#9',
+            fingers: [
+                [5, 0, 'T', 'A'],   // Открытая A (5 ступень)
+                [4, 0, '0', 'D'],   // Открытая D (1)
+                [3, 1, '1', 'F'],   // 1 лад - F (♭3 или #9)
+                [2, 2, '2', 'A'],   // 2 лад - A (5)
+                [1, 1, '1', 'C#'],  // 1 лад - C# (3)
+                [0, 2, '2', 'E']    // 2 лад - E (♭7)
+            ],
+            tip: '#9 создаёт "блюзовое" напряжение - как между мажором и минором'
+        },
+    
+        // 3. G6 (цыганский мажор)
+        'G6': {
+            name: 'G6 (цыганский мажор)',
+            description: 'Мажорный секстаккорд - основа мануш',
+            chord: 'G6',
+            fingers: [
+                [5, 3, '1', 'G'],   // 3 лад - G
+                [4, 2, '1', 'F#'],  // 2 лад - F# (7)
+                [3, 0, '0', 'D'],   // Открытая D (5)
+                [2, 0, '0', 'B'],   // Открытая B (3)
+                [1, 0, '0', 'G'],   // Открытая G (1)
+                [0, 3, '1', 'B']    // 3 лад - B (3 октавой выше)
+            ],
+            tip: 'Большой палец редко используется выше 5 лада - это нижние позиции'
+        },
+    
+        // 4. E7 (проходящий доминант)
+        'E7': {
+            name: 'E7 (открытая позиция)',
+            description: 'Открытый доминантсептаккорд',
+            chord: 'E7',
+            fingers: [
+                [5, 0, 'T', 'E'],   // Открытая E
+                [4, 2, '2', 'B'],   // 2 лад - B (5)
+                [3, 1, '1', 'G'],   // 1 лад - G (♭7)
+                [2, 0, '0', 'E'],   // Открытая E
+                [1, 0, '0', 'B'],   // Открытая B
+                [0, 0, 'T', 'E']    // Открытая E
+            ],
+            tip: 'Простая форма - Django часто использовал в быстрых сменах'
+        },
+    
+        // 5. DIM7 (уменьшенный проходящий)
+        'Bdim7': {
+            name: 'Bdim7 (симметричный)',
+            description: 'Уменьшенный аккорд для переходов',
+            chord: 'Bdim7',
+            fingers: [
+                [5, 7, '1', 'B'],   // 7 лад - B
+                [4, 6, '1', 'G'],   // 6 лад - G (♭5)
+                [3, 5, '1', 'E♭'],  // 5 лад - E♭ (♭♭7)
+                [2, 4, '1', 'B'],   // 4 лад - B (1 октавой выше)
+                [1, 6, '3', 'G'],   // 6 лад - G
+                [0, 5, '1', 'E♭']   // 5 лад - E♭
+            ],
+            tip: 'Все пальцы на 1-2 ладах друг от друга - "паучья" аппликатура Django'
+        }
     };
   }
 
   // Показать аппликатуру на грифе
-  showFingering(fingeringKey, root = 'A') {
-    const fingering = this.fingerings[fingeringKey];
-    if (!fingering) return;
-
-    // Очищаем предыдущую аппликатуру
-    this.clearFingeringHighlight();
-
-    // Применяем позицию в зависимости от тоники
-    const rootNote = this.neck.normalizeToSharps(root);
-    let rootPositionOnString6 = null;
-    
-    // Находим позицию корня на 6 струне
-    for (let fret = 0; fret <= 12; fret++) {
-      const note = this.neck.getBaseNote(5, fret);
-      if (this.neck.normalizeToSharps(note) === rootNote) {
-        rootPositionOnString6 = fret;
-        break;
+  showFingering(fingeringKey) {
+      const fingering = this.fingerings[fingeringKey];
+      if (!fingering) {
+          console.error(`Аппликатура "${fingeringKey}" не найдена`);
+          return;
       }
-    }
-
-    // Если не нашли корень на 6 струне, используем 5 струну
-    if (rootPositionOnString6 === null) {
-      for (let fret = 0; fret <= 12; fret++) {
-        const note = this.neck.getBaseNote(4, fret);
-        if (this.neck.normalizeToSharps(note) === rootNote) {
-          rootPositionOnString6 = fret - 5; // Компенсируем разницу
-          break;
-        }
-      }
-    }
-
-    // Применяем аппликатуру со сдвигом
-    fingering.fingers.forEach(([string, baseFret, finger, isRoot, degree]) => {
-      const fretNumber = baseFret + (rootPositionOnString6 || 0);
+  
+      // Очищаем предыдущую аппликатуру
+      this.clearFingeringHighlight();
+  
+      // ОЧИЩАЕМ ВСЕ ПОДСВЕТКИ НА ГРИФЕ
+      clearAllHighlights();
+  
+      // НЕ МЕНЯЕМ ВВЕДЁННЫЙ АККОРД! Просто показываем фиксированную аппликатуру
+      // document.getElementById("chordInputManouche").value = fingering.chord; // ← ЗАКОММЕНТИРУЙТЕ ЭТУ СТРОКУ!
       
-      if (fretNumber < 0 || fretNumber > 12) return;
-
-      const fretElement = document.querySelector(
-        `.fret[data-string="${string}"][data-fret="${fretNumber}"]`
-      );
-
-      if (fretElement) {
-        // Добавляем классы
-        fretElement.classList.add('django-fingering-note');
-        if (isRoot) {
-          fretElement.classList.add('fingering-root');
-        }
-        
-        // Добавляем цифру пальца
-        const fingerSpan = document.createElement('span');
-        fingerSpan.className = 'finger-number';
-        fingerSpan.textContent = finger;
-        fingerSpan.title = this.getFingerName(finger);
-        fretElement.appendChild(fingerSpan);
-
-        // Добавляем степень аккорда
-        if (degree) {
-          const degreeSpan = document.createElement('span');
-          degreeSpan.className = 'note-degree';
-          degreeSpan.textContent = degree;
-          fretElement.appendChild(degreeSpan);
-        }
+      // НЕ ВЫЗЫВАЕМ highlightChordNotes! Аппликатура независима от аккорда
+      // highlightChordNotes(fingering.chord); // ← ЗАКОММЕНТИРУЙТЕ!
+      
+      // Показываем аппликатуру (ФИКСИРОВАННУЮ, не зависящую от введённого аккорда)
+      fingering.fingers.forEach(([string, fret, finger, note]) => {
+          // Проверяем границы грифа
+          if (fret < 0 || fret > 12) {
+              console.warn(`Лад ${fret} вне диапазона (0-12)`);
+              return;
+          }
+  
+          const fretElement = document.querySelector(
+              `.fret[data-string="${string}"][data-fret="${fret}"]`
+          );
+  
+          if (fretElement) {
+              // ОЧИЩАЕМ элемент перед добавлением классов
+              fretElement.classList.remove('highlight', 'manouche-note', 'manouche-root');
+              
+              // Добавляем класс аппликатуры
+              fretElement.classList.add('django-fingering-note');
+              
+              // Большой палец особо выделяем
+              if (finger === 'T') {
+                  fretElement.classList.add('fingering-root');
+              }
+              
+              // Очищаем старые цифры
+              const oldFingerSpan = fretElement.querySelector('.finger-number');
+              const oldNoteSpan = fretElement.querySelector('.note-name');
+              if (oldFingerSpan) oldFingerSpan.remove();
+              if (oldNoteSpan) oldNoteSpan.remove();
+              
+              // Добавляем цифру пальца
+              const fingerSpan = document.createElement('span');
+              fingerSpan.className = 'finger-number';
+              fingerSpan.textContent = finger;
+              fingerSpan.title = this.getFingerName(finger);
+              fretElement.appendChild(fingerSpan);
+  
+              // Показываем ноту (для информации)
+              const noteSpan = document.createElement('span');
+              noteSpan.className = 'note-name';
+              noteSpan.textContent = note;
+              noteSpan.title = `Нота: ${note}`;
+              fretElement.appendChild(noteSpan);
+              
+              // Логируем для отладки
+              console.log(`Показываю аппликатуру: струна ${6-string}, лад ${fret}, палец ${finger}, нота ${note}`);
+          } else {
+              console.error(`Не найден элемент: струна ${string}, лад ${fret}`);
+          }
+      });
+  
+      // Показываем информацию
+      this.showFingeringInfo(fingering);
+      
+      console.log(`Показана аппликатура: ${fingering.name} (${fingering.chord})`);
+  }
+  
+  // Добавьте метод для получения текущего аккорда
+  getActiveChord() {
+      const activeTab = document.querySelector(".tab-btn.active").dataset.tab;
+      switch (activeTab) {
+          case "manouche":
+              return document.getElementById("chordInputManouche").value.trim();
+          case "general":
+              return document.getElementById("chordInput").value.trim();
+          case "blues":
+              return document.getElementById("chordInputBlues").value.trim();
+          default:
+              return document.getElementById("chordInputManouche").value.trim();
       }
-    });
-
-    // Показываем информацию об аппликатуре
-    this.showFingeringInfo(fingering);
   }
 
   // Имя пальца по символу
@@ -1331,34 +1338,34 @@ class DjangoFingerings {
 
   // Информация об аппликатуре
   showFingeringInfo(fingering) {
-    const diagramDiv = document.getElementById('fingeringDiagram');
-    if (!diagramDiv) return;
-
-    let html = `
-      <div style="margin-bottom: 8px;">
-        <strong style="color: var(--zenburn-yellow);">${fingering.name}</strong>
-      </div>
-      <div style="font-size: 10px; margin-bottom: 5px; color: var(--zenburn-fg-dim);">
-        ${fingering.description}
-      </div>
-      <div style="margin: 5px 0;">
-        <span style="color: var(--zenburn-green);">Подходит для:</span> 
-        ${fingering.chords.join(', ')}
-      </div>
-      <div style="margin-top: 8px; padding: 8px; background: rgba(223, 175, 143, 0.1); border-radius: 3px;">
-        <span style="color: var(--zenburn-orange);">💡 Совет:</span> 
-        <em style="font-size: 10px;">${fingering.tip}</em>
-      </div>
-      <div style="margin-top: 10px; font-size: 9px; color: var(--zenburn-comment);">
-        <div><span class="finger-legend" style="background: var(--zenburn-red);">T</span> = Большой палец</div>
-        <div><span class="finger-legend" style="background: var(--zenburn-green);">1</span> = Указательный</div>
-        <div><span class="finger-legend" style="background: var(--zenburn-blue);">2</span> = Средний</div>
-        <div><span class="finger-legend" style="background: var(--zenburn-purple);">3</span> = Безымянный</div>
-        <div><span class="finger-legend" style="background: var(--zenburn-orange);">4</span> = Мизинец</div>
-      </div>
-    `;
-
-    diagramDiv.innerHTML = html;
+      const diagramDiv = document.getElementById('fingeringDiagram');
+      if (!diagramDiv || !fingering) return;
+  
+      let html = `
+          <div style="margin-bottom: 8px;">
+              <strong style="color: var(--zenburn-yellow);">${fingering.name || 'Аппликатура Django'}</strong>
+          </div>
+          <div style="font-size: 10px; margin-bottom: 5px; color: var(--zenburn-fg-dim);">
+              ${fingering.description || ''}
+          </div>
+          <div style="margin: 5px 0; padding: 5px; background: rgba(140, 208, 211, 0.1); border-radius: 3px;">
+              <strong style="color: var(--zenburn-cyan);">Аккорд:</strong> ${fingering.chord || 'Не указан'}
+          </div>
+          <div style="margin-top: 8px; padding: 8px; background: rgba(223, 175, 143, 0.1); border-radius: 3px;">
+              <span style="color: var(--zenburn-orange);">💡 Характерно для Django:</span> 
+              <em style="font-size: 10px;">${fingering.tip || 'Используй большой палец для баса!'}</em>
+          </div>
+          <div style="margin-top: 10px; font-size: 9px; color: var(--zenburn-comment);">
+              <div><span class="finger-legend" style="background: var(--zenburn-red);">T</span> = Большой палец (обхват грифа)</div>
+              <div><span class="finger-legend" style="background: var(--zenburn-green);">1</span> = Указательный</div>
+              <div><span class="finger-legend" style="background: var(--zenburn-blue);">2</span> = Средний</div>
+              <div><span class="finger-legend" style="background: var(--zenburn-purple);">3</span> = Безымянный</div>
+              <div><span class="finger-legend" style="background: var(--zenburn-orange);">4</span> = Мизинец</div>
+              <div><span class="finger-legend" style="background: var(--zenburn-cyan);">0</span> = Открытая струна</div>
+          </div>
+      `;
+  
+      diagramDiv.innerHTML = html;
   }
 
   clearFingeringHighlight() {
@@ -1654,37 +1661,54 @@ function renderFretBoard() {
 }
 
 function clearAllHighlights() {
-  document.querySelectorAll(".fret").forEach((fret) => {
-    fret.classList.remove(
-      "highlight",
-      "pentatonic-note",
-      "pentatonic-root",
-      "blues-note",
-      "arpeggio-root",
-      "arpeggio-third",
-      "arpeggio-fifth",
-      "arpeggio-second",
-      "arpeggio-sixth",
-      "arpeggio-seventh",
-      "manouche-note",
-      "manouche-root",
-      "manouche-characteristic",
-      "django-lick-note",
-      "lick-note-0",
-      "lick-note-1",
-      "lick-note-2",
-      "lick-note-3",
-    );
-    fret.style.fontWeight = "";
-    fret.style.animation = "";
-    fret.style.backgroundColor = "";
-    fret.style.color = "";
-    fret.style.borderColor = "";
+    document.querySelectorAll(".fret").forEach((fret) => {
+        // Удаляем ВСЕ классы подсветки
+        fret.classList.remove(
+            "highlight",
+            "pentatonic-note",
+            "pentatonic-root",
+            "blues-note",
+            "arpeggio-root",
+            "arpeggio-third",
+            "arpeggio-fifth",
+            "arpeggio-second",
+            "arpeggio-sixth",
+            "arpeggio-seventh",
+            "manouche-note",
+            "manouche-root",
+            "manouche-characteristic",
+            "django-lick-note",
+            "lick-note-0",
+            "lick-note-1",
+            "lick-note-2",
+            "lick-note-3",
+            "django-fingering-note",
+            "fingering-root"
+        );
+        
+        // Сбрасываем ВСЕ стили
+        fret.style.fontWeight = "";
+        fret.style.animation = "";
+        fret.style.backgroundColor = "";
+        fret.style.color = "";
+        fret.style.borderColor = "";
 
-    // Удаляем порядковые номера из фраз Django
-    const orderSpan = fret.querySelector(".lick-order");
-    if (orderSpan) orderSpan.remove();
-  });
+        // Удаляем порядковые номера из фраз Django
+        const orderSpan = fret.querySelector(".lick-order");
+        if (orderSpan) orderSpan.remove();
+        
+        // Удаляем цифры пальцев Django
+        const fingerSpan = fret.querySelector(".finger-number");
+        if (fingerSpan) fingerSpan.remove();
+        
+        // Удаляем названия нот
+        const noteNameSpan = fret.querySelector(".note-name");
+        if (noteNameSpan) noteNameSpan.remove();
+        
+        // Удаляем степени аккордов
+        const degreeSpan = fret.querySelector(".note-degree");
+        if (degreeSpan) degreeSpan.remove();
+    });
 }
 
 function highlightChordNotes(chord) {
