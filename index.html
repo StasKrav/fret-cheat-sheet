@@ -3,377 +3,339 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fret Cheat Sheet</title>
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <title>Гитарный помощник</title>
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/manouche-style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    <div class="container">
-      <h1>Fret Cheat Sheet</h1>
-
+    <div class="app">
       <!-- Вкладки -->
       <div class="tabs">
-        <button class="tab-btn active" data-tab="general">Общее</button>
-        <button class="tab-btn" data-tab="blues">Blues</button>
-        <button class="tab-btn" data-tab="manouche">Gypsy Jazz</button>
+        <button class="tab-btn" data-tab="general">Общее</button>
+        <button class="tab-btn" data-tab="blues">Блюз</button>
+        <button class="tab-btn" data-tab="manouche">Мануш</button>
       </div>
 
-      <!-- Основной контент с вкладками -->
-      <div class="main-content">
-        <!-- Вкладка 1: Общее -->
-        <div class="tab-pane active" id="generalTab">
-          <div class="tab-input-area">
-            <div class="chord-input">
-              <input
-                type="text"
-                id="chordInput"
-                placeholder="Введите аккорд (C, Am7, G7...)"
-              />
-              <button id="highlightChordBtn">Аккорд</button>
-              <button id="showArpeggioBtn" class="arpeggio-btn">
-                Арпеджио
-              </button>
-            </div>
-          </div>
+      <!-- Основной контейнер -->
+      <div class="main-container">
+        <!-- Левая панель (420px) -->
+        <div class="control-panel">
 
-          <!-- ПОЯСНИТЕЛЬНЫЙ ТЕКСТ для вкладки "Общее" -->
-          <div class="tab-help-text">
-            <p><strong>Как пользоваться:</strong></p>
-            <ul>
-              <li>
-                Введите аккорд (например, C, Am7, G7) и нажмите "Аккорд" для
-                подсветки нот на грифе
-              </li>
-              <li>
-                Используйте "Арпеджио" для отображения ступеней аккорда с
-                возможными расширениями
-              </li>
-              <li>Ноты аккорда отобразятся здесь после нажатия кнопки</li>
-            </ul>
-            <p>
-              💡
-              <em
-                >Подсказка: используйте цифровые обозначения для сложных
-                аккордов (C9, Dm7b5, F#maj7)</em
-              >
-            </p>
-          </div>
-
-          <div class="tab-scrollable-content">
-            <div class="chord-notes" id="chordNotes"></div>
-
-            <div
-              class="arpeggio-controls"
-              style="
-                display: none;
-                margin-top: 15px;
-                padding: 15px;
-                background: rgba(223, 175, 143, 0.05);
-                border-radius: 4px;
-                border-left: 3px solid var(--zenburn-orange);
-              "
-            >
-              <div
-                style="
-                  margin-bottom: 10px;
-                  color: var(--zenburn-orange);
-                  font-weight: 500;
-                "
-              >
-                Расширения арпеджио:
-              </div>
-              <div class="arpeggio-extensions">
-                <label
-                  ><input type="checkbox" id="addSecond" /> +2 ступень</label
-                >
-                <label
-                  ><input type="checkbox" id="addSixth" /> +6 ступень</label
-                >
-                <label
-                  ><input type="checkbox" id="addSeventh" /> +7 ступень</label
-                >
+        
+          <!-- ============ ВКЛАДКА "ОБЩЕЕ" ============ -->
+          <div id="general-tab" class="tab-content" data-tab="general">
+            <!-- Основной ввод -->
+            <div class="input-section">
+              <input type="text" id="chordInput" placeholder="C, Am7, G7, Dm6..." />
+              <div class="input-buttons">
+                <button id="highlightChordBtn" class="primary-btn">
+                  Показать
+                </button>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Вкладка 2: Блюз -->
-        <div class="tab-pane" id="bluesTab">
-          <div class="tab-input-area">
-            <div class="chord-input">
-              <input
-                type="text"
-                id="chordInputBlues"
-                placeholder="Введите аккорд (C, Am7, G7...)"
-              />
-              <button id="togglePentatonicBtn" class="pentatonic-btn">
-                Пентатоника
-              </button>
-            </div>
-          </div>
-
-          <div class="tab-help-text">
-            <p><strong>Блюзовая пентатоника:</strong></p>
-            <ul>
-              <li>
-                Введите аккорд прогрессии (например, A7 для тоники блюза в A)
-              </li>
-              <li>
-                Нажмите "Пентатоника" для отображения минорной/мажорной
-                пентатоники
-              </li>
-              <li>
-                Используйте переключатели для выбора типа пентатоники и боксов
-              </li>
-              <li>
-                Включите "+Блюзовая нота" для отображения характерной ♭5 (blue
-                note)
-              </li>
-            </ul>
-            <p>
-              💡
-              <em
-                >Минорная пентатоника + блюзовая нота = классический блюзовый
-                звук</em
-              >
-            </p>
-          </div>
-
-          <div class="tab-scrollable-content">
-            <!-- Панель управления пентатоникой -->
-            <div
-              class="pentatonic-controls"
-              id="pentatonicControls"
-              style="display: none"
-            >
-              <div class="pentatonic-type" style="margin: 10px 0">
-                <label>
-                  <input
-                    type="radio"
-                    name="pentatonicType"
-                    value="minor"
-                    checked
-                  />
-                  Минорная
-                </label>
-                <label>
-                  <input type="radio" name="pentatonicType" value="major" />
-                  Мажорная
-                </label>
+            <!-- Информация -->
+            <div class="info-section">
+              <div class="chord-display">
+                <span class="chord-name" id="chordName">-</span>
+                <span class="chord-type" id="chordType"></span>
               </div>
-
-              <div class="pentatonic-options" style="margin: 10px 0">
-                <label class="pentatonic-checkbox">
-                  <input type="checkbox" id="showBluesNote" /> +Блюзовая нота
-                </label>
-                <div
-                  class="box-selector"
-                  style="display: inline-flex; margin-left: 15px"
-                >
-                  <span style="margin-right: 8px; color: var(--zenburn-fg-dim)"
-                    >Бокс:</span
-                  >
-                  <div class="box-buttons">
-                    <button class="box-btn active" data-box="all">Все</button>
-                    <button class="box-btn" data-box="1">1</button>
-                    <button class="box-btn" data-box="2">2</button>
-                    <button class="box-btn" data-box="3">3</button>
-                    <button class="box-btn" data-box="4">4</button>
-                    <button class="box-btn" data-box="5">5</button>
-                  </div>
+              <div class="chord-details">
+                <div class="detail-item">
+                  <span class="detail-label"></span>
+                  <span class="detail-value" id="chordNotes">-</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label"></span>
+                  <span class="detail-value" id="chordFormula">-</span>
                 </div>
               </div>
+            </div>
 
-              <div
-                class="pentatonic-info"
-                id="pentatonicInfo"
-                style="
-                  margin-top: 8px;
-                  font-size: 12px;
-                  color: var(--zenburn-cyan);
-                "
-              ></div>
+            <!-- Быстрые действия -->
+            <div class="quick-actions">
+              <div class="action-group">
+                <button
+                  class="action-btn"
+                  data-action="arpeggio"
+                  id="showArpeggioBtn"
+                >
+                  <span class="action-text">Арпеджио</span>
+                </button>
+                <!-- <button class="action-btn" data-action="scale"> -->
+                <!--   <span class="action-text">Гамма</span> -->
+                <!-- </button> -->
+                <!-- <button class="action-btn" data-action="inversions"> -->
+                <!--   <span class="action-text">Обращения</span> -->
+                <!-- </button> -->
+              </div>
+            </div>
+
+            <!-- Панель управления арпеджио -->
+            <div class="arpeggio-controls control-section" style="display: none">
+              <div class="section-header">
+                <span class="section-title">Настройки арпеджио</span>
+              </div>
+
+              <div class="options-grid">
+                <label class="option-checkbox">
+                  <input type="checkbox" id="addSecond" />
+                  <span class="checkmark"></span>
+                  <span class="option-text">Добавить 2 (секунду)</span>
+                </label>
+
+                <label class="option-checkbox">
+                  <input type="checkbox" id="addSixth" />
+                  <span class="checkmark"></span>
+                  <span class="option-text">Добавить 6 (сексту)</span>
+                </label>
+
+                <label class="option-checkbox">
+                  <input type="checkbox" id="addSeventh" />
+                  <span class="checkmark"></span>
+                  <span class="option-text">Добавить 7 (септиму)</span>
+                </label>
+              </div>
+
+              <div class="hint" style="margin-top: 10px">
+                🎵 Арпеджио покажет ноты аккорда по отдельности на грифе
+              </div>
+            </div>
+
+            <!-- Гаммы (для общей вкладки) -->
+            <div class="style-section scales-section" style="display: none">
+              <div class="section-header">
+                <span class="section-title">Настройки гамм</span>
+              </div>
+              <div class="scale-types">
+                <button class="scale-type-btn active" data-scale="major">
+                  Мажор
+                </button>
+                <button class="scale-type-btn" data-scale="minor">Минор</button>
+                <button class="scale-type-btn" data-scale="pentatonic">
+                  Пентатоника
+                </button>
+                <button class="scale-type-btn" data-scale="harmonic">
+                  Гармоническая
+                </button>
+              </div>
+              <div class="position-selector">
+                <div class="position-label">Позиция:</div>
+                <input
+                  type="range"
+                  id="positionSlider"
+                  min="1"
+                  max="12"
+                  value="1"
+                />
+                <span id="positionValue" class="position-value">1</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Вкладка 3: Мануш -->
-        <div class="tab-pane" id="manoucheTab">
-          <div class="tab-input-area">
-            <div class="chord-input">
-              <input
-                type="text"
-                id="chordInputManouche"
-                placeholder="Введите аккорд (Am6, G6, D7...)"
-              />
-              <button id="toggleManoucheBtn" class="manouche-btn">
-                Гаммы & Аккорды
-              </button>
+          <!-- ============ ВКЛАДКА "БЛЮЗ" ============ -->
+          <div id="blues-tab" class="tab-content" data-tab="blues" style="display: none">
+            <!-- Поле ввода для блюза -->
+            <div class="input-section">
+              <input type="text" id="chordInputBlues" placeholder="A7, E7, G7..." />
+              <div class="input-buttons">
+                <button id="showPentatonicBtn" class="primary-btn">
+                  Пентатоника
+                </button>
+              </div>
+            </div>
+
+            <!-- Информация для блюза -->
+            <div class="info-section blues-info">
+              <div class="chord-display">
+                <span class="chord-name" id="bluesChordName">-</span>
+                <span class="chord-type" id="bluesChordType"></span>
+              </div>
+              <div class="chord-details">
+                <div class="detail-item">
+                  <span class="detail-label">Ноты:</span>
+                  <span class="detail-value" id="bluesChordNotes">-</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Тип:</span>
+                  <span class="detail-value" id="bluesChordInfo">Блюзовый аккорд</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Настройки блюза -->
+            <div class="blues-settings">
+              <div class="section-header">
+                <span class="section-title">Блюзовые настройки</span>
+              </div>
+              
+              <div class="options-grid">
+                <label class="option-checkbox">
+                  <input type="checkbox" id="showBluesNote" />
+                  <span class="checkmark"></span>
+                  <span class="option-text">Блюзовая нота (♭5)</span>
+                </label>
+              </div>
+              
+              <div class="box-selector">
+                <div class="box-label">Бокс:</div>
+                <div class="box-buttons">
+                  <button class="box-btn active" data-box="all">Все</button>
+                  <button class="box-btn" data-box="1">1</button>
+                  <button class="box-btn" data-box="2">2</button>
+                  <button class="box-btn" data-box="3">3</button>
+                  <button class="box-btn" data-box="4">4</button>
+                  <button class="box-btn" data-box="5">5</button>
+                </div>
+              </div>
+              
+              <!-- Информация о пентатонике -->
+               <div id="pentatonicInfo" class="info-box pentatonic-info" style="display: none; margin-top: 15px;"></div>
             </div>
           </div>
 
-          <!-- ПОЯСНИТЕЛЬНЫЙ ТЕКСТ для вкладки "Мануш" -->
-          <div class="tab-help-text">
-            <p><strong>Джаз-мануш (Gypsy Jazz) Django Reinhardt:</strong></p>
-            <ul>
-              <li>Введите аккорд для анализа характерных гамм мануш</li>
-              <li>Нажмите "Гаммы & Аккорды" для отображения цыганских гамм</li>
-              <li>
-                Выберите конкретную гамму или оставьте "Auto" для
-                автоматического подбора
-              </li>
-              <li>
-                Используйте "Фразы Django" для изучения характерных пассажей
-              </li>
-              <li>Кликните на аппликатуры Django для изучения его техники</li>
-            </ul>
-            <p>🎸 <em>Характерные элементы стиля Django:</em></p>
-            <ul>
-              <li>Большой палец на грифе (обхват)</li>
-              <li>Компактные позиции (редко выше 7 лада)</li>
-              <li>Характерные ноты: ♭3, ♭6, ♯4</li>
-              <li>Уменьшенные арпеджио для переходов</li>
-            </ul>
-          </div>
+          <!-- ============ ВКЛАДКА "МАНУШ" ============ -->
+          <div id="manouche-tab" class="tab-content" data-tab="manouche" style="display: none">
+            <!-- Поле ввода для мануш -->
+            <div class="input-section">
+              <input type="text" id="chordInputManouche" placeholder="Am6, D7#9, G6..." />
+              <div class="input-buttons">
+                <button id="showManoucheBtn" class="primary-btn">
+                  Гаммы и Аккорды
+                </button>
+              </div>
+            </div>
 
-          <div class="tab-scrollable-content">
+            <!-- Информация для мануш -->
+            <div class="info-section manouche-info">
+              <div class="chord-display">
+                <span class="chord-name" id="manoucheChordName">-</span>
+                <span class="chord-type" id="manoucheChordType"></span>
+              </div>
+              <div class="chord-details">
+                <div class="detail-item">
+                  <span class="detail-label">Ноты:</span>
+                  <span class="detail-value" id="manoucheChordNotes">-</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Стиль:</span>
+                  <span class="detail-value" id="manoucheChordInfo">Джаз-мануш</span>
+                </div>
+              </div>
+            </div>
+
             <!-- Панель управления мануш -->
-            <div
-              class="manouche-controls"
-              id="manoucheControls"
-              style="display: none"
-            >
-              <!-- Секция 1: Гаммы Django -->
-              <div class="control-section">
-                <div class="section-title">Гаммы Django</div>
-                <div class="scale-selector">
-                  <div class="scale-buttons">
-                    <button class="scale-btn active" data-scale="auto">
-                      Auto
-                    </button>
-                    <button class="scale-btn" data-scale="gypsyMajor">
-                      Gypsy Major
-                    </button>
-                    <button class="scale-btn" data-scale="harmonicMajor">
-                      Harmonic Major
-                    </button>
-                    <button class="scale-btn" data-scale="harmonicMinorNat6">
-                      Harmonic Minor ♮6
-                    </button>
-                    <button class="scale-btn" data-scale="diminished">
-                      Diminished
-                    </button>
-                  </div>
-                </div>
-                <!-- Информация о гамме -->
-                <div class="manouche-info" id="manoucheInfo"></div>
+            <div id="manoucheControls" class="manouche-controls" style="display: none">
+              <div class="section-header">
+                <span class="section-title">Гаммы Django</span>
               </div>
-
-              <!-- Секция 2: Аппликатуры Django -->
-              <div class="control-section">
-                <div class="section-title">Аппликатуры Django</div>
-                <div class="fingering-controls">
-                  <div class="fingering-buttons">
-                    <button class="fingering-btn" data-fingering="Am6">
-                      Am6
-                    </button>
-                    <button class="fingering-btn" data-fingering="G6">
-                      G6
-                    </button>
-                    <button class="fingering-btn" data-fingering="D7sharp9">
-                      D7#9
-                    </button>
-                    <button class="fingering-btn" data-fingering="E7">
-                      E7
-                    </button>
-                    <button class="fingering-btn" data-fingering="Bdim7">
-                      Bdim7
-                    </button>
-                    <button class="fingering-btn" data-fingering="Dm6">
-                      Dm6
-                    </button>
-                    <button class="fingering-btn" data-fingering="Am7">
-                      Am7
-                    </button>
-                    <button class="fingering-btn" data-fingering="D9">
-                      D9
-                    </button>
-                    <button class="fingering-btn" data-fingering="C#dim7">
-                      C#dim7
-                    </button>
-                    <button class="fingering-btn" data-fingering="Cmaj7">
-                      Cmaj7
-                    </button>
-                    <button class="fingering-btn" data-fingering="Cm7">
-                      Cm7
-                    </button>
-                    <button class="fingering-btn" data-fingering="G♯dim7">
-                      G♯dim7
-                    </button>
-                  </div>
-                  <div
-                    id="fingeringDiagram"
-                    style="
-                      margin-top: 10px;
-                      font-size: 11px;
-                      color: var(--zenburn-fg-dim);
-                    "
-                  ></div>
-                </div>
+              
+              <div class="django-buttons">
+                <button class="secondary-btn scale-btn active" data-scale="auto">Auto</button>
+                      <button class="secondary-btn scale-btn" data-scale="gypsyMajor">Gypsy Maj</button>
+                      <button class="secondary-btn scale-btn" data-scale="harmonicMajor">Harmonic Maj</button>
+                      <button class="secondary-btn scale-btn" data-scale="harmonicMinor">Harmonic Min</button>
+                      <button class="secondary-btn scale-btn" data-scale="harmonicMinorNat6">Min ♮6</button>
+                      <button class="secondary-btn scale-btn" data-scale="dorianSharp4">Dorian ♯4</button>
+                      <button class="secondary-btn scale-btn" data-scale="diminished">Diminished</button>
+                      <button class="secondary-btn scale-btn" data-scale="mixolydianFlat6">Mixolydian ♭6</button>
+                      <button class="secondary-btn scale-btn" data-scale="altered">Altered</button>
+                      <button class="secondary-btn scale-btn" data-scale="doubleChromatic">Chromatic</button>
               </div>
-
-              <!-- Секция 3: Фразы Django -->
-              <div class="control-section">
-                <div class="section-title">Фразы Django</div>
-                <div class="licks-selector">
-                  <div class="lick-buttons">
-                    <button class="lick-btn" data-lick="dimRun">Dim Run</button>
-                    <button class="lick-btn" data-lick="gypsySweep">
-                      Gypsy Sweep
-                    </button>
-                    <button class="lick-btn" data-lick="chromaticApproach">
-                      Chromatic
-                    </button>
-                    <button class="lick-btn" data-lick="tremoloPattern">
-                      Tremolo
-                    </button>
-                  </div>
-                </div>
-                <!-- Информация о фразах -->
-                <div
-                  class="licks-info-container"
-                  id="licksInfoContainer"
-                  style="display: none"
-                ></div>
+              
+              <div class="section-header" style="margin-top: 15px;">
+                <span class="section-title">Фразы Django</span>
               </div>
-
-              <!-- Секция 4: Аккорды мануш -->
-              <div class="control-section">
-                <div class="section-title">Аккордовые последовательности</div>
-                <div
-                  class="chord-sequence"
-                  id="chordSequence"
-                  style="display: none"
-                ></div>
+              
+              <div class="django-buttons">
+                <button class="secondary-btn lick-btn" data-lick="dimRun">Dim Run</button>
+                <button class="secondary-btn lick-btn" data-lick="gypsySweep">Gypsy Sweep</button>
+                <button class="secondary-btn lick-btn" data-lick="chromaticApproach">Chromatic</button>
+                <button class="secondary-btn lick-btn" data-lick="tremoloPattern">Tremolo</button>
+              </div>
+              
+              <div class="section-header" style="margin-top: 15px;">
+                <span class="section-title">Аппликатуры</span>
+              </div>
+              
+              <div class="fingering-buttons">
+                <button class="fingering-btn" data-fingering="Am6">Am6</button>
+                <button class="fingering-btn" data-fingering="G6">G6</button>
+                <button class="fingering-btn" data-fingering="D7sharp9">D7#9</button>
+                <button class="fingering-btn" data-fingering="E7">E7</button>
+                <button class="fingering-btn" data-fingering="Bdim7">Bdim7</button>
+                <button class="fingering-btn" data-fingering="Dm6">Dm6</button>
+                <button class="fingering-btn" data-fingering="Am7">Am7</button>
+                <button class="fingering-btn" data-fingering="D9">D9</button>
+                <button class="fingering-btn" data-fingering="C#dim7">C#dim7</button>
+                <button class="fingering-btn" data-fingering="Cmaj7">Cmaj7</button>
+                <button class="fingering-btn" data-fingering="Cm7">Cm7</button>
+                <button class="fingering-btn" data-fingering="G♯dim7">G♯dim7</button>
               </div>
             </div>
-            <!-- конец manouche-controls -->
+
+            <!-- Информационные блоки мануш -->
+            <div id="manoucheScaleInfo" class="info-box manouche-scale-info" style="display: none; margin-top: 15px;"></div>
+            <div id="licksInfoContainer" class="info-box licks-info" style="display: none"></div>
+            <div id="fingeringDiagram" class="info-box fingering-diagram" style="display: none"></div>
+            <div id="chordSequence" class="info-box chord-sequence" style="display: none"></div>
           </div>
-          <!-- конец tab-scrollable-content -->
+
+        </div>
+
+        <!-- Гриф (весь остальной экран) -->
+        <div class="fretboard-container">
+          <!-- Номера ладов -->
+          <div class="fret-numbers">
+            <div class="fret-number-label"></div>
+            <div class="fret-number">0</div>
+            <div class="fret-number">1</div>
+            <div class="fret-number">2</div>
+            <div class="fret-number">3</div>
+            <div class="fret-number">4</div>
+            <div class="fret-number">5</div>
+            <div class="fret-number">6</div>
+            <div class="fret-number">7</div>
+            <div class="fret-number">8</div>
+            <div class="fret-number">9</div>
+            <div class="fret-number">10</div>
+            <div class="fret-number">11</div>
+            <div class="fret-number">12</div>
+            <div class="fret-number">13</div>
+            <div class="fret-number">14</div>
+            <div class="fret-number">15</div>
+            <div class="fret-number">16</div>
+            <div class="fret-number">17</div>
+            <div class="fret-number">18</div>
+            <div class="fret-number">19</div>
+          </div>
+
+          <!-- Сам гриф -->
+          <div class="fretboard" id="fretBoard">
+            <!-- Генерируется JavaScript -->
+          </div>
         </div>
       </div>
 
-      <!-- Гриф -->
-      <div class="guitar-neck-container">
-        <div class="guitar-neck-full">
-          <div id="fretBoard"></div>
+      <!-- Нижняя панель -->
+      <div class="bottom-bar">
+        <div class="app-info">
+          <span class="app-name">Fret Cheat Sheet</span>
+          <span class="app-version">v1.0</span>
+        </div>
+        <div class="controls">
+          <button class="control-btn" id="helpBtn" title="Помощь">?</button>
+          <button class="control-btn" id="fullscreenBtn" title="На весь экран">
+            ⛶
+          </button>
+          <div class="zoom">
+            <button class="zoom-btn" id="zoomOut" title="Уменьшить">-</button>
+            <span class="zoom-value" id="zoomValue">100%</span>
+            <button class="zoom-btn" id="zoomIn" title="Увеличить">+</button>
+          </div>
         </div>
       </div>
     </div>

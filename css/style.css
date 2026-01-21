@@ -1,5 +1,8 @@
+/* FINAL.CSS - Твоя цветовая схема, чистый интерфейс */
+
+/* Zenburn цветовая палитра (твоя) */
 :root {
-  /* Zenburn цветовая палитра */
+  /* Основные цвета */
   --zenburn-bg: #3f3f3f;
   --zenburn-bg-light: #4f4f4f;
   --zenburn-bg-lighter: #5f5f5f;
@@ -14,36 +17,29 @@
   --zenburn-red: #cc9393;
   --zenburn-purple: #dc8cc3;
 
-  /* Конкретные назначения цветов */
-  --body-bg: var(--zenburn-bg);
-  --text-color: var(--zenburn-fg);
-  --container-bg: var(--zenburn-bg-light);
+  /* Практические назначения */
+  --bg-main: var(--zenburn-bg);
+  --bg-panel: var(--zenburn-bg-light);
+  --bg-fretboard: #2a2a2a;
+  --text-main: var(--zenburn-fg);
+  --text-dim: var(--zenburn-fg-dim);
+  --accent-primary: var(--zenburn-green);
+  --accent-secondary: var(--zenburn-cyan);
+  --accent-highlight: var(--zenburn-yellow);
+  --accent-warning: var(--zenburn-red);
+  --accent-special: var(--zenburn-orange);
   --border-color: var(--zenburn-bg-lighter);
+  --fret-border: #4a4a4a;
+  --nut-color: #6f6f6f;
 
-  /* Гриф */
-  --neck-bg: #2a2a2a;
-  --neck-border: var(--zenburn-bg-lighter);
-  --fret-bg: rgba(255, 255, 255, 0.05);
-  --fret-border: #7f9f7f; /* Явно задаем цвет границ */
-  --fret-text: var(--zenburn-fg-dim);
-  --nut-bg: rgba(255, 255, 255, 0.08);
-  --string-color: var(--zenburn-yellow);
-
-  /* Кнопки */
-  --btn-primary: var(--zenburn-green);
-  --btn-primary-hover: #7fa07f;
-  --btn-secondary: var(--zenburn-orange);
-  --btn-secondary-hover: #cf9f7f;
-  --btn-tertiary: var(--zenburn-purple);
-  --btn-tertiary-hover: #cc7cb3;
-
-  /* Акценты */
-  --highlight: var(--zenburn-cyan);
-  --highlight-border: var(--zenburn-blue);
-  --accent-1: var(--zenburn-yellow);
-  --accent-2: var(--zenburn-red);
+  --manouche-root: var(--zenburn-red);
+  --manouche-characteristic: var(--zenburn-orange);
+  --manouche-tension: var(--zenburn-blue);
+  --manouche-resolution: var(--zenburn-green);
+  --manouche-passing: var(--zenburn-purple);
 }
 
+/* Сброс */
 * {
   margin: 0;
   padding: 0;
@@ -52,665 +48,1224 @@
 
 body {
   font-family:
-    "Comfortaa",
+    "Inter",
     -apple-system,
     BlinkMacSystemFont,
-    "Segoe UI",
-    "Ubuntu Mono",
-    "Consolas",
-    monospace;
-  background: var(--body-bg);
-  color: var(--text-color);
-  padding: 20px;
-  line-height: 1.6;
+    sans-serif;
+  background: var(--bg-main);
+  color: var(--text-main);
+  height: 100vh;
+  overflow: hidden;
   font-size: 14px;
-  min-height: 100vh;
+  line-height: 1.4;
 }
 
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  background: var(--container-bg);
-  border-radius: 6px;
-  padding: 25px;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+.app {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  height: 95vh; /* Фиксированная высота окна */
-  max-height: 95vh;
-  overflow: hidden; /* Скрываем переполнение контейнера */
+  padding: 8px;
+  gap: 8px;
 }
 
-h1 {
-  text-align: center;
-  color: var(--zenburn-yellow);
-  margin-bottom: 16px;
-  font-size: 1.1em;
-  font-weight: 300;
-  letter-spacing: 1px;
-  flex-shrink: 0; /* Не сжимается */
-}
-
-/* Вкладки */
+/* ============ ВКЛАДКИ ============ */
 .tabs {
   display: flex;
-  gap: 5px;
-  margin-bottom: 15px;
-  flex-shrink: 0; /* Не сжимается */
+  gap: 2px;
+  background: var(--zenburn-bg-light);
+  border-radius: 6px;
+  padding: 4px;
+  flex-shrink: 0;
+  height: 42px;
 }
 
 .tab-btn {
   flex: 1;
-  padding: 12px 15px;
-  background: var(--zenburn-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 6px 6px 0 0;
+  padding: 10px 4px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
   color: var(--zenburn-fg-dim);
+  font-weight: 500;
   cursor: pointer;
-  font-family: "Comfortaa", sans-serif;
-  font-size: 14px;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  letter-spacing: 0.3px;
 }
 
 .tab-btn:hover {
-  background: var(--zenburn-bg-light);
-  color: var(--zenburn-fg);
+  background: rgba(143, 178, 143, 0.1);
+  color: var(--zenburn-green);
 }
 
 .tab-btn.active {
-  background: var(--zenburn-bg-light);
-  color: var(--zenburn-yellow);
-  font-weight: 500;
-  border-bottom: none;
-}
-
-/* Основной контейнер с контентом */
-.main-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0; /* Важно для правильной работы прокрутки */
-}
-
-/* Содержимое вкладок */
-.tab-content-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-.tab-pane {
-  display: none;
-  flex: 1;
-  flex-direction: column;
-  min-height: 0;
-}
-
-.tab-pane.active {
-  display: flex;
-}
-
-/* Панель управления (вкладки) */
-.controls {
-  background: var(--zenburn-bg);
-  padding: 20px;
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden; /* Скрываем переполнение */
-}
-
-/* Контейнер для контента внутри вкладки */
-.tab-pane-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-}
-
-/* Область с полями ввода и кнопками */
-.tab-input-area {
-  flex-shrink: 0; /* Не сжимается */
-  margin-bottom: 15px;
-}
-
-/* Прокручиваемая область контента */
-.tab-scrollable-content {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
-  padding-right: 5px; /* Для полосы прокрутки */
-}
-
-/* Скрываем скроллбар для WebKit браузеров */
-.tab-scrollable-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.tab-scrollable-content::-webkit-scrollbar-track {
-  background: var(--zenburn-bg);
-}
-
-.tab-scrollable-content::-webkit-scrollbar-thumb {
-  background: var(--zenburn-comment);
-  border-radius: 4px;
-}
-
-.tab-scrollable-content::-webkit-scrollbar-thumb:hover {
   background: var(--zenburn-green);
+  color: var(--zenburn-bg);
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Гриф - фиксированной высоты */
-.guitar-neck-container {
-  flex-shrink: 0; /* Не сжимается */
-  margin-top: 20px;
+/* ============ ОСНОВНОЙ КОНТЕЙНЕР ============ */
+.main-container {
+  flex: 1;
+  display: flex;
+  gap: 12px;
+  overflow: hidden;
+  min-height: 0;
 }
 
-.guitar-neck-full {
-  background: var(--neck-bg);
-  padding: 15px;
-  border-radius: 4px;
-  border: 1px solid var(--neck-border);
-  overflow: auto; /* Прокрутка если не помещается */
-}
-
-/* Исправляем границы грифа */
-.fret-board {
+/* ============ ЛЕВАЯ ПАНЕЛЬ (420px) ============ */
+.control-panel {
+  width: 420px;
   display: flex;
   flex-direction: column;
-  min-width: 600px;
+  gap: 16px;
+  background: var(--bg-panel);
+  border-radius: 8px;
+  padding: 16px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
 }
 
-.string {
-  display: flex;
-}
-
-.fret {
-  flex: 1;
-  height: 38px;
-  background: var(--fret-bg);
-  border: 1px solid var(--fret-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--fret-text);
-  font-size: 12px;
-  font-family: "Ubuntu Mono", "Consolas", monospace;
-  position: relative;
-  /* Убираем отрицательные margins */
-  margin: 0;
-  /* Исправляем границы */
-  border-right: none;
-  border-bottom: none;
-}
-
-/* Для последнего лада возвращаем margin */
-.fret:last-child {
-  margin-right: 0;
-}
-
-/* Для последней строки возвращаем margin */
-.string:last-child .fret {
-  margin-bottom: 0;
-}
-
-.fret:first-child {
-  background: var(--nut-bg);
-}
-
-.fret:last-child {
-  border-right: 1px solid var(--fret-border);
-}
-
-/* Для последней строки */
-.string:last-child .fret {
-  border-bottom: 1px solid var(--fret-border);
-}
-
-.string-name {
-  width: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--string-color);
-  font-weight: bold;
-  font-family: "Ubuntu Mono", "Consolas", monospace;
-  font-size: 13px;
-}
-
-.nut {
-  background: var(--nut-bg) !important;
-  font-weight: bold;
-  color: var(--zenburn-fg);
-}
-
-/* Номера ладов сверху */
-.fret-numbers {
-  display: flex;
-  margin-bottom: 12px;
-  padding-left: 0px;
-}
-
-.fret-numbers span {
-  flex: 1;
-  text-align: center;
-  color: var(--zenburn-comment);
-  font-size: 11px;
-  font-family: "Ubuntu Mono", "Consolas", monospace;
-  letter-spacing: 0;
-}
-
-.fret-numbers span:first-child {
-  flex: 0 0 32px;
-}
-
-/* Поля ввода */
-.chord-input {
+/* Основной ввод */
+.input-section {
   display: flex;
   gap: 10px;
-  align-items: center;
+  margin-bottom: 8px;
 }
 
-input[type="text"] {
+#chordInput {
   flex: 1;
-  padding: 10px 14px;
-  border: 1px solid var(--fret-border);
-  border-radius: 4px;
-  background: var(--zenburn-bg-light);
-  color: var(--zenburn-fg);
-  font-size: 14px;
-  font-family: "Ubuntu Mono", "Consolas", monospace;
-}
-
-input[type="text"]:focus {
-  border-color: var(--zenburn-cyan);
-  outline: none;
+  padding: 10px 12px;
   background: var(--zenburn-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 24px;
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  transition: border-color 0.2s;
+  min-width: 160px;
 }
 
-/* Кнопки */
-button {
-  padding: 10px 20px;
-  background: var(--btn-primary);
+#chordInput:focus {
+  outline: none;
+  border-color: var(--zenburn-green);
+}
+
+.input-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.primary-btn {
+  padding: 10px 16px;
+  background: var(--zenburn-green);
   color: var(--zenburn-bg);
   border: none;
-  border-radius: 4px;
+  border-radius: 24px;
+  font-weight: 400;
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  font-family: "Segoe UI", sans-serif;
-  transition: all 0.2s;
-  white-space: nowrap;
+  transition: opacity 0.2s;
+  min-width: 60px;
 }
 
-button:hover {
+.primary-btn:hover {
   opacity: 0.9;
 }
 
-/* Специфичные кнопки */
-.arpeggio-btn {
-  background: var(--zenburn-orange);
-}
-
-.pentatonic-btn {
-  background: var(--zenburn-green);
-}
-
-.manouche-btn {
-  background: linear-gradient(
-    135deg,
-    var(--zenburn-orange),
-    var(--zenburn-red)
-  );
-  font-weight: bold;
-}
-
-/* Подсветка нот */
-.highlight {
-  background: var(--highlight) !important;
-  color: var(--zenburn-bg) !important;
-  font-weight: bold;
-  border-color: var(--highlight-border) !important;
-}
-
-/* Текстовые блоки */
-/* Скрываем блок chord-notes по умолчанию */
-.chord-notes {
-  display: none;
-  margin-top: 12px;
-  padding: 10px;
-  background: rgba(140, 208, 211, 0.1);
-  border-radius: 3px;
-  border-left: 3px solid var(--zenburn-cyan);
-  font-family: "Ubuntu Mono", "Consolas", monospace;
-  font-size: 13px;
-  color: var(--zenburn-cyan);
-}
-
-/* Показываем блок при наличии текста (будет добавлено через JS) */
-.chord-notes:not(:empty) {
-  display: block;
-}
-
-.chord-sequence {
-  background: var(--zenburn-bg-light);
-  padding: 15px;
-  border-radius: 4px;
-  margin-top: 15px;
-  border-left: 4px solid var(--zenburn-purple);
-}
-
-.chord-link {
-  color: var(--zenburn-green) !important;
-  cursor: pointer;
-  text-decoration: none;
-  padding: 3px 6px;
-  border-radius: 3px;
-  background: rgba(143, 178, 143, 0.1);
-  border: 1px solid rgba(143, 178, 143, 0.3);
-  font-family: "Ubuntu Mono", "Consolas", monospace;
-  font-size: 13px;
-}
-
-.chord-link:hover {
-  background: rgba(143, 178, 143, 0.2);
-}
-
-/* Управление пентатоникой */
-.pentatonic-controls,
-.manouche-controls,
-.arpeggio-controls {
-  margin-top: 15px;
-  padding: 15px;
-  background: rgba(204, 147, 147, 0.08);
-  border-radius: 4px;
-  border: 1px solid rgba(204, 147, 147, 0.3);
-}
-
-.pentatonic-type {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 10px;
-}
-
-.pentatonic-type label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  color: var(--zenburn-fg-dim);
-  font-size: 13px;
-}
-
-.pentatonic-type input[type="radio"] {
-  accent-color: var(--zenburn-red);
-}
-
-.pentatonic-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  color: var(--zenburn-blue);
-  font-size: 13px;
-}
-
-.pentatonic-checkbox input {
-  accent-color: var(--zenburn-blue);
-}
-
-/* Кнопки боксов */
-.box-buttons {
-  display: flex;
-  gap: 3px;
-}
-
-.box-btn {
-  padding: 4px 8px;
-  background: var(--zenburn-bg-lighter);
-  color: var(--zenburn-fg-dim);
-  border: 1px solid var(--zenburn-comment);
-  border-radius: 3px;
-  font-size: 11px;
-  min-width: 28px;
-  cursor: pointer;
-}
-
-.box-btn:hover {
-  background: var(--zenburn-bg-light);
-  color: var(--zenburn-fg);
-}
-
-.box-btn.active {
-  background: var(--zenburn-red);
-  color: var(--zenburn-bg);
-  border-color: var(--zenburn-red);
-}
-
-/* Цвета нот пентатоники */
-/* Цвет корневой ноты пентатоники */
-.pentatonic-root {
-  background: var(--zenburn-red) !important;
-  color: var(--zenburn-bg) !important;
-  font-weight: bold !important;
-  position: relative;
-  z-index: 2;
-  box-shadow: 0 0 5px rgba(204, 147, 147, 0.5);
-}
-
-/* Обновляем существующие стили для нот пентатоники */
-.pentatonic-note {
-  background: var(--zenburn-green) !important;
-  color: var(--zenburn-bg) !important;
-  font-weight: normal;
-}
-
-.blues-note {
-  background: var(--zenburn-blue) !important;
-  color: white !important;
-  animation: blues-note-pulse 2s infinite;
-}
-
-@keyframes blues-note-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-/* Управление мануш */
-.scale-buttons,
-.lick-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 5px;
-}
-
-.scale-btn,
-.lick-btn {
-  padding: 4px 8px;
-  background: var(--zenburn-bg-lighter);
-  color: var(--zenburn-fg-dim);
-  border: 1px solid var(--zenburn-comment);
-  border-radius: 3px;
-  font-size: 11px;
+.secondary-btn {
+  padding: 10px 16px;
+  background: rgba(204, 147, 147, 0.2);
+  color: var(--zenburn-red);
+  border: 0px solid var(--zenburn-red);
+  border-radius: 24px;
+  font-weight: 300;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.scale-btn:hover,
-.lick-btn:hover {
-  background: var(--zenburn-bg-light);
-  color: var(--zenburn-fg);
+.secondary-btn:hover {
+  background: rgba(204, 147, 147, 0.3);
 }
 
-.scale-btn.active {
-  background: var(--zenburn-red);
-  color: var(--zenburn-bg);
-  border-color: var(--zenburn-red);
+/* Информация об аккорде */
+.info-section {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 14px;
+  border-left: 0px solid var(--zenburn-cyan);
+  margin-bottom: 8px;
 }
 
-.lick-btn {
+.chord-display {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+#chordName {
+  font-size: 28px; */
+  font-weight: 600; 
+  color: var(--zenburn-yellow) !important;
+  padding: 0px !important;
+  display: inline-block !important;
+  position: relative !important;
+}
+
+
+.chord-type {
+  font-size: 14px;
+  color: var(--zenburn-fg-dim);
+  background: rgba(127, 159, 127, 0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
+  display: inline-block;
+}
+
+.chord-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.detail-label {
+  font-size: 13px;
+  color: var(--zenburn-comment);
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: var(--text-main);
+  font-family: "Consolas", monospace;
+  line-height: 1.4;
+}
+
+/* Быстрые действия */
+.quick-actions {
+  margin: 12px 0;
+}
+
+.action-group {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 10px 12px;
+  background: rgba(140, 208, 211, 0.1);
+  border: 1px solid rgba(140, 208, 211, 0.3);
+  border-radius: 24px;
+  color: var(--zenburn-cyan);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
   background: rgba(140, 208, 211, 0.2);
   border-color: var(--zenburn-cyan);
 }
 
-.lick-btn:hover {
-  background: rgba(140, 208, 211, 0.3);
-}
-
-/* Подсветка арпеджио */
-.fret.arpeggio-root {
+.action-btn.active {
   background: var(--zenburn-cyan) !important;
-  color: var(--zenburn-bg) !important;
   border-color: var(--zenburn-green) !important;
-}
-
-.fret.arpeggio-third {
-  background: var(--zenburn-green) !important;
   color: var(--zenburn-bg) !important;
-  border-color: var(--zenburn-blue) !important;
+  font-weight: 600;
 }
 
-.fret.arpeggio-fifth {
-  background: var(--zenburn-yellow) !important;
+.action-btn.active .action-text {
   color: var(--zenburn-bg) !important;
-  border-color: var(--zenburn-yellow) !important;
 }
 
-.fret.arpeggio-second {
-  background: var(--zenburn-purple) !important;
-  color: var(--zenburn-bg) !important;
-  border-color: var(--zenburn-purple) !important;
+
+.action-icon {
+  font-size: 16px;
 }
 
-.fret.arpeggio-sixth {
-  background: var(--zenburn-red) !important;
-  color: var(--zenburn-bg) !important;
-  border-color: var(--zenburn-red) !important;
-}
-
-.fret.arpeggio-seventh {
-  background: var(--zenburn-blue) !important;
-  color: var(--zenburn-bg) !important;
-  border-color: var(--zenburn-blue) !important;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
-
-  .container {
-    padding: 15px;
-    height: 90vh;
-  }
-
-  .tabs {
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .tab-btn {
-    width: 100%;
-    border-radius: 4px;
-    margin-bottom: 2px;
-  }
-
-  .chord-input {
-    flex-direction: column;
-  }
-
-  button {
-    width: 100%;
-    margin-bottom: 5px;
-  }
-
-  input[type="text"] {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .fret {
-    height: 40px;
-    min-width: 35px;
-    font-size: 11px;
-  }
-
-  .guitar-neck-full {
-    padding: 10px;
-    overflow-x: auto;
-  }
-
-  .fret-board {
-    min-width: 500px;
-  }
-}
-
-/* Пояснительный текст для вкладок */
-.tab-help-text {
-  margin: 10px 0 15px 0;
-  padding: 12px 15px;
-  background: rgba(
-    127,
-    159,
-    127,
-    0.08
-  ); /* Полупрозрачный фон цвета комментариев */
-  border-radius: 4px;
-  border-left: 3px solid var(--zenburn-comment);
-  color: var(--zenburn-fg-dim); /* Бледный цвет текста */
+.action-text {
   font-size: 12px;
-  line-height: 1.5;
-  flex-shrink: 0; /* Не сжимается */
+  font-weight: 500;
 }
 
-.tab-help-text p {
-  margin-bottom: 8px;
+/* Стилевые опции */
+.style-options {
+  margin-top: 8px;
 }
 
-.tab-help-text ul {
-  margin: 8px 0 10px 20px;
-  padding: 0;
+.style-section {
+  animation: fadeIn 0.3s ease;
 }
 
-.tab-help-text li {
-  margin-bottom: 5px;
-  color: var(--zenburn-fg-dim);
-}
-
-.tab-help-text strong {
-  color: var(--zenburn-yellow); /* Акцентный цвет для заголовков */
-}
-
-.tab-help-text em {
-  color: var(--zenburn-orange); /* Цвет для подсказок */
-  font-style: italic;
-}
-
-/* Плавное появление текста при переключении вкладок */
-.tab-help-text {
-  animation: fadeInUp 0.5s ease-out;
-}
-
-@keyframes fadeInUp {
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(-5px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
+.section-header {
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--zenburn-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Для блюза */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.option-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.option-checkbox input {
+  display: none;
+}
+
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--zenburn-blue);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.option-checkbox input:checked + .checkmark:after {
+  content: "✓";
+  color: var(--zenburn-blue);
+  font-weight: bold;
+}
+
+.option-text {
+  font-size: 13px;
+  color: var(--text-main);
+}
+
+.box-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.box-label {
+  font-size: 13px;
+  color: var(--zenburn-fg-dim);
+  min-width: 50px;
+}
+
+.box-buttons {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.box-btn {
+  padding: 6px 12px;
+  background: rgba(143, 178, 143, 0.1);
+  border: 1px solid var(--zenburn-green);
+  border-radius: 4px;
+  color: var(--zenburn-green);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 36px;
+}
+
+.box-btn.active {
+  background: var(--zenburn-green);
+  color: var(--zenburn-bg);
+  font-weight: 600;
+}
+
+/* Для мануш */
+.chord-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.fingering-btn {
+  flex: 1;
+  min-width: 60px;
+  padding: 8px 6px;
+  background: rgba(223, 175, 143, 0.1);
+  border: 1px solid var(--zenburn-orange);
+  border-radius: 24px;
+  color: var(--zenburn-orange);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fingering-btn:hover {
+  background: rgba(223, 175, 143, 0.2);
+}
+
+.scale-selector select {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--zenburn-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-main);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Для гамм */
+.scale-types {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.scale-type-btn {
+  flex: 1;
+  padding: 8px 6px;
+  background: rgba(221, 229, 182, 0.1);
+  border: 1px solid var(--zenburn-yellow);
+  border-radius: 4px;
+  color: var(--zenburn-yellow);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.scale-type-btn.active {
+  background: var(--zenburn-yellow);
+  color: var(--zenburn-bg);
+  font-weight: 600;
+}
+
+.position-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.position-label {
+  font-size: 13px;
+  color: var(--zenburn-fg-dim);
+  min-width: 70px;
+}
+
+#positionSlider {
+  flex: 1;
+  height: 6px;
+  background: var(--zenburn-bg);
+  border-radius: 3px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+#positionSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--zenburn-green);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.position-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--zenburn-green);
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Статус */
+.status-section {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--zenburn-comment);
+  margin-bottom: 10px;
+  line-height: 1.5;
+  padding: 8px;
+  background: rgba(127, 159, 127, 0.1);
+  border-radius: 4px;
+}
+
+.position-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.pos-label {
+  color: var(--zenburn-fg-dim);
+}
+
+.pos-value {
+  font-weight: 600;
+  color: var(--zenburn-yellow);
+  font-size: 16px;
+}
+
+/* ============ ГРИФ ============ */
+.fretboard-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-fretboard);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Номера ладов */
+.fret-numbers {
+  display: flex;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid var(--border-color);
+  padding-left: 40px;
+}
+
+.fret-number-label {
+  width: 40px;
+  position: absolute;
+  left: 0;
+  line-height: 32px;
+  text-align: center;
+  color: var(--zenburn-fg-dim);
+  font-size: 11px;
+}
+
+.fret-number {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--zenburn-fg-dim);
+  font-size: 12px;
+  font-weight: 500;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.fret-number:first-child {
+  border-left: 1px solid transparent;
+}
+
+/* Сам гриф (ЧИСТЫЙ, без линий струн) */
+.fretboard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 0;
+  min-height: 0;
+  overflow: auto;
+}
+
+.string {
+  display: flex;
+  height: 48px;
+  position: relative;
+}
+
+.string-name {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--zenburn-yellow);
+  font-size: 15px;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.3);
+  border-right: 1px solid var(--border-color);
+}
+
+/* Лады - чистые квадраты */
+.fret {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--zenburn-fg-dim);
+  cursor: pointer;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.03);
+
+  /* ТОЧНО КАК У ТЕБЯ БЫЛО: */
+  border: 1px solid var(--fret-border);
+  border-right: none;
+  border-bottom: none;
+  margin: 0;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+/* Нут */
+.fret.nut {
+  background: rgba(255, 255, 255, 0.05);
+  font-weight: bold;
+  color: var(--zenburn-yellow);
+}
+
+/* Правый край последнего лада */
+.string .fret:last-child {
+  border-right: 1px solid var(--fret-border);
+}
+
+/* Нижний край последней строки */
+.string:last-child .fret {
+  border-bottom: 1px solid var(--fret-border);
+}
+
+/* Нут в последнем ладе */
+.fret.nut:last-child {
+  border-right: 1px solid var(--nut-color);
+}
+
+/* При наведении */
+.fret:hover:not(.nut) {
+  background: rgba(140, 208, 211, 0.15);
+  color: var(--zenburn-cyan);
+}
+
+.fret:hover:not(.nut) {
+  background: rgba(140, 208, 211, 0.15);
+  color: var(--zenburn-cyan);
+}
+
+/* Подсветка нот */
+.fret.root {
+  background: var(--zenburn-red) !important;
+  color: white !important;
+  font-weight: bold;
+  font-size: 15px;
+  box-shadow: 0 0 10px rgba(204, 147, 147, 0.5);
+  z-index: 3;
+}
+
+.fret.chord-tone {
+  background: var(--zenburn-green) !important;
+  color: var(--zenburn-bg) !important;
+  font-weight: 500;
+}
+
+.fret.scale-tone {
+  background: var(--zenburn-blue) !important;
+  color: white !important;
+}
+
+.fret.manouche-note {
+  background: var(--zenburn-orange) !important;
+  color: var(--zenburn-bg) !important;
+  font-weight: 500;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+/* Тюнинг */
+.tuning {
+  display: flex;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid var(--border-color);
+  padding-left: 40px;
+}
+
+.tuning-note {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--zenburn-yellow);
+  font-weight: bold;
+  font-size: 15px;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* ============ НИЖНЯЯ ПАНЕЛЬ ============ */
+.bottom-bar {
+  height: 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  background: var(--bg-panel);
+  border-radius: 6px;
+  flex-shrink: 0;
+  border: 1px solid var(--border-color);
+}
+
+.app-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-name {
+  font-weight: 600;
+  color: var(--zenburn-yellow);
+  font-size: 13px;
+}
+
+.app-version {
+  font-size: 11px;
+  color: var(--zenburn-fg-dim);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.control-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 24px;
+  background: rgba(143, 178, 143, 0.1);
+  border: 1px solid var(--zenburn-green);
+  color: var(--zenburn-green);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zoom-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 24px;
+  background: rgba(221, 229, 182, 0.1);
+  border: 1px solid var(--zenburn-yellow);
+  color: var(--zenburn-yellow);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.zoom-value {
+  font-size: 12px;
+  color: var(--zenburn-fg-dim);
+  min-width: 40px;
+  text-align: center;
+}
+
+/* ============ АДАПТИВНОСТЬ ============ */
+@media (max-width: 1400px) {
+  .control-panel {
+    width: 380px;
+  }
+
+  .chord-buttons .manouche-btn {
+    min-width: 55px;
+    font-size: 11px;
+    padding: 6px 4px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .main-container {
+    flex-direction: column;
+  }
+
+  .control-panel {
+    width: 100%;
+    max-height: 300px;
+  }
+
+  .fretboard-container {
+    flex: 1;
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tabs {
+    height: auto;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    flex: 1 0 auto;
+    min-width: 80px;
+  }
+
+  .input-section {
+    flex-direction: column;
+  }
+
+  .input-buttons {
+    width: 100%;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    flex: 1;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Утилиты скролла */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--zenburn-bg-lighter);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--zenburn-green);
+}
+
+.function-buttons {
+  display: flex;
+  gap: 8px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+}
+.function-buttons .secondary-btn {
+  flex: 1;
+  min-width: 100px;
+}
+.control-section {
+  display: none;
+  margin: 15px 0;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+.django-buttons {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+.django-buttons .secondary-btn {
+  flex: 1;
+  min-width: 80px;
+  font-size: 12px;
+  padding: 6px 4px;
+}
+.scale-buttons {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+.info-box {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.pentatonic-info {
+  background: rgba(143, 178, 143, 0.1);
+}
+.manouche-info {
+  background: rgba(223, 175, 143, 0.1);
+}
+.licks-info {
+  background: rgba(221, 229, 182, 0.1);
+}
+.fingering-diagram {
+  background: rgba(140, 208, 211, 0.1);
+}
+.chord-sequence {
+  background: rgba(143, 178, 143, 0.1);
+}
+
+
+
+/* Скрываем ненужные элементы при переключении вкладок */
+.hidden {
+  display: none !important;
+}
+
+/* Контейнеры полей ввода для вкладок */
+.tab-input-container {
+  margin-bottom: 15px;
+}
+
+/* Переопределяем основной input-section для вкладок */
+.style-section .input-section {
+  margin: 0 0 15px 0;
+}
+
+/* Кнопки специфичные для вкладок */
+.tab-action-btn {
+  padding: 10px 16px;
+  background: var(--zenburn-green);
+  color: var(--zenburn-bg);
+  border: none;
+  border-radius: 24px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  min-width: 120px;
+}
+
+/* ============ СТИЛИ ДЛЯ РАЗДЕЛЕНИЯ ВКЛАДОК ============ */
+
+/* Контейнеры вкладок */
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+}
+
+/* Поля ввода во всех вкладках */
+.tab-content .input-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+/* Информационные секции */
+.tab-content .info-section {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 14px;
+  border-left: 0px solid var(--zenburn-cyan);
+  margin-bottom: 8px;
+}
+
+/* Специфичные стили для блюза */
+.blues-info {
+  border-left-color: var(--zenburn-blue) !important;
+}
+
+/* Специфичные стили для мануш */
+.manouche-info {
+  border-left-color: var(--zenburn-orange) !important;
+}
+
+/* Настройки блюза */
+.blues-settings {
+  margin-top: 10px;
+}
+
+/* Контролы мануш */
+.manouche-controls {
+  margin-top: 10px;
+}
+
+/* Информационные боксы */
+.info-box {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  border-left: 3px solid transparent;
+}
+
+.pentatonic-info {
+  background: rgba(143, 178, 143, 0.1);
+  border-left-color: var(--zenburn-green);
+}
+
+.manouche-scale-info {
+  background: rgba(223, 175, 143, 0.1);
+  border-left-color: var(--zenburn-orange);
+}
+
+.licks-info {
+  background: rgba(221, 229, 182, 0.1);
+  border-left-color: var(--zenburn-yellow);
+}
+
+.fingering-diagram {
+  background: rgba(140, 208, 211, 0.1);
+  border-left-color: var(--zenburn-cyan);
+}
+
+.chord-sequence {
+  background: rgba(143, 178, 143, 0.1);
+  border-left-color: var(--zenburn-green);
+}
+
+/* Кнопки Django */
+.django-buttons {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.django-buttons .secondary-btn {
+  flex: 1;
+  min-width: 80px;
+  font-size: 12px;
+  padding: 6px 4px;
+}
+
+/* Добавьте в style.css */
+.fret.arpeggio-root {
+  background: var(--zenburn-red) !important;
+  color: white !important;
+  font-weight: bold;
+  font-size: 15px;
+  box-shadow: 0 0 10px rgba(204, 147, 147, 0.5);
+  z-index: 3;
+}
+
+.fret.arpeggio-third {
+  background: var(--zenburn-green) !important;
+  color: var(--zenburn-bg) !important;
+  font-weight: 500;
+}
+
+.fret.arpeggio-fifth {
+  background: var(--zenburn-blue) !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.fret.arpeggio-second {
+  background: var(--zenburn-yellow) !important;
+  color: var(--zenburn-bg) !important;
+}
+
+.fret.arpeggio-sixth {
+  background: var(--zenburn-orange) !important;
+  color: var(--zenburn-bg) !important;
+}
+
+.fret.arpeggio-seventh {
+  background: var(--zenburn-purple) !important;
+  color: white !important;
+}
+
+
+/* Стили для пентатоники */
+.fret.pentatonic-root {
+  background-color: var(--zenburn-red) !important;
+  color: white !important;
+  font-weight: bold !important;
+  z-index: 10;
+}
+
+.fret.pentatonic-note {
+  background-color: var(--zenburn-green) !important;
+  color: var(--zenburn-bg) !important;
+  font-weight: 500 !important;
+}
+
+.fret.blues-note {
+  background-color: var(--zenburn-blue) !important;
+  color: white !important;
+
+}
+
+/* ============ ОДИНАКОВЫЕ ПОЛЯ ВВОДА ДЛЯ ВСЕХ ВКЛАДОК ============ */
+#chordInputBlues,
+#chordInputManouche {
+  flex: 1;
+  padding: 10px 12px;
+  background: var(--zenburn-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 24px;
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  transition: border-color 0.2s;
+  min-width: 160px;
+}
+
+#chordInputBlues:focus,
+#chordInputManouche:focus {
+  outline: none;
+  border-color: var(--zenburn-green);
+}
+
+/* Убедись что поля ввода выглядят так же как в общей вкладке */
+.input-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.input-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.primary-btn {
+  padding: 10px 16px;
+  background: var(--zenburn-green);
+  color: var(--zenburn-bg);
+  border: none;
+  border-radius: 24px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  min-width: 60px;
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+}
+
+/* Стили для фраз Django */
+.fret.django-lick-note {
+  z-index: 10;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+}
+
+.lick-order {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Цвета для разных нот в фразах */
+.fret.lick-note-0 {
+  background-color: var(--zenburn-red) !important;
+}
+
+.fret.lick-note-1 {
+  background-color: var(--zenburn-green) !important;
+}
+
+.fret.lick-note-2 {
+  background-color: var(--zenburn-blue) !important;
+}
+
+.fret.lick-note-3 {
+  background-color: var(--zenburn-yellow) !important;
+  color: var(--zenburn-bg) !important;
+}
+
+/* Стили для аппликатур */
+.fret.django-fingering-note {
+  background-color: var(--zenburn-orange) !important;
+  color: white !important;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.fret.muted-string {
+  background-color: rgba(204, 147, 147, 0.3) !important;
+  color: var(--zenburn-red) !important;
+}
+
+/* Стили для гамм Django */
+.fret.manouche-root {
+  background: var(--zenburn-red) !important;
+  color: white !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  z-index: 10;
+  box-shadow: 0 0 10px rgba(204, 147, 147, 0.7) !important;
+  border-radius: 4px;
+}
+
+.fret.manouche-characteristic {
+  background: var(--zenburn-orange) !important;
+  color: white !important;
+  font-weight: bold !important;
+  z-index: 9;
+  box-shadow: 0 0 6px rgba(223, 175, 143, 0.5) !important;
+}
+
+.fret.manouche-note {
+  background: var(--zenburn-orange);
+  color: var(--zenburn-bg) !important;
+  font-weight: 500 !important;
+  z-index: 8;
+}
+
