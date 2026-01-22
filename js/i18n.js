@@ -7,7 +7,7 @@ const translations = {
     // Tabs
     "tab.general": "General",
     "tab.blues": "Blues",
-    "tab.manouche": "Manouche",
+    "tab.manouche": "Gypsy Jazz",
 
     // General tab
     "general.input.placeholder": "C, Am7, G7, Dm6...",
@@ -96,7 +96,7 @@ const translations = {
     // Tabs
     "tab.general": "Общее",
     "tab.blues": "Блюз",
-    "tab.manouche": "Мануш",
+    "tab.manouche": "Цыганский Джаз",
 
     // General tab
     "general.input.placeholder": "C, Am7, G7, Dm6...",
