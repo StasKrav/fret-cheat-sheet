@@ -12,6 +12,14 @@
     />
   </head>
   <body>
+
+	<!-- Language switcher (top right) -->
+	          <div class="language-switcher">
+	            <button class="lang-btn" data-lang="ru" title="Russian">RU</button>
+	            <button class="lang-btn active" data-lang="en" title="English">EN</button>
+	          </div>          
+	
+	
     
     <div class="app">
       <!-- Вкладки -->
@@ -62,11 +70,11 @@
                 <button class="action-btn" data-action="arpeggio" id="showArpeggioBtn">
                   <span class="action-text" data-i18n="general.arpeggio">Arpeggio</span>
                 </button>
-                <button class="action-btn" data-action="scale">
-                  <span class="action-text" data-i18n="general.scale">Scale</span>
-                </button>
-                <button class="action-btn" data-action="inversions">
-                  <span class="action-text" data-i18n="general.inversions">Inversions</span>
+                <!-- <button class="action-btn" data-action="scale"> -->
+                <!--   <span class="action-text" data-i18n="general.scale">Scale</span> -->
+                <!-- </button> -->
+                <!-- <button class="action-btn" data-action="inversions"> -->
+                <!--   <span class="action-text" data-i18n="general.inversions">Inversions</span> -->
                 </button>
               </div>
             </div>
@@ -298,12 +306,6 @@
           <button class="control-btn" id="fullscreenBtn" title="Fullscreen" data-i18n-title="ui.fullscreen">
             ⛶
           </button>
-          <!-- Language switcher (top right) -->
-          <div class="language-switcher">
-            <button class="lang-btn" data-lang="ru" title="Russian">🇷🇺</button>
-            <button class="lang-btn active" data-lang="en" title="English">🇺🇸</button>
-          </div>
-
         </div>
       </div>
     </div>
