@@ -537,7 +537,7 @@ class PentatonicManager {
     });
   }
 
-  // НОВЫЙ МЕТОД: Подсветка всех нот пентатоники
+
   // НОВЫЙ МЕТОД: Подсветка всех нот пентатоники
   highlightAllPentatonicNotes(root, pentatonicNotes, bluesNote) {
     const allFrets = document.querySelectorAll(".fret");
