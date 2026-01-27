@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fret Cheat Sheet - Guitar Learning Tool</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/manouche-style.css" />
+    <link rel="stylesheet" href="css/hints.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
@@ -292,8 +294,39 @@
           <div class="fretboard" id="fretBoard">
             <!-- Генерируется JavaScript -->
           </div>
+
+
+      <!-- Панель подсказок под грифом -->
+      <div class="hints-panel">
+        <div class="hints-header">
+          <h3>Подсказки</h3>
+          <div class="hints-controls">
+            <select id="hintsLevel" class="hints-level-select">
+              <option value="beginner">Новичок</option>
+              <option value="intermediate" selected>Средний</option>
+              <option value="advanced">Продвинутый</option>
+              <option value="django">Django-эксперт</option>
+            </select>
+            <button id="toggleHints" class="hints-toggle-btn" title="Показать/скрыть подсказки">
+              <span>📖</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="hints-content" id="hintsContent">
+          <!-- Контент будет заполняться JavaScript -->
+          <div class="default-hint">
+            <p><strong>Добро пожаловать в Fret Cheat Sheet!</strong></p>
+            <p>Введите аккорд в поле слева и нажмите "Показать" чтобы увидеть его ноты на грифе.</p>
+            <p>Используйте выпадающий список выше чтобы выбрать уровень детализации подсказок.</p>
+          </div>
         </div>
       </div>
+     </div>
+    </div>
+
+
+      
 
       <!-- Нижняя панель -->
       <div class="bottom-bar">
@@ -302,6 +335,9 @@
           <span class="app-version">v1.0</span>
         </div>
         <div class="controls">
+        <button class="control-btn" id="toggleHintsGlobalBtn" title="Показать/скрыть подсказки">
+              <span id="hintsIcon">💡</span>
+            </button>
           <button class="control-btn" id="helpBtn" title="Help" data-i18n-title="ui.help">?</button>
           <button class="control-btn" id="fullscreenBtn" title="Fullscreen" data-i18n-title="ui.fullscreen">
             ⛶
@@ -311,7 +347,34 @@
     </div>
 
     <!-- Подключаем скрипты -->
-    <script src="js/i18n.js"></script>
-    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tonal/browser/tonal.min.js"></script>
+        
+        <script src="js/guitarNeck.js"></script>
+        <script src="js/musicTheory.js"></script>
+        <script src="js/i18n.js"></script>
+        <script src="js/hintsManager.js"></script>
+        <script src="js/script.js"></script>
+
+<script>
+    // Инициализация перевода после загрузки страницы
+    document.addEventListener('DOMContentLoaded', function() {
+      // Восстанавливаем язык из localStorage
+      const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+      i18n.setLanguage(savedLang);
+      
+      // Обработчики для переключателя языка
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const lang = this.dataset.lang;
+          if (i18n.setLanguage(lang)) {
+            // Обновляем активную кнопку
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+
   </body>
 </html>

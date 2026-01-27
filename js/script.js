@@ -1,215 +1,12 @@
-// ============ ОСНОВНОЙ КОД (ОСТАВЛЯЕМ БЕЗ ИЗМЕНЕНИЙ) ============
-class GuitarNeck {
-  constructor() {
-    this.tuning = ["E4", "B3", "G3", "D3", "A2", "E2"];
-    this.notes = {
-      sharps: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
-      flats: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
-    };
-    this.equivalents = {
-      "C#": "Db",
-      Db: "C#",
-      "D#": "Eb",
-      Eb: "D#",
-      "F#": "Gb",
-      Gb: "F#",
-      "G#": "Ab",
-      Ab: "G#",
-      "A#": "Bb",
-      Bb: "A#",
-    };
-    this.frets = 19;
-  }
-
-  normalizeToSharps(note) {
-    if (this.equivalents[note]) {
-      const flatIndex = this.notes.flats.indexOf(note);
-      if (flatIndex !== -1) return this.notes.sharps[flatIndex];
-    }
-    return note;
-  }
-
-  getNote(string, fret) {
-    const openNote = this.tuning[string];
-    const openNoteName = openNote.match(/^[A-G][#b]?/)[0];
-    const octave = parseInt(openNote.slice(openNoteName.length));
-    const normalizedOpenNote = this.normalizeToSharps(openNoteName);
-    const openNoteIndex = this.notes.sharps.indexOf(normalizedOpenNote);
-    const noteIndex = (openNoteIndex + fret) % 12;
-    const noteOctave = octave + Math.floor((openNoteIndex + fret) / 12);
-    return this.notes.sharps[noteIndex] + noteOctave;
-  }
-
-  getBaseNote(string, fret) {
-    const fullNote = this.getNote(string, fret);
-    return fullNote.replace(/[0-9]/g, "");
-  }
-
-  getChordRoot(chord) {
-    const match = chord.match(/^[A-G][#♯b♭]?/);
-    if (!match) return chord.charAt(0);
-    let root = match[0];
-    root = root.replace("♯", "#").replace("♭", "b");
-    return this.normalizeToSharps(root);
-  }
-
-  extractTonic(chord) {
-    return this.getChordRoot(chord);
-  }
-
-  getChordNotes(chord) {
-    const root = this.getChordRoot(chord);
-    const rootIndex = this.notes.sharps.indexOf(root);
-    if (rootIndex === -1) return [root];
-
-    // Приводим к нижнему регистру
-    const chordLower = chord.toLowerCase();
-
-    // 1. dim7 - ПЕРВЫМ!
-    if (chordLower.includes("dim7")) {
-      return [
-        root,
-        this.notes.sharps[(rootIndex + 3) % 12], // ♭3
-        this.notes.sharps[(rootIndex + 6) % 12], // ♭5
-        this.notes.sharps[(rootIndex + 9) % 12], // 6 (♭♭7)
-      ];
-    }
-
-    // 1. m7 (проверяем ДО '7')
-    if (chord.includes("m7")) {
-      return [
-        root,
-        this.notes.sharps[(rootIndex + 3) % 12], // ♭3
-        this.notes.sharps[(rootIndex + 7) % 12], // 5
-        this.notes.sharps[(rootIndex + 10) % 12], // ♭7
-      ];
-    }
-
-    // 2. maj7 (проверяем ДО '7')
-    else if (chord.includes("maj7")) {
-      return [
-        root,
-        this.notes.sharps[(rootIndex + 4) % 12], // 3
-        this.notes.sharps[(rootIndex + 7) % 12], // 5
-        this.notes.sharps[(rootIndex + 11) % 12], // 7
-      ];
-    }
-
-    // 3. m9 (проверяем ДО '9')
-    else if (chord.includes("m9")) {
-      return [
-        root,
-        this.notes.sharps[(rootIndex + 3) % 12], // ♭3
-        this.notes.sharps[(rootIndex + 7) % 12], // 5
-        this.notes.sharps[(rootIndex + 10) % 12], // ♭7
-        this.notes.sharps[(rootIndex + 14) % 12], // 9
-      ];
-    }
-
-    // 4. m6 (проверяем ДО '6')
-    else if (
-      chord.includes("m6") ||
-      (chord.includes("m") && chord.includes("6"))
-    ) {
-      return [
-        root,
-        this.notes.sharps[(rootIndex + 3) % 12], // ♭3
-        this.notes.sharps[(rootIndex + 7) % 12], // 5
-        this.notes.sharps[(rootIndex + 9) % 12], // 6
-      ];
-    }
-
-    // 5. maj9 (проверяем ДО '9')
-    else if (chord.includes("maj9")) {
-      return [
-        root,
-        this.notes.sharps[(rootIndex + 4) % 12], // 3
-        this.notes.sharps[(rootIndex + 7) % 12], // 5
-        this.notes.sharps[(rootIndex + 11) % 12], // 7
-        this.notes.sharps[(rootIndex + 14) % 12], // 9
-      ];
-    }
-
-    // 7. 9
-    else if (chord.includes("9")) {
-      return [
-        root,
-        this.notes.sharps[(rootIndex + 4) % 12], // 3
-        this.notes.sharps[(rootIndex + 7) % 12], // 5
-        this.notes.sharps[(rootIndex + 10) % 12], // ♭7
-        this.notes.sharps[(rootIndex + 14) % 12], // 9
-      ];
-    }
-
-    // 8. 7
-    else if (chord.includes("7")) {
-      return [
-        root,
-        this.notes.sharps[(rootIndex + 4) % 12], // 3
-        this.notes.sharps[(rootIndex + 7) % 12], // 5
-        this.notes.sharps[(rootIndex + 10) % 12], // ♭7
-      ];
-    }
-
-    // 9. 6
-    else if (chord.includes("6")) {
-      return [
-        root,
-        this.notes.sharps[(rootIndex + 4) % 12], // 3
-        this.notes.sharps[(rootIndex + 7) % 12], // 5
-        this.notes.sharps[(rootIndex + 9) % 12], // 6
-      ];
-    }
-
-    // 10. m (минор)
-    else if (chord.includes("m")) {
-      return [
-        root,
-        this.notes.sharps[(rootIndex + 3) % 12], // ♭3
-        this.notes.sharps[(rootIndex + 7) % 12], // 5
-      ];
-    }
-
-    // 11. По умолчанию - мажор
-    else {
-      return [
-        root,
-        this.notes.sharps[(rootIndex + 4) % 12], // 3
-        this.notes.sharps[(rootIndex + 7) % 12], // 5
-      ];
-    }
-  }
-
-  // В классе GuitarNeck:
-  getJazzManoucheChords(tonic) {
-    const normalizedTonic = this.normalizeToSharps(tonic);
-    const rootIndex = this.notes.sharps.indexOf(normalizedTonic);
-
-    if (rootIndex === -1) return []; // Если тоника не найдена
-
-    // Только характерные аккорды джаз-мануш
-    return [
-      `${tonic}6`, // Мажорный секстаккорд
-      `${tonic}9`, // Мажорный нонаккорд
-      `${this.notes.sharps[(rootIndex + 5) % 12]}7#9`, // Доминантсептаккорд с повышенной ноной
-      `${this.notes.sharps[(rootIndex + 7) % 12]}m6`, // Минорный секстаккорд
-      `${this.notes.sharps[(rootIndex + 10) % 12]}7b9`, // Доминантсептаккорд с пониженной ноной
-      `${tonic}dim7`, // Уменьшенный септаккорд
-    ];
-  }
-}
-
 // ============ ПЕНТАТОНИКА - ПОЛНАЯ РЕАЛИЗАЦИЯ ============
 
 class PentatonicManager {
   constructor() {
-    this.neck = new GuitarNeck();
+    this.theory = window.musicTheory;
     this.isActive = false;
     this.currentConfig = null;
 
     // Паттерны боксов для минорной пентатоники (0 лад = открытая струна)
-    // Формат: [бокс][степень][позиция] = [струна, лад, степень]
-    // Заменяем boxPatterns в конструкторе PentatonicManager:
     this.boxPatterns = {
       minor: {
         1: [
@@ -378,7 +175,6 @@ class PentatonicManager {
   }
 
   detectPentatonicType(chord) {
-    // Автоматическое определение по аккорду
     if (!chord) return "minor";
 
     const chordUpper = chord.toUpperCase();
@@ -399,44 +195,48 @@ class PentatonicManager {
       return "major";
     }
 
-    // Для септаккордов определяем по базовому аккорду
     const baseChord = chord.replace(/[0-9#♯b♭]/g, "").replace(/7$/, "");
     return baseChord.includes("m") ? "minor" : "major";
   }
 
   getPentatonicNotes(root, type) {
-    const rootIndex = this.neck.notes.sharps.indexOf(
-      this.neck.normalizeToSharps(root),
-    );
+    if (!this.theory || !root) return [];
+
+    const rootNote = this.theory.normalizeToSharps(root);
+    const rootIndex = this.theory.notes.sharps.indexOf(rootNote);
+
+    if (rootIndex === -1) return [];
 
     if (type === "minor") {
       // Минорная пентатоника: 1, ♭3, 4, 5, ♭7
       return [
-        this.neck.notes.sharps[rootIndex], // 1
-        this.neck.notes.sharps[(rootIndex + 3) % 12], // ♭3
-        this.neck.notes.sharps[(rootIndex + 5) % 12], // 4
-        this.neck.notes.sharps[(rootIndex + 7) % 12], // 5
-        this.neck.notes.sharps[(rootIndex + 10) % 12], // ♭7
+        this.theory.notes.sharps[rootIndex], // 1
+        this.theory.notes.sharps[(rootIndex + 3) % 12], // ♭3
+        this.theory.notes.sharps[(rootIndex + 5) % 12], // 4
+        this.theory.notes.sharps[(rootIndex + 7) % 12], // 5
+        this.theory.notes.sharps[(rootIndex + 10) % 12], // ♭7
       ];
     } else {
-      // major
       // Мажорная пентатоника: 1, 2, 3, 5, 6
       return [
-        this.neck.notes.sharps[rootIndex], // 1
-        this.neck.notes.sharps[(rootIndex + 2) % 12], // 2
-        this.neck.notes.sharps[(rootIndex + 4) % 12], // 3
-        this.neck.notes.sharps[(rootIndex + 7) % 12], // 5
-        this.neck.notes.sharps[(rootIndex + 9) % 12], // 6
+        this.theory.notes.sharps[rootIndex], // 1
+        this.theory.notes.sharps[(rootIndex + 2) % 12], // 2
+        this.theory.notes.sharps[(rootIndex + 4) % 12], // 3
+        this.theory.notes.sharps[(rootIndex + 7) % 12], // 5
+        this.theory.notes.sharps[(rootIndex + 9) % 12], // 6
       ];
     }
   }
 
   getBluesNote(root) {
-    const rootIndex = this.neck.notes.sharps.indexOf(
-      this.neck.normalizeToSharps(root),
-    );
-    // Возвращаем просто ноту как строку, как ожидается в остальном коде
-    return this.neck.notes.sharps[(rootIndex + 6) % 12]; // ♭5
+    if (!this.theory || !root) return null;
+
+    const rootNote = this.theory.normalizeToSharps(root);
+    const rootIndex = this.theory.notes.sharps.indexOf(rootNote);
+
+    if (rootIndex === -1) return null;
+
+    return this.theory.notes.sharps[(rootIndex + 6) % 12]; // ♭5
   }
 
   togglePentatonic() {
@@ -452,13 +252,13 @@ class PentatonicManager {
 
   showPentatonic() {
     const chord = this.getActiveChord();
-    if (!chord) return;
+    if (!chord || !this.theory) return;
 
     // Очищаем гриф перед отрисовкой
     clearAllHighlights();
 
     // Определяем настройки
-    const root = this.neck.extractTonic(chord);
+    const root = this.theory.extractTonic(chord); // Используем theory вместо neck
 
     // Получаем выбранный тип пентатоники (фиксируем как minor для блюза)
     const selectedType = "minor";
@@ -508,7 +308,6 @@ class PentatonicManager {
   }
 
   // НОВЫЙ МЕТОД: Полная очистка грифа
-
   clearFretboardHighlights() {
     const allFrets = document.querySelectorAll(".fret");
     allFrets.forEach((fret) => {
@@ -537,36 +336,41 @@ class PentatonicManager {
     });
   }
 
-
   // НОВЫЙ МЕТОД: Подсветка всех нот пентатоники
   highlightAllPentatonicNotes(root, pentatonicNotes, bluesNote) {
     const allFrets = document.querySelectorAll(".fret");
+    const rootNote = this.theory.normalizeToSharps(root);
 
     allFrets.forEach((fret) => {
       const note = fret.getAttribute("data-note");
       if (!note) return;
 
-      const normalizedNote = this.neck.normalizeToSharps(note);
+      const normalizedNote = this.theory.normalizeToSharps(note);
 
       // Проверяем, является ли нота пентатоники
-      if (pentatonicNotes.includes(normalizedNote)) {
+      const isPentatonicNote = pentatonicNotes.some((pentNote) =>
+        this.theory.areNotesEqual(pentNote, normalizedNote),
+      );
+
+      if (isPentatonicNote) {
         // Если это корневая нота
-        if (normalizedNote === root) {
+        const isRoot = this.theory.areNotesEqual(rootNote, normalizedNote);
+
+        if (isRoot) {
           fret.classList.add("pentatonic-root");
-          fret.classList.remove("pentatonic-note"); // Убираем обычный класс
+          fret.classList.remove("pentatonic-note");
           fret.style.fontWeight = "bold";
         } else {
-          // Обычные ноты пентатоники
           fret.classList.add("pentatonic-note");
-          fret.classList.remove("pentatonic-root"); // Убираем корневой класс
+          fret.classList.remove("pentatonic-root");
           fret.style.fontWeight = "";
         }
       }
 
       // Проверяем, является ли блюзовой нотой
-      if (bluesNote && normalizedNote === bluesNote) {
+      if (bluesNote && this.theory.areNotesEqual(bluesNote, normalizedNote)) {
         fret.classList.add("blues-note");
-        fret.classList.remove("pentatonic-note", "pentatonic-root"); // Убираем конфликтующие классы
+        fret.classList.remove("pentatonic-note", "pentatonic-root");
         fret.style.animation = "blues-note-pulse 2s infinite";
       }
     });
@@ -574,8 +378,18 @@ class PentatonicManager {
 
   // НОВЫЙ МЕТОД: Подсветка конкретного бокса
   highlightPentatonicBox(root, boxNum, type, pentatonicNotes, bluesNote) {
-    const rootNote = this.neck.normalizeToSharps(root);
-    const rootIndex = this.neck.notes.sharps.indexOf(rootNote);
+    if (!window.guitarNeck) {
+      console.error("guitarNeck не загружен!");
+      return;
+    }
+
+    const rootNote = this.theory.normalizeToSharps(root);
+    const rootIndex = this.theory.notes.sharps.indexOf(rootNote);
+
+    if (rootIndex === -1) {
+      console.error(`Не найдена тоника ${root} в массиве нот`);
+      return;
+    }
 
     // Получаем паттерн бокса
     const boxPattern = this.boxPatterns.minor[boxNum];
@@ -587,8 +401,9 @@ class PentatonicManager {
     // Определяем позицию первого бокса для данной тоники
     let rootPositionOnString6 = null;
     for (let fret = 0; fret <= 12; fret++) {
-      const note = this.neck.getBaseNote(5, fret); // 6 струна = индекс 5
-      if (this.neck.normalizeToSharps(note) === rootNote) {
+      const note = window.guitarNeck.getBaseNote(5, fret);
+      const normalizedNote = this.theory.normalizeToSharps(note);
+      if (this.theory.areNotesEqual(rootNote, normalizedNote)) {
         rootPositionOnString6 = fret;
         break;
       }
@@ -606,7 +421,7 @@ class PentatonicManager {
       const fretNumber = baseFret + shift;
 
       // Проверяем границы грифа
-      if (fretNumber > 19) return;
+      if (fretNumber < 0 || fretNumber > 19) return;
 
       // Находим элемент на грифе
       const fretElement = document.querySelector(
@@ -621,7 +436,7 @@ class PentatonicManager {
       const note = fretElement.getAttribute("data-note");
       if (!note) return;
 
-      const normalizedNote = this.neck.normalizeToSharps(note);
+      const normalizedNote = this.theory.normalizeToSharps(note);
 
       // Очищаем предыдущие классы пентатоники
       fretElement.classList.remove(
@@ -633,34 +448,110 @@ class PentatonicManager {
       fretElement.style.animation = "";
 
       // Проверяем и подсвечиваем
-      if (pentatonicNotes.includes(normalizedNote)) {
-        if (normalizedNote === rootNote) {
-          // КОРНЕВАЯ НОТА - красный цвет
+      const isPentatonicNote = pentatonicNotes.some((pentNote) =>
+        this.theory.areNotesEqual(pentNote, normalizedNote),
+      );
+
+      // ВАЖНОЕ ИЗМЕНЕНИЕ: Добавляем проверку на блюзовую ноту
+      const showBlues =
+        document.getElementById("showBluesNote")?.checked || false;
+      const isBluesNote =
+        showBlues &&
+        bluesNote &&
+        this.theory.areNotesEqual(bluesNote, normalizedNote);
+
+      if (isBluesNote) {
+        // Блюзовая нота - подсвечиваем синим
+        fretElement.classList.add("blues-note");
+        fretElement.style.animation = "blues-note-pulse 2s infinite";
+      } else if (isPentatonicNote) {
+        const isRoot = this.theory.areNotesEqual(rootNote, normalizedNote);
+
+        if (isRoot) {
+          // Корневая нота - красный
           fretElement.classList.add("pentatonic-root");
         } else {
-          // Обычные ноты пентатоники - зеленый цвет
+          // Обычные ноты пентатоники - зеленый
           fretElement.classList.add("pentatonic-note");
         }
       }
-
-      if (bluesNote && normalizedNote === bluesNote) {
-        fretElement.classList.add("blues-note");
-        fretElement.style.animation = "blues-note-pulse 2s infinite";
-      }
     });
+
+    // ВАЖНОЕ ДОПОЛНЕНИЕ: Ищем и добавляем блюзовые ноты в пределах бокса
+    if (bluesNote) {
+      this.addBluesNotesToBox(root, boxNum, shift, bluesNote);
+    }
+  }
+
+  // ДОБАВЛЯЕМ НОВЫЙ МЕТОД:
+  addBluesNotesToBox(root, boxNum, shift, bluesNote) {
+    if (!window.guitarNeck) return;
+
+    const showBlues =
+      document.getElementById("showBluesNote")?.checked || false;
+    if (!showBlues) return;
+
+    // Определяем диапазон ладов для бокса
+    let minFret, maxFret;
+    switch (boxNum) {
+      case 1:
+        minFret = 0;
+        maxFret = 4;
+        break;
+      case 2:
+        minFret = 3;
+        maxFret = 7;
+        break;
+      case 3:
+        minFret = 5;
+        maxFret = 9;
+        break;
+      case 4:
+        minFret = 7;
+        maxFret = 11;
+        break;
+      case 5:
+        minFret = 10;
+        maxFret = 14;
+        break;
+      default:
+        return;
+    }
+
+    // Ищем блюзовую ноту во всех струнах в пределах бокса
+    for (let string = 0; string < 6; string++) {
+      for (let fret = minFret + shift; fret <= maxFret + shift; fret++) {
+        if (fret < 0 || fret > 19) continue;
+
+        const fretElement = document.querySelector(
+          `.fret[data-string="${string}"][data-fret="${fret}"]`,
+        );
+
+        if (!fretElement) continue;
+
+        const note = fretElement.getAttribute("data-note");
+        if (!note) continue;
+
+        const normalizedNote = this.theory.normalizeToSharps(note);
+
+        if (this.theory.areNotesEqual(bluesNote, normalizedNote)) {
+          // Нашли блюзовую ноту - подсвечиваем
+          fretElement.classList.remove("pentatonic-note", "pentatonic-root");
+          fretElement.classList.add("blues-note");
+          fretElement.style.animation = "blues-note-pulse 2s infinite";
+        }
+      }
+    }
   }
 
   hidePentatonic() {
-    // НЕ очищаем здесь гриф!
-    // Вместо этого сбрасываем состояние
-
-    // Скрываем панель пентатоники
-    const pentatonicControls = document.getElementById("pentatonicControls");
+    // Сбрасываем состояние
+    const pentatonicControls = document.querySelector(".pentatonic-controls");
     if (pentatonicControls) {
       pentatonicControls.style.display = "none";
     }
 
-    document.getElementById("togglePentatonicBtn").classList.remove("active");
+    document.getElementById("togglePentatonicBtn")?.classList.remove("active");
 
     const pentatonicInfo = document.getElementById("pentatonicInfo");
     if (pentatonicInfo) {
@@ -694,22 +585,14 @@ class PentatonicManager {
       if (bluesTab) bluesTab.appendChild(infoDiv);
     }
 
-    // Используем i18n для перевода
-    const typeName =
-      type === "minor"
-        ? i18n.t("scale.harmonicMinor", "Minor")
-        : i18n.t("scale.gypsyMajor", "Major");
+    const typeName = type === "minor" ? "Минорная" : "Мажорная";
+    const boxText = box === "all" ? "Все позиции" : `Бокс ${box}`;
 
-    const boxText =
-      box === "all"
-        ? i18n.t("blues.boxAll", "All positions")
-        : `${i18n.t("blues.box", "Box")} ${box}`;
-
-    let info = `<div><strong>${typeName} pentatonic from ${root}</strong> | ${boxText}</div>`;
-    info += `<div>${i18n.t("general.notes", "Notes")}: ${pentatonicNotes.join(", ")}</div>`;
+    let info = `<div><strong>${typeName} пентатоника от ${root}</strong> | ${boxText}</div>`;
+    info += `<div>Ноты: ${pentatonicNotes.join(", ")}</div>`;
 
     if (bluesNote) {
-      info += `<div style="color: var(--zenburn-blue);">+ ${i18n.t("blues.bluesNote", "Blue note")}: ${bluesNote} (♭5)</div>`;
+      info += `<div style="color: var(--zenburn-blue);">+ блюзовая нота: ${bluesNote} (♭5)</div>`;
     }
 
     infoDiv.innerHTML = info;
@@ -721,7 +604,8 @@ class PentatonicManager {
 
 class ManoucheScales {
   constructor() {
-    this.neck = new GuitarNeck();
+    // Используем musicTheory для музыкальной теории
+    this.theory = window.musicTheory;
     this.isActive = false;
     this.currentScale = null;
 
@@ -738,60 +622,47 @@ class ManoucheScales {
   // Определяем все специфические гаммы мануш
   getScaleIntervals(scaleName) {
     const intervals = {
-      // 1. ЦЫГАНСКАЯ МАЖОРНАЯ (основная)
-      gypsyMajor: [0, 2, 3, 6, 7, 8, 11], // 1-2-♭3-♯4-5-♭6-7
-
-      // 2. МАЖОРНАЯ ГАРМОНИЧЕСКАЯ
-      harmonicMajor: [0, 2, 4, 5, 7, 8, 11], // 1-2-3-4-5-♭6-7
-
-      // 3. ГАРМОНИЧЕСКИЙ МИНОР (добавьте!)
-      harmonicMinor: [0, 2, 3, 5, 7, 8, 11], // 1-2-♭3-4-5-♭6-7
-
-      // 4. МИНОРНАЯ ГАРМОНИЧЕСКАЯ С ♮6 (Django style)
-      harmonicMinorNat6: [0, 2, 3, 5, 7, 9, 11], // 1-2-♭3-4-5-6-7
-
-      // 5. ДОРИЙСКИЙ С ♯4
-      dorianSharp4: [0, 2, 3, 6, 7, 9, 10], // 1-2-♭3-♯4-5-6-♭7
-
-      // 6. DIMINISHED АРПЕДЖИО (симметричное)
-      diminished: [0, 3, 6, 9], // 1-♭3-♭5-6 (♭♭7)
-
-      // 7. ДВОЙНАЯ ХРОМАТИКА (характерные подходы)
-      doubleChromatic: [0, 1, 2, 3, 4, 5], // Полутоновые пары
-
-      // 8. МИКСОЛИДИЙСКИЙ ♭6 (для доминант)
-      mixolydianFlat6: [0, 2, 4, 5, 7, 8, 10], // 1-2-3-4-5-♭6-♭7
-
-      // 9. АЛЬТЕРИРОВАННАЯ (для V7alt)
-      altered: [0, 1, 3, 4, 6, 8, 10], // 1-♭9-♯9-3-♯11-♭13-♭7
+      gypsyMajor: [0, 2, 3, 6, 7, 8, 11],
+      harmonicMajor: [0, 2, 4, 5, 7, 8, 11],
+      harmonicMinor: [0, 2, 3, 5, 7, 8, 11],
+      harmonicMinorNat6: [0, 2, 3, 5, 7, 9, 11],
+      dorianSharp4: [0, 2, 3, 6, 7, 9, 10],
+      diminished: [0, 3, 6, 9],
+      doubleChromatic: [0, 1, 2, 3, 4, 5],
+      mixolydianFlat6: [0, 2, 4, 5, 7, 8, 10],
+      altered: [0, 1, 3, 4, 6, 8, 10],
     };
     return intervals[scaleName] || intervals.gypsyMajor;
   }
 
   // Получаем ноты гаммы от тоники
   getScaleNotes(root, scaleName) {
-    const rootNote = this.neck.normalizeToSharps(root);
-    const rootIndex = this.neck.notes.sharps.indexOf(rootNote);
+    if (!this.theory || !root) return [];
+
+    const rootNote = this.theory.normalizeToSharps(root);
+    const rootIndex = this.theory.notes.sharps.indexOf(rootNote);
 
     if (rootIndex === -1) return [];
 
     const intervals = this.getScaleIntervals(scaleName);
     return intervals.map((interval) => {
       const noteIndex = (rootIndex + interval) % 12;
-      return this.neck.notes.sharps[noteIndex];
+      return this.theory.notes.sharps[noteIndex];
     });
   }
 
   // Определяем тип гаммы по аккорду
   detectScaleForChord(chord) {
+    if (!chord) return "gypsyMajor";
+
     const chordUpper = chord.toUpperCase();
 
     if (chord.includes("m")) {
       // Минорные аккорды
       if (chord.includes("m6") || chord.includes("m7")) {
-        return "dorianSharp4"; // Для Am6, Am7
+        return "dorianSharp4";
       }
-      return "harmonicMinorNat6"; // Для Am, Am(maj7)
+      return "harmonicMinorNat6";
     } else if (chord.includes("7")) {
       // Доминанты
       if (chord.includes("7#9") || chord.includes("7alt")) {
@@ -799,13 +670,13 @@ class ManoucheScales {
       } else if (chord.includes("7b9")) {
         return "mixolydianFlat6";
       }
-      return "diminished"; // Django часто использует diminished над V7
+      return "diminished";
     } else {
       // Мажорные аккорды
       if (chord.includes("6") || chord.includes("maj7")) {
         return "harmonicMajor";
       }
-      return "gypsyMajor"; // По умолчанию для мажора
+      return "gypsyMajor";
     }
   }
 
@@ -817,18 +688,18 @@ class ManoucheScales {
   // Показываем гамму на грифе
   showScale(scaleName = null) {
     const chord = this.getActiveChord();
-    if (!chord) return;
+    if (!chord || !this.theory) return;
 
     // Определяем гамму, если не указана
     if (!scaleName) {
       scaleName = this.detectScaleForChord(chord);
     }
 
-    const root = this.neck.extractTonic(chord);
+    const root = this.theory.extractTonic(chord); // Используем theory вместо neck
     const scaleNotes = this.getScaleNotes(root, scaleName);
 
     if (!scaleNotes.length) {
-      console.error(i18n.t("error.scaleNotes", "Failed to get scale notes"));
+      console.error("Не удалось получить ноты гаммы");
       return;
     }
 
@@ -841,9 +712,6 @@ class ManoucheScales {
     // Подсвечиваем ноты гаммы
     this.highlightScaleNotes(root, scaleNotes, scaleName);
 
-    // Обновляем информацию
-    this.updateScaleInfo(root, scaleName, scaleNotes);
-
     // Сохраняем текущую конфигурацию
     this.currentScale = { root, scaleName, notes: scaleNotes };
     this.isActive = true;
@@ -852,7 +720,7 @@ class ManoucheScales {
   // Подсветка нот гаммы на грифе
   highlightScaleNotes(root, scaleNotes, scaleName) {
     const allFrets = document.querySelectorAll(".fret");
-    const rootNote = this.neck.normalizeToSharps(root);
+    const rootNote = this.theory.normalizeToSharps(root);
 
     // Определяем характерные ноты для этой гаммы
     const characteristicNotes = this.getCharacteristicNotes(root, scaleName);
@@ -861,14 +729,18 @@ class ManoucheScales {
       const note = fret.getAttribute("data-note");
       if (!note) return;
 
-      const normalizedNote = this.neck.normalizeToSharps(note);
+      const normalizedNote = this.theory.normalizeToSharps(note);
 
       // Проверяем, принадлежит ли нота гамме
-      if (scaleNotes.includes(normalizedNote)) {
+      const isInScale = scaleNotes.some((scaleNote) =>
+        this.theory.areNotesEqual(scaleNote, normalizedNote),
+      );
+
+      if (isInScale) {
         fret.classList.add("manouche-note");
 
         // Корневая нота
-        if (normalizedNote === rootNote) {
+        if (this.theory.areNotesEqual(normalizedNote, rootNote)) {
           fret.classList.add("manouche-root");
           fret.style.backgroundColor = this.noteColors.root;
           fret.style.color = "white";
@@ -877,7 +749,11 @@ class ManoucheScales {
           fret.style.boxShadow = "0 0 8px rgba(204, 147, 147, 0.7)";
         }
         // Характерные ноты (♭3, ♭6, ♯4)
-        else if (characteristicNotes.includes(normalizedNote)) {
+        else if (
+          characteristicNotes.some((charNote) =>
+            this.theory.areNotesEqual(charNote, normalizedNote),
+          )
+        ) {
           fret.classList.add("manouche-characteristic");
           fret.style.backgroundColor = this.noteColors.characteristic;
           fret.style.color = "white";
@@ -895,55 +771,38 @@ class ManoucheScales {
 
   // Получаем характерные ноты для каждой гаммы
   getCharacteristicNotes(root, scaleName) {
-    const rootNote = this.neck.normalizeToSharps(root);
-    const rootIndex = this.neck.notes.sharps.indexOf(rootNote);
+    if (!this.theory || !root) return [];
+
+    const rootNote = this.theory.normalizeToSharps(root);
+    const rootIndex = this.theory.notes.sharps.indexOf(rootNote);
+
+    if (rootIndex === -1) return [];
 
     const characteristicMap = {
       gypsyMajor: [
-        this.neck.notes.sharps[(rootIndex + 3) % 12], // ♭3
-        this.neck.notes.sharps[(rootIndex + 6) % 12], // ♯4
-        this.neck.notes.sharps[(rootIndex + 8) % 12], // ♭6
+        this.theory.notes.sharps[(rootIndex + 3) % 12], // ♭3
+        this.theory.notes.sharps[(rootIndex + 6) % 12], // ♯4
+        this.theory.notes.sharps[(rootIndex + 8) % 12], // ♭6
       ],
       harmonicMajor: [
-        this.neck.notes.sharps[(rootIndex + 8) % 12], // ♭6
+        this.theory.notes.sharps[(rootIndex + 8) % 12], // ♭6
       ],
       harmonicMinorNat6: [
-        this.neck.notes.sharps[(rootIndex + 11) % 12], // 7 (мажорная)
+        this.theory.notes.sharps[(rootIndex + 11) % 12], // 7 (мажорная)
       ],
       dorianSharp4: [
-        this.neck.notes.sharps[(rootIndex + 6) % 12], // ♯4
+        this.theory.notes.sharps[(rootIndex + 6) % 12], // ♯4
       ],
       diminished: [
-        this.neck.notes.sharps[(rootIndex + 3) % 12], // ♭3
-        this.neck.notes.sharps[(rootIndex + 6) % 12], // ♭5
-        this.neck.notes.sharps[(rootIndex + 9) % 12], // 6 (♭♭7)
+        this.theory.notes.sharps[(rootIndex + 3) % 12], // ♭3
+        this.theory.notes.sharps[(rootIndex + 6) % 12], // ♭5
+        this.theory.notes.sharps[(rootIndex + 9) % 12], // 6 (♭♭7)
       ],
     };
 
     return characteristicMap[scaleName] || [];
   }
 
-  // Обновляем информацию о гамме
-  updateScaleInfo(root, scaleName, scaleNotes) {
-    const infoDiv = document.getElementById("manoucheScaleInfo");
-    if (!infoDiv) return;
-
-    const scaleDisplayName = i18n.t(`scale.${scaleName}`, scaleName);
-    const formula = this.getScaleFormula(scaleName);
-    const characteristic = this.getCharacteristicDescription(scaleName);
-
-    let info = `
-      <div class="manouche-scale-header">
-        <strong>${scaleDisplayName} from ${root}</strong>
-        <span class="scale-formula">${formula}</span>
-      </div>
-      <div class="scale-notes">Notes: <strong>${scaleNotes.join(", ")}</strong></div>
-      <div class="scale-characteristic">${characteristic}</div>
-    `;
-
-    infoDiv.innerHTML = info;
-    infoDiv.style.display = "block";
-  }
 
   // Формулы гамм
   getScaleFormula(scaleName) {
@@ -960,70 +819,6 @@ class ManoucheScales {
     return formulas[scaleName] || "";
   }
 
-  // Описание характерных особенностей
-  getCharacteristicDescription(scaleName) {
-    const descriptions = {
-      gypsyMajor:
-        '🎻 <em>Классический "цыганский" звук Django. Используй ♭3 и ♭6 для аутентичного колорита.</em>',
-      harmonicMajor:
-        "🎵 <em>Мажор с напряжённой ♭6. Отлично подходит для аккордов 6 и maj7.</em>",
-      harmonicMinorNat6:
-        '🎹 <em>Минор с мажорной септимой. Характерно для "Minor Swing".</em>',
-      diminished:
-        "⚡ <em>Симметричное арпеджио - основа техники Django! Используй как проходящие аккорды.</em>",
-      dorianSharp4:
-        "✨ <em>Дорийский с повышенной квартой. Придаёт современное звучание.</em>",
-    };
-    return descriptions[scaleName] || "";
-  }
-
-  // Советы Django для каждой гаммы
-  getDjangoTip(scaleName) {
-    const tips = {
-      gypsyMajor:
-        "💡 <strong>Совет Django:</strong> Акцентируй ♭3 и ♭6 в быстрых пассажах.",
-      harmonicMajor:
-        "💡 <strong>Совет Django:</strong> Разрешай ♭6 в 5 или ♭7.",
-      diminished:
-        "💡 <strong>Совет Django:</strong> Играй diminished арпеджио через каждые полтона.",
-      harmonicMinorNat6:
-        "💡 <strong>Совет Django:</strong> Используй мажорную септиму как подход к тонике.",
-    };
-    return tips[scaleName] || "";
-  }
-
-  // Очистка подсветки
-  // В ManoucheScales
-  highlightScaleNotes(root, scaleNotes, scaleName) {
-    // НЕ очищаем здесь! Очистка делается в обработчиках
-    const allFrets = document.querySelectorAll(".fret");
-    const rootNote = this.neck.normalizeToSharps(root);
-
-    // Определяем характерные ноты
-    const characteristicNotes = this.getCharacteristicNotes(root, scaleName);
-
-    allFrets.forEach((fret) => {
-      const note = fret.getAttribute("data-note");
-      if (!note) return;
-
-      const normalizedNote = this.neck.normalizeToSharps(note);
-
-      if (scaleNotes.includes(normalizedNote)) {
-        fret.classList.add("manouche-note");
-
-        if (normalizedNote === rootNote) {
-          fret.classList.add("manouche-root");
-          fret.style.backgroundColor = this.noteColors.root;
-          fret.style.fontWeight = "bold";
-        } else if (characteristicNotes.includes(normalizedNote)) {
-          fret.classList.add("manouche-characteristic");
-          fret.style.backgroundColor = this.noteColors.characteristic;
-        } else {
-          fret.style.backgroundColor = this.noteColors.resolution;
-        }
-      }
-    });
-  }
 
   // Переключение видимости
   toggleManouche() {
@@ -1040,9 +835,6 @@ class ManoucheScales {
   // Скрыть панель
   hideManouche() {
     // НЕ очищаем здесь! Очистка делается в централизованной функции
-    // this.clearAllHighlights(); // <-- УДАЛИТЕ или ЗАКОММЕНТИРУЙТЕ
-
-    // Скрываем панель Manouche
     const manoucheControls = document.getElementById("manoucheControls");
     if (manoucheControls) {
       manoucheControls.style.display = "none";
@@ -1076,15 +868,14 @@ class ManoucheScales {
       return;
     }
 
-    const tonic = this.neck.extractTonic(chord);
-    const chords = this.neck.getJazzManoucheChords(tonic);
+    const tonic = this.theory.extractTonic(chord);
+    const chords = this.theory.getJazzManoucheChords(tonic);
 
     const sequenceDiv = document.getElementById("chordSequence");
     if (!sequenceDiv) return;
 
     if (!chords || chords.length === 0) {
-      sequenceDiv.innerHTML =
-        "<em>" + i18n.t("general.chord", "No chords found") + "</em>";
+      sequenceDiv.innerHTML = "<em>Не удалось получить аккорды</em>";
       sequenceDiv.style.display = "block";
       return;
     }
@@ -1096,13 +887,12 @@ class ManoucheScales {
       )
       .join(", ");
 
-    // Используем i18n для перевода
     sequenceDiv.innerHTML = `
-    <strong>${i18n.t("manouche.jazzManouche", "Characteristic Jazz Manouche chords")} from ${tonic}:</strong><br>
-    ${chordsHTML}
-    <br><br>
-    <em>${i18n.t("general.chord", "Click any chord to view on fretboard")}</em>
-  `;
+      <strong>Характерные аккорды джаз-мануш от ${tonic}:</strong><br>
+      ${chordsHTML}
+      <br><br>
+      <em>Кликните на любой аккорд для просмотра на грифе</em>
+    `;
 
     sequenceDiv.style.display = "block";
 
@@ -1131,7 +921,7 @@ class ManoucheScales {
 
 class DjangoLicks {
   constructor() {
-    this.neck = new GuitarNeck();
+    this.neck = window.guitarNeck;
     this.licks = {
       // 1. Классический diminished run
       dimRun: {
@@ -1279,7 +1069,6 @@ class DjangoLicks {
     // Показываем контейнер
     container.style.display = "block";
 
-    // Используем i18n для перевода
     container.innerHTML = `
       <div class="django-lick-info">
         <div class="lick-header">
@@ -1287,9 +1076,9 @@ class DjangoLicks {
           <span class="lick-tempo">${lick.tempo}</span>
         </div>
         <div class="lick-description">${lick.description}</div>
-        <div class="lick-notes">${i18n.t("general.notes", "Notes")}: <strong>${lick.notes.join(" - ")}</strong></div>
-        <div class="lick-usage">${i18n.t("manouche.licks", "Usage")}: ${lick.usage}</div>
-        <div class="lick-tip">💡 <em>Practice slowly, then increase tempo</em></div>
+        <div class="lick-notes">Ноты: <strong>${lick.notes.join(" - ")}</strong></div>
+        <div class="lick-usage">Использование: ${lick.usage}</div>
+        <div class="lick-tip">💡 <em>Практикуй медленно, затем увеличивай темп</em></div>
       </div>
     `;
   }
@@ -1313,7 +1102,8 @@ class DjangoLicks {
 
 class DjangoFingerings {
   constructor() {
-    this.neck = new GuitarNeck();
+    this.neck = window.guitarNeck; // Используем глобальный экземпляр
+    this.theory = window.musicTheory;
 
     // Типичные аппликатуры Django для разных гамм
     // В классе DjangoFingerings (в конструкторе) ЗАМЕНИТЕ fingerings:
@@ -1588,30 +1378,24 @@ class DjangoFingerings {
     const diagramDiv = document.getElementById("fingeringDiagram");
     if (!diagramDiv || !fingering) return;
 
-    // Используем i18n для перевода
     let html = `
-      <div style="margin-bottom: 8px;">
-        <strong style="color: var(--zenburn-yellow);">${fingering.name || i18n.t("manouche.fingerings", "Django Fingering")}</strong>
-      </div>
-      <div style="font-size: 10px; margin-bottom: 5px; color: var(--zenburn-fg-dim);">
-        ${fingering.description || ""}
-      </div>
-      <div style="margin: 5px 0; padding: 5px; background: rgba(140, 208, 211, 0.1); border-radius: 3px;">
-        <strong style="color: var(--zenburn-cyan);">${i18n.t("general.chord", "Chord")}:</strong> ${fingering.chord || "N/A"}
-      </div>
-    `;
-
-    if (fingering.tip) {
-      html += `
-        <div style="margin-top: 8px; padding: 8px; background: rgba(223, 175, 143, 0.1); border-radius: 3px;">
-          <span style="color: var(--zenburn-orange);">💡 ${i18n.t("manouche.licks", "Django Tip")}:</span> 
-          <em style="font-size: 10px;">${fingering.tip}</em>
-        </div>
+          <div style="margin-bottom: 8px;">
+              <strong style="color: var(--zenburn-yellow);">${fingering.name || "Аппликатура Django"}</strong>
+          </div>
+          <div style="font-size: 10px; margin-bottom: 5px; color: var(--zenburn-fg-dim);">
+              ${fingering.description || ""}
+          </div>
+          <div style="margin: 5px 0; padding: 5px; background: rgba(140, 208, 211, 0.1); border-radius: 3px;">
+              <strong style="color: var(--zenburn-cyan);">Аккорд:</strong> ${fingering.chord || "Не указан"}
+          </div>
+          <div style="margin-top: 8px; padding: 8px; background: rgba(223, 175, 143, 0.1); border-radius: 3px;">
+              <span style="color: var(--zenburn-orange);">💡 Характерно для Django:</span> 
+              <em style="font-size: 10px;">${fingering.tip || "Используй большой палец для баса!"}</em>
+          </div>
+          <!-- УБИРАЕМ ЛЕГЕНДУ ПАЛЬЦЕВ - ОНА БОЛЬШЕ НЕ НУЖНА -->
       `;
-    }
 
     diagramDiv.innerHTML = html;
-    diagramDiv.style.display = "block";
   }
 
   clearFingeringHighlight() {
@@ -1668,7 +1452,8 @@ class DjangoFingerings {
 // ============ АРПЕДЖИО ============
 class ArpeggioManager {
   constructor() {
-    this.neck = new GuitarNeck();
+    // Используем musicTheory вместо guitarNeck для музыкальной теории
+    this.theory = window.musicTheory;
     this.currentArpeggio = null;
   }
 
@@ -1696,24 +1481,28 @@ class ArpeggioManager {
   }
 
   getArpeggioNotes(root, type = "major") {
-    const rootIndex = this.neck.notes.sharps.indexOf(
-      this.neck.normalizeToSharps(root),
+    if (!this.theory) return [];
+
+    const rootIndex = this.theory.notes.sharps.indexOf(
+      this.theory.normalizeToSharps(root),
     );
+
+    if (rootIndex === -1) return [];
 
     let notes = [];
 
     // Базовые ноты арпеджио
     if (type === "minor") {
       notes = [
-        this.neck.notes.sharps[rootIndex], // 1
-        this.neck.notes.sharps[(rootIndex + 3) % 12], // ♭3
-        this.neck.notes.sharps[(rootIndex + 7) % 12], // 5
+        this.theory.notes.sharps[rootIndex], // 1
+        this.theory.notes.sharps[(rootIndex + 3) % 12], // ♭3
+        this.theory.notes.sharps[(rootIndex + 7) % 12], // 5
       ];
     } else {
       notes = [
-        this.neck.notes.sharps[rootIndex], // 1
-        this.neck.notes.sharps[(rootIndex + 4) % 12], // 3
-        this.neck.notes.sharps[(rootIndex + 7) % 12], // 5
+        this.theory.notes.sharps[rootIndex], // 1
+        this.theory.notes.sharps[(rootIndex + 4) % 12], // 3
+        this.theory.notes.sharps[(rootIndex + 7) % 12], // 5
       ];
     }
 
@@ -1721,18 +1510,22 @@ class ArpeggioManager {
   }
 
   addExtensions(notes, root, addSecond, addSixth, addSeventh) {
-    const rootIndex = this.neck.notes.sharps.indexOf(
-      this.neck.normalizeToSharps(root),
+    if (!this.theory || !root) return notes;
+
+    const rootIndex = this.theory.notes.sharps.indexOf(
+      this.theory.normalizeToSharps(root),
     );
+
+    if (rootIndex === -1) return notes;
 
     let extendedNotes = [...notes];
 
     if (addSecond) {
-      extendedNotes.push(this.neck.notes.sharps[(rootIndex + 2) % 12]); // 2
+      extendedNotes.push(this.theory.notes.sharps[(rootIndex + 2) % 12]); // 2
     }
 
     if (addSixth) {
-      extendedNotes.push(this.neck.notes.sharps[(rootIndex + 9) % 12]); // 6
+      extendedNotes.push(this.theory.notes.sharps[(rootIndex + 9) % 12]); // 6
     }
 
     if (addSeventh) {
@@ -1742,7 +1535,7 @@ class ArpeggioManager {
         seventhInterval = 10; // малая для минора
       }
       extendedNotes.push(
-        this.neck.notes.sharps[(rootIndex + seventhInterval) % 12],
+        this.theory.notes.sharps[(rootIndex + seventhInterval) % 12],
       ); // 7
     }
 
@@ -1751,13 +1544,13 @@ class ArpeggioManager {
 
   showArpeggio() {
     const chord = this.getActiveChord();
-    if (!chord) return;
+    if (!chord || !this.theory) return;
 
-    const root = this.neck.extractTonic(chord);
+    const root = this.theory.extractTonic(chord); // Используем theory вместо neck
     const type = this.getArpeggioType(chord);
-    const addSecond = document.getElementById("addSecond").checked;
-    const addSixth = document.getElementById("addSixth").checked;
-    const addSeventh = document.getElementById("addSeventh").checked;
+    const addSecond = document.getElementById("addSecond")?.checked || false;
+    const addSixth = document.getElementById("addSixth")?.checked || false;
+    const addSeventh = document.getElementById("addSeventh")?.checked || false;
 
     const baseNotes = this.getArpeggioNotes(root, type);
     const extendedNotes = this.addExtensions(
@@ -1780,24 +1573,35 @@ class ArpeggioManager {
   }
 
   visualizeArpeggio(notes, root, type) {
-    clearAllHighlights(); // Полная очистка перед арпеджио
+    clearAllHighlights();
+
+    if (!this.theory || !notes || notes.length === 0) return;
+
     const rootNote = notes[0];
     const thirdNote = notes[1];
     const fifthNote = notes[2];
+
     document.querySelectorAll(".fret").forEach((fret) => {
       const note = fret.getAttribute("data-note");
-      const normalizedNote = this.neck.normalizeToSharps(note);
-      if (normalizedNote === rootNote) {
+      if (!note) return;
+
+      const normalizedNote = this.theory.normalizeToSharps(note);
+
+      // Проверяем энгармоническое равенство
+      const checkNote = (targetNote) =>
+        this.theory.areNotesEqual(targetNote, normalizedNote);
+
+      if (checkNote(rootNote)) {
         fret.classList.add("arpeggio-root");
-      } else if (normalizedNote === thirdNote) {
+      } else if (checkNote(thirdNote)) {
         fret.classList.add("arpeggio-third");
-      } else if (normalizedNote === fifthNote) {
+      } else if (checkNote(fifthNote)) {
         fret.classList.add("arpeggio-fifth");
-      } else if (notes.includes(normalizedNote)) {
-        const rootIndex = this.neck.notes.sharps.indexOf(
-          this.neck.normalizeToSharps(root),
+      } else if (notes.some((n) => checkNote(n))) {
+        const rootIndex = this.theory.notes.sharps.indexOf(
+          this.theory.normalizeToSharps(root),
         );
-        const noteIndex = this.neck.notes.sharps.indexOf(normalizedNote);
+        const noteIndex = this.theory.notes.sharps.indexOf(normalizedNote);
         let interval = (noteIndex - rootIndex + 12) % 12;
         if (interval === 2) fret.classList.add("arpeggio-second");
         else if (interval === 9) fret.classList.add("arpeggio-sixth");
@@ -1805,6 +1609,7 @@ class ArpeggioManager {
           fret.classList.add("arpeggio-seventh");
       }
     });
+
     this.showArpeggioInfo(root, type, notes);
   }
 
@@ -1819,21 +1624,16 @@ class ArpeggioManager {
     const arpeggioInfoDiv = document.createElement("div");
     arpeggioInfoDiv.className = "arpeggio-info";
 
-    // Используем i18n для перевода
-    const typeName =
-      type === "minor"
-        ? i18n.t("scale.harmonicMinor", "Minor") + " arpeggio"
-        : i18n.t("scale.gypsyMajor", "Major") + " arpeggio";
-
+    const typeName = type === "minor" ? "Минорное" : "Мажорное";
     const typeClass =
       type === "minor" ? "arpeggio-type-minor" : "arpeggio-type-major";
     const typeText = type === "minor" ? "min" : "";
 
     // Формируем схему
     let pattern = type === "minor" ? "1 - ♭3 - 5" : "1 - 3 - 5";
-    const addSecond = document.getElementById("addSecond").checked;
-    const addSixth = document.getElementById("addSixth").checked;
-    const addSeventh = document.getElementById("addSeventh").checked;
+    const addSecond = document.getElementById("addSecond")?.checked || false;
+    const addSixth = document.getElementById("addSixth")?.checked || false;
+    const addSeventh = document.getElementById("addSeventh")?.checked || false;
 
     if (addSecond) pattern += " + 2";
     if (addSixth) pattern += " + 6";
@@ -1841,17 +1641,19 @@ class ArpeggioManager {
 
     arpeggioInfoDiv.innerHTML = `
       <strong>
-        ${typeName} from ${root}
+        ${typeName} арпеджио от ${root}
         <span class="arpeggio-type-badge ${typeClass}">${typeText}</span>
       </strong>
-      <div style="margin: 5px 0;">${i18n.t("general.notes", "Notes")}: <strong>${notes.join(", ")}</strong></div>
+      <div style="margin: 5px 0;">Ноты: <strong>${notes.join(", ")}</strong></div>
       <div class="arpeggio-pattern">🎵 ${pattern}</div>
     `;
 
-    chordNotesDiv.parentNode.insertBefore(
-      arpeggioInfoDiv,
-      chordNotesDiv.nextSibling,
-    );
+    if (chordNotesDiv && chordNotesDiv.parentNode) {
+      chordNotesDiv.parentNode.insertBefore(
+        arpeggioInfoDiv,
+        chordNotesDiv.nextSibling,
+      );
+    }
   }
 
   clear() {
@@ -1866,8 +1668,10 @@ class ArpeggioManager {
         "highlight",
       );
     });
+
     const arpeggioInfoDiv = document.querySelector(".arpeggio-info");
     if (arpeggioInfoDiv) arpeggioInfoDiv.remove();
+
     this.currentArpeggio = null;
   }
 
@@ -1877,6 +1681,9 @@ class ArpeggioManager {
     }
   }
 }
+
+
+
 
 // -------- конец классов ---------
 
@@ -1890,7 +1697,13 @@ let djangoFingerings;
 // ============ ОСНОВНЫЕ ФУНКЦИИ ============
 
 function renderFretBoard() {
-  const neck = new GuitarNeck();
+  if (!window.guitarNeck) {
+    console.error("guitarNeck не загружен!");
+    return;
+  }
+
+  const neck = window.guitarNeck;
+  const theory = window.musicTheory;
   const fretBoard = document.getElementById("fretBoard");
   const stringNames = ["e", "B", "G", "D", "A", "E"];
 
@@ -1898,17 +1711,20 @@ function renderFretBoard() {
 
   for (let string = 0; string < 6; string++) {
     html += `<div class="string"><div class="string-name">${stringNames[string]}</div>`;
-    for (let fret = 0; fret <= 19; fret++) {
-      // <-- ИЗМЕНИТЬ 12 на 19
+    for (let fret = 0; fret <= neck.frets; fret++) {
       const note = neck.getBaseNote(string, fret);
       const fullNote = neck.getNote(string, fret);
       const isNut = fret === 0;
+
+      // ВАЖНО: Нормализуем все ноты к диезам для единообразия
+      const normalizedNote = theory ? theory.normalizeToSharps(note) : note;
+
       html += `<div class="fret ${isNut ? "nut" : ""}" 
                         data-string="${string}" 
                         data-fret="${fret}"
-                        data-note="${note}"
+                        data-note="${normalizedNote}"
                         data-full="${fullNote}">`;
-      html += !isNut ? note : "○";
+      html += !isNut ? normalizedNote : "○";
       html += `</div>`;
     }
     html += `</div>`;
@@ -1954,19 +1770,36 @@ function highlightChordNotes(chord) {
   // Полная очистка перед показом аккорда
   clearAllHighlights();
 
-  const neck = new GuitarNeck();
-  const chordNotes = neck.getChordNotes(chord);
+  // Проверяем, что musicTheory существует
+  if (!window.musicTheory) {
+    console.error("MusicTheory не загружен!");
+    alert(
+      "Ошибка: музыкальная теория не загружена. Проверьте загрузку musicTheory.js",
+    );
+    return;
+  }
+
+  const chordNotes = window.musicTheory.getChordNotes(chord);
 
   if (!chordNotes || chordNotes.length === 0) {
-    console.error(i18n.t("error.scaleNotes", "Failed to get scale notes"));
-
+    console.error("Не удалось получить ноты для аккорда:", chord);
+    alert(`Не удалось распознать аккорд: ${chord}`);
     return;
   }
 
   console.log("Ноты аккорда:", chordNotes);
 
-  const rootNote = neck.extractTonic(chord);
+  const rootNote = window.musicTheory.extractTonic(chord);
   console.log("Корневая нота:", rootNote);
+
+  // Нормализуем ноты аккорда для сравнения (все в диезы)
+  const normalizedChordNotes = chordNotes.map((note) =>
+    window.musicTheory.normalizeToSharps(note),
+  );
+  const normalizedRootNote = window.musicTheory.normalizeToSharps(rootNote);
+
+  console.log("Нормализованные ноты аккорда:", normalizedChordNotes);
+  console.log("Нормализованная корневая нота:", normalizedRootNote);
 
   // Подсветка нот на грифе
   let highlighted = 0;
@@ -1974,22 +1807,35 @@ function highlightChordNotes(chord) {
     const note = fret.getAttribute("data-note");
     if (!note) return;
 
-    const normalizedNote = neck.normalizeToSharps(note);
+    // Нормализуем ноту на грифе
+    const normalizedFretNote = window.musicTheory.normalizeToSharps(note);
 
-    if (chordNotes.includes(normalizedNote)) {
+    // Проверяем энгармоническое равенство
+    const isChordNote = normalizedChordNotes.some((chordNote) =>
+      window.musicTheory.areNotesEqual(chordNote, normalizedFretNote),
+    );
+
+    if (isChordNote) {
       highlighted++;
       fret.classList.add("highlight");
 
       // Определяем, является ли нота корневой
-      if (normalizedNote === rootNote) {
+      const isRoot = window.musicTheory.areNotesEqual(
+        normalizedRootNote,
+        normalizedFretNote,
+      );
+
+      if (isRoot) {
         fret.classList.add("root");
         fret.style.backgroundColor = "var(--zenburn-red)";
         fret.style.color = "white";
         fret.style.fontWeight = "bold";
+        fret.style.fontSize = "16px";
       } else {
         fret.classList.add("chord-tone");
         fret.style.backgroundColor = "var(--zenburn-green)";
         fret.style.color = "var(--zenburn-bg)";
+        fret.style.fontWeight = "bold";
       }
     }
   });
@@ -2002,7 +1848,7 @@ function highlightChordNotes(chord) {
 
 // Новая функция для обновления информации
 function updateChordInfo(chord, chordNotes) {
-  console.log("updateChordInfo called for chord:", chord);
+  console.log("updateChordInfo вызвана для аккорда:", chord);
 
   const chordNameEl = document.getElementById("chordName");
   const chordTypeEl = document.getElementById("chordType");
@@ -2010,7 +1856,7 @@ function updateChordInfo(chord, chordNotes) {
   const chordFormulaEl = document.getElementById("chordFormula");
 
   if (!chordNameEl || !chordTypeEl || !chordNotesEl || !chordFormulaEl) {
-    console.error("Chord display elements not found");
+    console.error("Не найдены элементы для отображения аккорда");
     return;
   }
 
@@ -2054,9 +1900,18 @@ function updateChordInfo(chord, chordNotes) {
     chordFormula = "1-3-5";
   }
 
-  chordTypeEl.textContent = chordType;
+  // Устанавливаем ноты аккорда
   chordNotesEl.textContent = chordNotes.join(", ");
+
+  // Устанавливаем формулу
   chordFormulaEl.textContent = chordFormula;
+
+  console.log("Установлено:", {
+    chord: chordNameEl.textContent,
+    type: chordTypeEl.textContent,
+    notes: chordNotesEl.textContent,
+    formula: chordFormulaEl.textContent,
+  });
 }
 
 // ============ УПРАВЛЕНИЕ ВКЛАДКАМИ ============
@@ -2281,7 +2136,7 @@ function initManouche() {
 
       // Очищаем всё
       clearAllHighlights();
-      clearManoucheFretboard();
+      // clearManoucheFretboard();
 
       // Делаем активной только эту кнопку
       document
@@ -2313,7 +2168,7 @@ function initManouche() {
 
       // Очищаем всё
       clearAllHighlights();
-      clearManoucheFretboard();
+      // clearManoucheFretboard();
 
       // Делаем активной только эту кнопку
       document
@@ -2340,7 +2195,7 @@ function initManouche() {
 
       // Очищаем всё
       clearAllHighlights();
-      clearManoucheFretboard();
+      // clearManoucheFretboard();
 
       // Делаем активной только эту кнопку
       document
@@ -2359,120 +2214,60 @@ function initManouche() {
   });
 }
 
+// ============ ИНИЦИАЛИЗАЦИЯ АРПЕДЖИО ============
 function initArpeggio() {
-  arpeggioManager = new ArpeggioManager();
-  window.arpeggioManager = arpeggioManager;
+  // Убедимся, что менеджер создан
+  if (!arpeggioManager) {
+    arpeggioManager = new ArpeggioManager();
+    window.arpeggioManager = arpeggioManager;
+  }
 
-  document
-    .getElementById("showArpeggioBtn")
-    .addEventListener("click", function () {
+  // Обработчик кнопки "Арпеджио"
+  const arpeggioBtn = document.getElementById("showArpeggioBtn");
+  if (arpeggioBtn) {
+    arpeggioBtn.addEventListener("click", function () {
+      const chord = document.getElementById("chordInput")?.value.trim();
+      if (!chord) {
+        alert("Введите аккорд сначала!");
+        return;
+      }
+
       const arpeggioControls = document.querySelector(".arpeggio-controls");
-      const isVisible = arpeggioControls.style.display !== "none";
+      const isVisible = arpeggioControls.style.display === "block";
 
       if (isVisible) {
+        // Скрыть арпеджио
         arpeggioControls.style.display = "none";
         this.classList.remove("active");
-        arpeggioManager.clear();
+        arpeggioManager.clear(); // Очищаем арпеджио
+        // Восстанавливаем аккорд
+        highlightChordNotes(chord);
       } else {
+        // Показать арпеджио
+        clearAllHighlights();
         arpeggioControls.style.display = "block";
         this.classList.add("active");
+
+        // Показать арпеджио на грифе
         arpeggioManager.showArpeggio();
       }
     });
-
-  // Чекбоксы расширений
-  ["addSecond", "addSixth", "addSeventh"].forEach((id) => {
-    document.getElementById(id).addEventListener("change", function () {
-      if (arpeggioManager && arpeggioManager.currentArpeggio) {
-        arpeggioManager.showArpeggio();
-      }
-    });
-  });
-}
-
-// ============ УПРАВЛЕНИЕ ПОЯСНИТЕЛЬНЫМ ТЕКСТОМ ============
-
-// Проверяем, показывать ли подсказки (только при первом заходе)
-function shouldShowHelpText() {
-  return localStorage.getItem("hideHelpText") !== "true";
-}
-
-// Скрываем пояснительный текст
-function hideHelpText() {
-  document.querySelectorAll(".tab-help-text").forEach((text) => {
-    text.style.display = "none";
-  });
-  // Запоминаем, что пользователь уже видел подсказки
-  localStorage.setItem("hideHelpText", "true");
-}
-
-// Показываем пояснительный текст (только если первый раз)
-function showHelpText() {
-  if (shouldShowHelpText()) {
-    const activeTab = document.querySelector(".tab-btn.active").dataset.tab;
-    const helpText = document.querySelector(`#${activeTab}Tab .tab-help-text`);
-    if (helpText) {
-      helpText.style.display = "block";
-    }
   }
-}
 
-// Кнопка для скрытия подсказок навсегда
-function createHideHelpButton() {
-  // Добавляем кнопку в каждую вкладку
-  document.querySelectorAll(".tab-pane").forEach((pane) => {
-    const helpText = pane.querySelector(".tab-help-text");
-    if (helpText) {
-      const hideButton = document.createElement("button");
-      hideButton.textContent = "Скрыть подсказки навсегда";
-      hideButton.style.cssText = `
-        margin-top: 10px;
-        padding: 4px 8px;
-        font-size: 11px;
-        background: rgba(127, 159, 127, 0.3);
-        color: var(--zenburn-fg-dim);
-        border: 1px solid var(--zenburn-comment);
-        cursor: pointer;
-      `;
-      hideButton.onclick = function () {
-        hideHelpText();
-        this.style.display = "none";
-      };
-
-      // Проверяем, не скрыты ли уже подсказки
-      if (!shouldShowHelpText()) {
-        helpText.style.display = "none";
-      } else {
-        helpText.appendChild(hideButton);
-      }
+  // Обработчики чекбоксов
+  ["addSecond", "addSixth", "addSeventh"].forEach((id) => {
+    const checkbox = document.getElementById(id);
+    if (checkbox) {
+      checkbox.addEventListener("change", function () {
+        if (arpeggioManager && arpeggioManager.currentArpeggio) {
+          clearAllHighlights();
+          arpeggioManager.showArpeggio();
+        }
+      });
     }
   });
 }
 
-// Автоматически скрываем подсказки при любом действии пользователя
-function setupAutoHideHelpText() {
-  // Все кнопки, которые что-то показывают
-  const actionButtons = [
-    "#highlightChordBtn",
-    "#showArpeggioBtn",
-    "#togglePentatonicBtn",
-    "#showManoucheBtn",
-    ".scale-btn",
-    ".lick-btn",
-    ".box-btn",
-  ];
-
-  actionButtons.forEach((selector) => {
-    document.querySelectorAll(selector).forEach((button) => {
-      button.addEventListener("click", hideHelpText);
-    });
-  });
-
-  // При вводе текста тоже скрываем
-  document.querySelectorAll('input[type="text"]').forEach((input) => {
-    input.addEventListener("input", hideHelpText);
-  });
-}
 
 // ============ ГЛОБАЛЬНЫЕ ФУНКЦИИ ОЧИСТКИ ============
 function clearAllHighlights() {
@@ -2567,10 +2362,10 @@ function clearAllHighlights() {
 }
 
 // ============ ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ============
+// В функциях updateBluesChordInfo и updateManoucheChordInfo
 function updateBluesChordInfo(chord) {
-  const neck = new GuitarNeck();
-  const chordNotes = neck.getChordNotes(chord);
-  const root = neck.extractTonic(chord);
+  const chordNotes = window.musicTheory.getChordNotes(chord);
+  const root = window.musicTheory.extractTonic(chord);
 
   document.getElementById("bluesChordName").textContent = chord;
   document.getElementById("bluesChordNotes").textContent =
@@ -2578,9 +2373,8 @@ function updateBluesChordInfo(chord) {
 }
 
 function updateManoucheChordInfo(chord) {
-  const neck = new GuitarNeck();
-  const chordNotes = neck.getChordNotes(chord);
-  const root = neck.extractTonic(chord);
+  const chordNotes = window.musicTheory.getChordNotes(chord);
+  const root = window.musicTheory.extractTonic(chord);
 
   // Проверяем, активна ли вкладка manouche
   const manoucheTab = document.getElementById("manouche-tab");
@@ -2603,57 +2397,6 @@ function updateManoucheChordInfo(chord) {
 
 // ============ ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ============
 document.addEventListener("DOMContentLoaded", function () {
-  // Инициализация перевода
-  const savedLang = localStorage.getItem("preferredLanguage") || "en";
-  i18n.setLanguage(savedLang);
-
-  // Активируем правильную кнопку языка
-  document.querySelectorAll(".lang-btn").forEach((btn) => {
-    if (btn.dataset.lang === i18n.getCurrentLanguage()) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
-    }
-  });
-
-  // Обработчики для переключателя языка
-  document.querySelectorAll(".lang-btn").forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const lang = this.dataset.lang;
-      document
-        .querySelectorAll(".lang-btn")
-        .forEach((b) => b.classList.remove("active"));
-      this.classList.add("active");
-      i18n.setLanguage(lang);
-
-      // Обновляем динамический контент
-      if (window.manoucheScales && manoucheScales.currentScale) {
-        manoucheScales.updateScaleInfo(
-          manoucheScales.currentScale.root,
-          manoucheScales.currentScale.scaleName,
-          manoucheScales.currentScale.notes,
-        );
-      }
-
-      if (window.pentatonicManager && pentatonicManager.currentConfig) {
-        pentatonicManager.updatePentatonicInfo(
-          pentatonicManager.currentConfig.root,
-          pentatonicManager.currentConfig.type,
-          pentatonicManager.getPentatonicNotes(
-            pentatonicManager.currentConfig.root,
-            pentatonicManager.currentConfig.type,
-          ),
-          pentatonicManager.currentConfig.showBlues
-            ? pentatonicManager.getBluesNote(
-                pentatonicManager.currentConfig.root,
-              )
-            : null,
-          pentatonicManager.currentConfig.box,
-        );
-      }
-    });
-  });
-
   renderFretBoard();
 
   // Инициализация менеджеров
@@ -2768,6 +2511,29 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
+
+	// Инициализация менеджера подсказок
+	  window.hintsManager = new window.HintsManager();
+	  window.hintsManager.init();
+	  
+	  // Функция для обновления подсказок
+	  const updateHints = () => {
+	    if (window.hintsManager && window.hintsManager.isVisible) {
+	      window.hintsManager.updateHints();
+	    }
+	  };
+	  
+	  // Слушаем все важные события
+	  ['click', 'input', 'change'].forEach(eventType => {
+	    document.addEventListener(eventType, (e) => {
+	      if (e.target.matches('.tab-btn, .action-btn, .box-btn, .scale-btn, .lick-btn, .fingering-btn, input[type="checkbox"], input[type="text"]')) {
+	        setTimeout(updateHints, 50);
+	      }
+	    });
+	  });
+
+
+
   // Инициализация вкладок
   initTabs();
 
@@ -2855,6 +2621,106 @@ function initManoucheButtons() {
   });
 }
 
+
+
+
+
+
+// ============ ИНИЦИАЛИЗАЦИЯ АРПЕДЖИО ============
+function initArpeggio() {
+  // Убедимся, что менеджер создан
+  if (!arpeggioManager) {
+    arpeggioManager = new ArpeggioManager();
+    window.arpeggioManager = arpeggioManager;
+  }
+
+  // Обработчик кнопки "Арпеджио"
+  const arpeggioBtn = document.getElementById("showArpeggioBtn");
+  if (arpeggioBtn) {
+    arpeggioBtn.addEventListener("click", function () {
+      const chord = document.getElementById("chordInput")?.value.trim();
+      if (!chord) {
+        alert("Введите аккорд сначала!");
+        return;
+      }
+
+      const arpeggioControls = document.querySelector(".arpeggio-controls");
+      const isVisible = arpeggioControls.style.display === "block";
+
+      if (isVisible) {
+        // Скрыть арпеджио
+        arpeggioControls.style.display = "none";
+        this.classList.remove("active");
+        arpeggioManager.clear(); // Очищаем арпеджио
+        // Восстанавливаем аккорд
+        highlightChordNotes(chord);
+      } else {
+        // Показать арпеджио
+        clearAllHighlights();
+        arpeggioControls.style.display = "block";
+        this.classList.add("active");
+
+        // Показать арпеджио на грифе
+        arpeggioManager.showArpeggio();
+      }
+    });
+  }
+
+  // Обработчики чекбоксов
+  ["addSecond", "addSixth", "addSeventh"].forEach((id) => {
+    const checkbox = document.getElementById(id);
+    if (checkbox) {
+      checkbox.addEventListener("change", function () {
+        if (arpeggioManager && arpeggioManager.currentArpeggio) {
+          clearAllHighlights();
+          arpeggioManager.showArpeggio();
+        }
+      });
+    }
+  });
+
+  // Обработчик изменения аккорда на общей вкладке
+  const chordInput = document.getElementById("chordInput");
+  if (chordInput) {
+    chordInput.addEventListener("input", function () {
+      const chord = this.value.trim();
+      if (!chord) return;
+
+      // Если арпеджио активно - обновить его
+      if (arpeggioManager && arpeggioManager.currentArpeggio) {
+        clearAllHighlights();
+        arpeggioManager.showArpeggio();
+      }
+      // Если арпеджио не активно - показать аккорд
+      else if (
+        document.getElementById("showArpeggioBtn") &&
+        !document.getElementById("showArpeggioBtn").classList.contains("active")
+      ) {
+        highlightChordNotes(chord);
+      }
+    });
+
+    // Enter в общей вкладке
+    chordInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        const chord = this.value.trim();
+        if (!chord) return;
+
+        // Если арпеджио активно - обновить его
+        if (arpeggioManager && arpeggioManager.currentArpeggio) {
+          clearAllHighlights();
+          arpeggioManager.showArpeggio();
+        }
+        // Если арпеджио не активно - показать аккорд
+        else {
+          clearAllHighlights();
+          highlightChordNotes(chord);
+        }
+      }
+    });
+  }
+}
+
 // Инициализация кнопок пентатоники
 function initPentatonicButtons() {
   // Чекбокс блюзовой ноты
@@ -2883,101 +2749,4 @@ function initPentatonicButtons() {
   });
 
   initArpeggio();
-
-  // ============ ИНИЦИАЛИЗАЦИЯ АРПЕДЖИО ============
-  function initArpeggio() {
-    // Убедимся, что менеджер создан
-    if (!arpeggioManager) {
-      arpeggioManager = new ArpeggioManager();
-      window.arpeggioManager = arpeggioManager;
-    }
-
-    // Обработчик кнопки "Арпеджио"
-    const arpeggioBtn = document.getElementById("showArpeggioBtn");
-    if (arpeggioBtn) {
-      arpeggioBtn.addEventListener("click", function () {
-        const chord = document.getElementById("chordInput")?.value.trim();
-        if (!chord) {
-          alert("Введите аккорд сначала!");
-          return;
-        }
-
-        const arpeggioControls = document.querySelector(".arpeggio-controls");
-        const isVisible = arpeggioControls.style.display === "block";
-
-        if (isVisible) {
-          // Скрыть арпеджио
-          arpeggioControls.style.display = "none";
-          this.classList.remove("active");
-          arpeggioManager.clear(); // Очищаем арпеджио
-          // Восстанавливаем аккорд
-          highlightChordNotes(chord);
-        } else {
-          // Показать арпеджио
-          clearAllHighlights();
-          arpeggioControls.style.display = "block";
-          this.classList.add("active");
-
-          // Показать арпеджио на грифе
-          arpeggioManager.showArpeggio();
-        }
-      });
-    }
-
-    // Обработчики чекбоксов
-    ["addSecond", "addSixth", "addSeventh"].forEach((id) => {
-      const checkbox = document.getElementById(id);
-      if (checkbox) {
-        checkbox.addEventListener("change", function () {
-          if (arpeggioManager && arpeggioManager.currentArpeggio) {
-            clearAllHighlights();
-            arpeggioManager.showArpeggio();
-          }
-        });
-      }
-    });
-
-    // Обработчик изменения аккорда на общей вкладке
-    const chordInput = document.getElementById("chordInput");
-    if (chordInput) {
-      chordInput.addEventListener("input", function () {
-        const chord = this.value.trim();
-        if (!chord) return;
-
-        // Если арпеджио активно - обновить его
-        if (arpeggioManager && arpeggioManager.currentArpeggio) {
-          clearAllHighlights();
-          arpeggioManager.showArpeggio();
-        }
-        // Если арпеджио не активно - показать аккорд
-        else if (
-          document.getElementById("showArpeggioBtn") &&
-          !document
-            .getElementById("showArpeggioBtn")
-            .classList.contains("active")
-        ) {
-          highlightChordNotes(chord);
-        }
-      });
-
-      // Enter в общей вкладке
-      chordInput.addEventListener("keypress", function (e) {
-        if (e.key === "Enter") {
-          const chord = this.value.trim();
-          if (!chord) return;
-
-          // Если арпеджио активно - обновить его
-          if (arpeggioManager && arpeggioManager.currentArpeggio) {
-            clearAllHighlights();
-            arpeggioManager.showArpeggio();
-          }
-          // Если арпеджио не активно - показать аккорд
-          else {
-            clearAllHighlights();
-            highlightChordNotes(chord);
-          }
-        }
-      });
-    }
-  }
 }

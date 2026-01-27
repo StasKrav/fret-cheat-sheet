@@ -43,7 +43,7 @@
   font-weight: 600;
   margin-bottom: 12px;
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(204, 147, 147, 0.3);
+  /* border-bottom: 1px solid rgba(204, 147, 147, 0.3); */
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -98,13 +98,21 @@
 .scale-btn:hover,
 .lick-btn:hover,
 .fingering-btn:hover {
-  background: var(--zenburn-bg-light);
+  background: linear-gradient(
+    135deg,
+    var(--zenburn-red),
+    var(--zenburn-orange)
+  );
   color: var(--zenburn-fg);
   border-color: var(--zenburn-orange);
 }
 
 .scale-btn.active {
-  background: linear-gradient(135deg, var(--zenburn-red), var(--zenburn-orange));
+  background: linear-gradient(
+    135deg,
+    var(--zenburn-red),
+    var(--zenburn-orange)
+  );
   color: var(--zenburn-bg);
   border-color: var(--zenburn-red);
   font-weight: 500;
@@ -116,14 +124,31 @@
 }
 
 .lick-btn.active {
-  background: var(--zenburn-yellow);
+  background: linear-gradient(
+    135deg,
+    var(--zenburn-red),
+    var(--zenburn-orange)
+  );
   color: var(--zenburn-bg);
   border-color: var(--zenburn-orange);
 }
 
 .fingering-btn {
+  flex: 1;
+  min-width: 60px;
+  padding: 8px 6px;
   background: rgba(223, 175, 143, 0.1);
-  border-color: var(--zenburn-orange);
+  border: 1px solid rgba(223, 175, 143, 0.1);
+  border-radius: 24px;
+  color: var(--zenburn-orange);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fingering-btn:hover {
+  background: var(--zenburn-orange);
 }
 
 .fingering-btn.active {
@@ -347,16 +372,22 @@
 }
 
 .fingering-root {
-  background: linear-gradient(135deg, 
-    var(--zenburn-red), 
+  background: linear-gradient(
+    135deg,
+    var(--zenburn-red),
     var(--zenburn-orange)
   ) !important;
   animation: root-pulse 2s infinite;
 }
 
 @keyframes root-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 /* Цифры пальцев */
@@ -407,5 +438,23 @@
   margin-right: 5px;
 }
 
+/* Для мануш */
+.chord-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
 
 
+
+.scale-selector select {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--zenburn-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-main);
+  font-size: 13px;
+  cursor: pointer;
+}

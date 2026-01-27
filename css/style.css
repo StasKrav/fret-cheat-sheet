@@ -207,14 +207,13 @@ body {
 }
 
 #chordName {
-  font-size: 28px; */
-  font-weight: 600; 
+  font-size: 28px;
+  font-weight: 600;
   color: var(--zenburn-yellow) !important;
   padding: 0px !important;
   display: inline-block !important;
   position: relative !important;
 }
-
 
 .chord-type {
   font-size: 14px;
@@ -293,7 +292,6 @@ body {
   color: var(--zenburn-bg) !important;
 }
 
-
 .action-icon {
   font-size: 16px;
 }
@@ -325,8 +323,9 @@ body {
 
 .section-header {
   margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 4px;
+  padding-top: 16px;
+  /* border-top: 1px solid var(--border-color); */
 }
 
 .section-title {
@@ -416,42 +415,7 @@ body {
   font-weight: 600;
 }
 
-/* Для мануш */
-.chord-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 16px;
-}
 
-.fingering-btn {
-  flex: 1;
-  min-width: 60px;
-  padding: 8px 6px;
-  background: rgba(223, 175, 143, 0.1);
-  border: 1px solid var(--zenburn-orange);
-  border-radius: 24px;
-  color: var(--zenburn-orange);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.fingering-btn:hover {
-  background: rgba(223, 175, 143, 0.2);
-}
-
-.scale-selector select {
-  width: 100%;
-  padding: 10px 12px;
-  background: var(--zenburn-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  color: var(--text-main);
-  font-size: 13px;
-  cursor: pointer;
-}
 
 /* Для гамм */
 .scale-types {
@@ -552,6 +516,7 @@ body {
 
 /* ============ ГРИФ ============ */
 .fretboard-container {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -956,8 +921,6 @@ body {
   background: rgba(143, 178, 143, 0.1);
 }
 
-
-
 /* Скрываем ненужные элементы при переключении вкладок */
 .hidden {
   display: none !important;
@@ -1119,7 +1082,6 @@ body {
   color: white !important;
 }
 
-
 /* Стили для пентатоники */
 .fret.pentatonic-root {
   background-color: var(--zenburn-red) !important;
@@ -1137,7 +1099,6 @@ body {
 .fret.blues-note {
   background-color: var(--zenburn-blue) !important;
   color: white !important;
-
 }
 
 /* ============ ОДИНАКОВЫЕ ПОЛЯ ВВОДА ДЛЯ ВСЕХ ВКЛАДОК ============ */
@@ -1236,6 +1197,8 @@ body {
   color: white !important;
   font-weight: bold;
   z-index: 10;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
 }
 
 .fret.muted-string {
@@ -1308,3 +1271,4 @@ body {
   color: var(--zenburn-bg);
   font-weight: 600;
 }
+

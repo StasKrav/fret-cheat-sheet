@@ -1,0 +1,178 @@
+/* ============ ПАНЕЛЬ ПОДСКАЗОК ============ */
+
+.hints-panel {
+  position: absolute; /* Меняем с fixed на absolute */
+  bottom: 10px; /* Отступ от нижнего края контейнера */
+  left: 0;
+  right: 0;
+  margin: 0 15px; /* Отступы по бокам */
+  background: var(--zenburn-bg-light);
+  border: 1px solid var(--zenburn-comment);
+  border-radius: 8px;
+  padding: 15px;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  max-height: 700px; /* Ограничиваем высоту */
+  overflow: hidden;
+}
+
+.hints-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--zenburn-comment);
+}
+
+.hints-header h3 {
+  margin: 0;
+  color: var(--zenburn-yellow);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hints-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.hints-level-select {
+  background: var(--zenburn-bg);
+  color: var(--zenburn-fg);
+  border: 1px solid var(--zenburn-comment);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.hints-level-select:hover {
+  border-color: var(--zenburn-blue);
+}
+
+.hints-toggle-btn {
+  background: var(--zenburn-bg);
+  color: var(--zenburn-fg);
+  border: 1px solid var(--zenburn-comment);
+  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.hints-toggle-btn:hover {
+  background: var(--zenburn-bg-hover);
+  border-color: var(--zenburn-blue);
+  transform: scale(1.05);
+}
+
+.hints-content {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.hints-content p {
+  margin: 8px 0;
+  line-height: 1.5;
+  color: var(--zenburn-fg);
+}
+
+.hints-content strong {
+  color: var(--zenburn-yellow);
+}
+
+.hints-content em {
+  color: var(--zenburn-green);
+  font-style: italic;
+}
+
+/* Цветные метки для разных уровней */
+.hint-beginner { border-left: 3px solid var(--zenburn-green); padding-left: 10px; }
+.hint-intermediate { border-left: 3px solid var(--zenburn-blue); padding-left: 10px; }
+.hint-advanced { border-left: 3px solid var(--zenburn-orange); padding-left: 10px; }
+.hint-django { border-left: 3px solid var(--zenburn-purple); padding-left: 10px; }
+
+/* Стили для специфичных подсказок */
+.chord-hint { background: rgba(143, 178, 143, 0.1); padding: 10px; border-radius: 4px; }
+.scale-hint { background: rgba(140, 208, 211, 0.1); padding: 10px; border-radius: 4px; }
+.arpeggio-hint { background: rgba(223, 175, 143, 0.1); padding: 10px; border-radius: 4px; }
+
+/* Легенда цветов */
+.color-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+  padding: 10px;
+  background: rgba(127, 159, 127, 0.1);
+  border-radius: 4px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.color-root { background: var(--zenburn-red); }
+.color-chord { background: var(--zenburn-green); }
+.color-scale { background: var(--zenburn-blue); }
+.color-blues { background: var(--zenburn-blue); }
+.color-arpeggio { background: var(--zenburn-orange); }
+
+/* Анимация для новых подсказок */
+@keyframes hint-appear {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hint-update {
+  animation: hint-appear 0.3s ease;
+}
+
+/* Скрытая панель */
+.hints-panel.hidden {
+  transform: translateX(-50%) translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .hints-panel {
+    width: 95%;
+    bottom: 50px;
+  }
+  
+  .hints-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  
+  .hints-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+
