@@ -87,6 +87,17 @@ const translations = {
     "error.chordNotes": "Failed to get chord notes",
     "error.elementNotFound": "Element not found",
     "error.noChord": "Please enter a chord",
+
+
+    'ui.feedback': 'Feedback',
+            'feedback.title': 'Feedback',
+            'feedback.email': 'Email',
+            'feedback.telegram': 'Telegram',
+            'feedback.copy': 'Copy',
+            'feedback.copied': 'Copied!',
+            'feedback.openEmail': 'Open Email Client',
+            'feedback.openTelegram': 'Open Telegram',
+            'feedback.hint': 'Choose contact method',
   },
 
   ru: {
@@ -175,6 +186,16 @@ const translations = {
     "error.chordNotes": "Не удалось получить ноты аккорда",
     "error.elementNotFound": "Элемент не найден",
     "error.noChord": "Пожалуйста, введите аккорд",
+
+    'ui.feedback': 'Обратная связь',
+            'feedback.title': 'Обратная связь',
+            'feedback.email': 'Email',
+            'feedback.telegram': 'Telegram',
+            'feedback.copy': 'Копировать',
+            'feedback.copied': 'Скопировано!',
+            'feedback.openEmail': 'Открыть почтовый клиент',
+            'feedback.openTelegram': 'Открыть Telegram',
+            'feedback.hint': 'Выберите способ связи',
   },
 };
 
