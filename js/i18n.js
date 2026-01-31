@@ -60,9 +60,13 @@ const translations = {
 
     // Lick names
     "lick.dimRun": "Dim Run",
-    "lick.gypsySweep": "Gypsy Sweep",
+    "lick.gypsySweep": "Gypsy Scale",
     "lick.chromaticApproach": "Chromatic",
-    "lick.tremoloPattern": "Tremolo",
+    "exercise1": "Ex1",
+    "exercise2": "Ex2",
+    "exercise3": "Ex3",
+    "exercise4": "Ex4",
+    "exercise5": "Ex5",
 
     // Fingering names (только названия кнопок)
     "fingering.Am6": "Am6",
@@ -159,9 +163,13 @@ const translations = {
 
     // Lick names
     "lick.dimRun": "Dim Run",
-    "lick.gypsySweep": "Gypsy Sweep",
+    "lick.gypsySweep": "Gypsy Scale",
     "lick.chromaticApproach": "Chromatic",
-    "lick.tremoloPattern": "Tremolo",
+    "exercise1": "Ex1",
+    "exercise2": "Ex2",
+    "exercise3": "Ex3",
+    "exercise4": "Ex4",
+    "exercise5": "Ex5",
 
     // Fingering names
     "fingering.Am6": "Am6",
