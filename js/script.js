@@ -1147,7 +1147,7 @@ class DjangoLicks {
   }
 }
 
-// ============ DJANGO TYPICAL FINGERINGS ============
+// ============ Signature chords ============
 
 class DjangoFingerings {
   constructor() {
@@ -1162,6 +1162,7 @@ class DjangoFingerings {
         name: "Am6 (Minor Swing)",
         description: 'Классический аккорд из "Minor Swing"',
         chord: "Am6",
+        rootNote: "A",
         fingers: [
           // [string, fret, finger, note]
           [5, 5, "A"], // Открытая A - большой палец
@@ -1179,6 +1180,7 @@ class DjangoFingerings {
         name: "D7#9 (блюзовый доминант)",
         description: "Доминанта с повышенной ноной - любимый звук Django",
         chord: "D7#9",
+        rootNote: "D",
         fingers: [
           [5, 0, "A", true], // Открытая A (5 ступень)
           [4, 5, "D"], // Открытая D (1)
@@ -1195,6 +1197,7 @@ class DjangoFingerings {
         name: "G6 (цыганский мажор)",
         description: "Мажорный секстаккорд - основа мануш",
         chord: "G6",
+        rootNote: "G",
         fingers: [
           [5, 3, "G"], // 3 лад - G
           [4, 0, "F#", true], // 2 лад - F# (7)
@@ -1211,6 +1214,7 @@ class DjangoFingerings {
         name: "E7 (открытая позиция)",
         description: "Открытый доминантсептаккорд",
         chord: "E7",
+        rootNote: "E",
         fingers: [
           [5, 0, "E", true], // Открытая E
           [4, 7, "B"], // 2 лад - B (5)
@@ -1227,6 +1231,7 @@ class DjangoFingerings {
         name: "Bdim7 (симметричный)",
         description: "Уменьшенный аккорд для переходов",
         chord: "Bdim7",
+        rootNote: "B",
         fingers: [
           [5, 0, "B", true], // 7 лад - B
           [4, 0, "G", true], // 6 лад - G (♭5)
@@ -1243,6 +1248,7 @@ class DjangoFingerings {
         name: "Dm6 (Minor Swing)",
         description: 'Классический аккорд из "Minor Swing"',
         chord: "Dm6",
+        rootNote: "D",
         fingers: [
           // [string, fret, finger, note]
           [5, 10, "D"], // Открытая A - большой палец
@@ -1260,6 +1266,7 @@ class DjangoFingerings {
         name: "Am7",
         description: "Простой ля-минор септ-аккорд",
         chord: "Am",
+        rootNote: "A",
         fingers: [
           [5, 5, "A"], // Открытая E
           [4, 0, "A", true], // 2 лад - B (5)
@@ -1276,6 +1283,7 @@ class DjangoFingerings {
         name: "D9",
         description: "D9",
         chord: "D9",
+        rootNote: "D",
         fingers: [
           [5, 0, "E", true], // Открытая E
           [4, 5, "D"], // 2 лад - B (5)
@@ -1292,6 +1300,7 @@ class DjangoFingerings {
         name: "C#dim7",
         description: "C#dim7",
         chord: "C#dim7",
+        rootNote: "C#",
         fingers: [
           [5, 0, "E", true], // Открытая E
           [4, 4, "C#"], // 2 лад - B (5)
@@ -1308,6 +1317,7 @@ class DjangoFingerings {
         name: "Cmaj7",
         description: "Cmaj7",
         chord: "Cmaj7",
+        rootNote: "C",
         fingers: [
           [5, 0, "E", true], // Открытая E
           [4, 3, "C"], // 2 лад - B (5)
@@ -1324,6 +1334,7 @@ class DjangoFingerings {
         name: "Cm7",
         description: "Cm7",
         chord: "Cm7",
+        rootNote: "C",
         fingers: [
           [5, 0, "E", true], // Открытая E
           [4, 3, "C"], // 2 лад - B (5)
@@ -1340,6 +1351,7 @@ class DjangoFingerings {
         name: "G♯ dim7",
         description: "G♯ dim7",
         chord: "G♯ dim7",
+        rootNote: "G#",
         fingers: [
           [5, 4, "G#"], // Открытая E
           [4, 0, "C", true], // 2 лад - B (5)
@@ -1350,39 +1362,238 @@ class DjangoFingerings {
         ],
         tip: "Простая форма - Django часто использовал в быстрых сменах",
       },
+
+
+      // PATTERNS
+      "G7_v1": {
+        name: "G7(v1)",
+        description: "G7(v1)",
+        chord: "G7(v1)",
+        rootNote: "G",
+        fingers: [
+          [5, 3, "G"], // Открытая E
+          [4, 5, "G"], // 2 лад - B (5)
+          [3, 3, "F"], // 1 лад - G (♭7)
+          [2, 4, "B"], // Открытая E
+          [1, 3, "D"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      "G7_v2": {
+        name: "G7(v2)",
+        description: "G7(v2)",
+        chord: "G7(v2)",
+        rootNote: "G",
+        fingers: [
+          [5, 3, "G"], // Открытая E
+          [4, 5, "D"], // 2 лад - B (5)
+          [3, 5, "G"], // 1 лад - G (♭7)
+          [2, 4, "B"], // Открытая E
+          [1, 6, "F"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      "G7_v3": {
+        name: "G7(v3)",
+        description: "G7(v3)",
+        chord: "G7(v3)",
+        rootNote: "G",
+        fingers: [
+          [5, 3, "G"], // Открытая E
+          [4, 0, "D", true], // 2 лад - B (5)
+          [3, 3, "G"], // 1 лад - G (♭7)
+          [2, 4, "B"], // Открытая E
+          [1, 3, "F"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      "G7_v4": {
+        name: "G7(v4)",
+        description: "G7(v4)",
+        chord: "G7(v4)",
+        rootNote: "G",
+        fingers: [
+          [5, 0, "G", true], // Открытая E
+          [4, 10, "D"], // 2 лад - B (5)
+          [3, 9, "G"], // 1 лад - G (♭7)
+          [2, 10, "B"], // Открытая E
+          [1, 8, "F"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      "Gm_v1": {
+        name: "Gm(v1)",
+        description: "Gm(v1)",
+        chord: "Gm(v1)",
+        rootNote: "G",
+        fingers: [
+          [5, 3, "G"], // Открытая E
+          [4, 5, "D"], // 2 лад - B (5)
+          [3, 5, "G"], // 1 лад - G (♭7)
+          [2, 3, "B"], // Открытая E
+          [1, 3, "D"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      "Gm_v2": {
+        name: "Gm(v2)",
+        description: "Gm(v2)",
+        chord: "Gm(v2)",
+        rootNote: "G",
+        fingers: [
+          [5, 0, "G", true], // Открытая E
+          [4, 10, "G"], // 2 лад - B (5)
+          [3, 12, "D"], // 1 лад - G (♭7)
+          [2, 12, "G"], // Открытая E
+          [1, 11, "A#"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      "Gm7_v1": {
+        name: "Gm7(v1)",
+        description: "Gm7(v1)",
+        chord: "Gm7(v1)",
+        rootNote: "G",
+        fingers: [
+          [5, 3, "G"], // Открытая E
+          [4, 0, "D", true], // 2 лад - B (5)
+          [3, 3, "F"], // 1 лад - G (♭7)
+          [2, 3, "A#"], // Открытая E
+          [1, 3, "D"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      "Gm7_v2": {
+        name: "Gm7(v2)",
+        description: "Gm7(v2)",
+        chord: "Gm7(v2)",
+        rootNote: "G",
+        fingers: [
+          [5, 0, "G", true], // Открытая E
+          [4, 10, "G"], // 2 лад - B (5)
+          [3, 8, "A#"], // 1 лад - G (♭7)
+          [2, 10, "F"], // Открытая E
+          [1, 11, "A#"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      "Gm7b5_v1": {
+        name: "Gm7b5(v1)",
+        description: "Gm7b5(v1)",
+        chord: "Gm7b5(v1)",
+        rootNote: "G",
+        fingers: [
+          [5, 3, "G"], // Открытая E
+          [4, 0, "G", true], // 2 лад - B (5)
+          [3, 3, "F"], // 1 лад - G (♭7)
+          [2, 3, "A#"], // Открытая E
+          [1, 2, "C#"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      "Gm7b5_v2": {
+        name: "Gm7b5(v2)",
+        description: "Gm7b5(v2)",
+        chord: "Gm7b5(v2)",
+        rootNote: "G",
+        fingers: [
+          [5, 0, "G", true], // Открытая E
+          [4, 10, "G"], // 2 лад - B (5)
+          [3, 11, "C#"], // 1 лад - G (♭7)
+          [2, 10, "F"], // Открытая E
+          [1, 11, "A#"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      "Gdim7_v1": {
+        name: "Gdim7(v1)",
+        description: "Gdim7(v1)",
+        chord: "Gdim7(v1)",
+        rootNote: "G",
+        fingers: [
+          [5, 3, "G"], // Открытая E
+          [4, 0, "G", true], // 2 лад - B (5)
+          [3, 2, "A#"], // 1 лад - G (♭7)
+          [2, 3, "F"], // Открытая E
+          [1, 2, "A#"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
+
+      "Gdim7_v2": {
+        name: "Gdim7(v2)",
+        description: "Gdim7(v2)",
+        chord: "Gdim7(v2)",
+        rootNote: "G",
+        fingers: [
+          [5, 3, "G"], // Открытая E
+          [4, 4, "G"], // 2 лад - B (5)
+          [3, 5, "A#"], // 1 лад - G (♭7)
+          [2, 3, "F"], // Открытая E
+          [1, 5, "A#"], // Открытая B
+          [0, 0, "E", true], // Открытая E
+        ],
+        tip: "Простая форма - Django часто использовал в быстрых сменах",
+      },
     };
   }
 
   // Показать аппликатуру на грифе
+  // В классе DjangoFingerings, найдите метод showFingering и обновите его:
   showFingering(fingeringKey) {
     const fingering = this.fingerings[fingeringKey];
     if (!fingering) {
       console.error(`Аппликатура "${fingeringKey}" не найдена`);
       return;
     }
-
+  
+    // Получаем корневую ноту
+    const rootNote = fingering.rootNote;
+    
     // Очищаем гриф
     clearAllHighlights();
-
+  
     fingering.fingers.forEach(([string, fret, note, isMuted = false]) => {
       if (fret < 0 || fret > 19) return;
-
+  
       const fretElement = document.querySelector(
-        `.fret[data-string="${string}"][data-fret="${fret}"]`,
+        `.fret[data-string="${string}"][data-fret="${fret}"]`
       );
-
+  
       if (fretElement) {
         // Очищаем элемент
         fretElement.classList.remove(
           "django-fingering-note",
           "muted-string",
           "highlight",
+          "fingering-root" // ДОБАВЬТЕ ЭТОТ КЛАСС
         );
-
+  
         // Удаляем старые элементы
         const oldFingerSpan = fretElement.querySelector(".finger-number");
         if (oldFingerSpan) oldFingerSpan.remove();
-
+  
         if (isMuted) {
           // ЗАГЛУШЕННАЯ СТРУНА
           fretElement.classList.add("muted-string");
@@ -1394,7 +1605,20 @@ class DjangoFingerings {
         } else {
           // ОБЫЧНАЯ НОТА
           fretElement.classList.add("django-fingering-note");
-
+  
+          // ПРОВЕРЯЕМ, ЯВЛЯЕТСЯ ЛИ НОТА КОРНЕВОЙ
+          const originalNote = fretElement.getAttribute("data-note");
+          const normalizedFretNote = this.theory ? 
+            this.theory.normalizeToSharps(originalNote) : originalNote;
+          
+          // Проверяем, совпадает ли нота с корневой
+          const isRoot = rootNote && normalizedFretNote && 
+            this.theory.areNotesEqual(rootNote, normalizedFretNote);
+          
+          if (isRoot) {
+            fretElement.classList.add("fingering-root"); // ДОБАВЛЯЕМ КЛАСС
+          }
+  
           // Для открытой струны (лад 0) показываем кружок
           if (fret === 0) {
             fretElement.textContent = "○";
@@ -1404,16 +1628,16 @@ class DjangoFingerings {
           }
           // Для нажатых ладов показываем ноту
           else {
-            const originalNote = fretElement.getAttribute("data-note");
             fretElement.textContent = originalNote;
             fretElement.style.color = "white";
             fretElement.style.fontWeight = "bold";
-            fretElement.style.backgroundColor = "var(--zenburn-orange)";
+            fretElement.style.backgroundColor = isRoot ? 
+              "var(--zenburn-red)" : "var(--zenburn-orange)";
           }
         }
       }
     });
-
+  
     this.showFingeringInfo(fingering);
   }
 

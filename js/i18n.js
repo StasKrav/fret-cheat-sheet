@@ -82,6 +82,20 @@ const translations = {
     "fingering.Cm7": "Cm7",
     "fingering.G♯dim7": "G♯dim7",
 
+    "manouche.movablePatterns": "Movable Patterns",
+    "patterns.hint": "Transposable: Move root (red) to change key while keeping the same shape",    
+    "fingering.G7_v1": "G7 (v1)",
+    "fingering.G7_v2": "G7 (v2)",
+    "fingering.G7_v3": "G7 (v3)",
+    "fingering.G7_v4": "G7 (v4)",
+    "fingering.Gm_v1": "Gm (v1)",
+    "fingering.Gm_v2": "Gm (v2)",
+    "fingering.Gm7_v1": "Gm7 (v1)",
+    "fingering.Gm7_v2": "Gm7 (v2)",
+    "fingering.Gm7b5_v1": "Gm7b5 (v1)",
+    "fingering.Gm7b5_v2": "Gm7b5 (v2)",
+    "fingering.Gdim7_v1": "Gdim7 (v1)",
+    "fingering.Gdim7_v2": "Gdim7 (v2)",
     // UI Elements
     "ui.help": "Help",
     "ui.fullscreen": "Fullscreen",
@@ -184,6 +198,9 @@ const translations = {
     "fingering.Cmaj7": "Cmaj7",
     "fingering.Cm7": "Cm7",
     "fingering.G♯dim7": "G♯dim7",
+
+    "manouche.movablePatterns": "Перемещаемые шаблоны",
+    "patterns.hint": "Транспонируемые: перемещайте корневую ноту (красную) для смены тональности",
 
     // UI Elements
     "ui.help": "Помощь",

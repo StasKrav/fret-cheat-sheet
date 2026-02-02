@@ -126,6 +126,7 @@ body {
   overflow-y: auto;
   border: 1px solid var(--border-color);
   flex-shrink: 0;
+  max-height: calc(100vh - 120px);
 }
 
 /* Основной ввод */
@@ -993,6 +994,8 @@ body {
 /* Контролы мануш */
 .manouche-controls {
   margin-top: 10px;
+  max-height: 800px; /* Или другое подходящее значение */
+  overflow-y: auto;  
 }
 
 /* Информационные боксы */
