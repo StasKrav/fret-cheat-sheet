@@ -22,72 +22,158 @@ class ArpeggioManager {
   }
 
   getArpeggioType(chord) {
-    // Определяем тип арпеджио по аккорду
-    if (chord.includes("m")) {
-      return "minor";
+    chord = chord.toLowerCase();
+    if (chord.includes('maj7') || chord.includes('maj9') || chord.includes('maj13')) {
+      return 'majorΔ7'; // мажор с большой септимой
+    } else if (chord.includes('m7') || chord.includes('m9') || chord.includes('m11') || chord.includes('m13')) {
+      return 'minor7'; // минор с малой септимой
+    } else if (chord.includes('m') && (chord.includes('Δ7') || chord.includes('maj7'))) {
+      return 'minorΔ7'; // минор с большой септимой
+    } else if (chord.includes('dim') || chord.includes('°')) {
+      return chord.includes('7') ? 'dim7' : 'dim';
+    } else if (chord.includes('aug') || chord.includes('+')) {
+      return 'aug';
+    } else if (chord.includes('m')) {
+      return 'minor';
+    } else if (chord.includes('7') || chord.includes('9') || chord.includes('13')) {
+      return 'dominant'; // доминантовый
     }
-    return "major"; // по умолчанию мажорное
+    return 'major';
   }
-
+  
   getArpeggioNotes(root, type = "major") {
     if (!this.theory) return [];
-
+  
     const rootIndex = this.theory.notes.sharps.indexOf(
       this.theory.normalizeToSharps(root),
     );
-
+  
     if (rootIndex === -1) return [];
-
+  
     let notes = [];
-
-    // Базовые ноты арпеджио
-    if (type === "minor") {
-      notes = [
-        this.theory.notes.sharps[rootIndex], // 1
-        this.theory.notes.sharps[(rootIndex + 3) % 12], // ♭3
-        this.theory.notes.sharps[(rootIndex + 7) % 12], // 5
-      ];
-    } else {
-      notes = [
-        this.theory.notes.sharps[rootIndex], // 1
-        this.theory.notes.sharps[(rootIndex + 4) % 12], // 3
-        this.theory.notes.sharps[(rootIndex + 7) % 12], // 5
-      ];
+  
+    switch(type) {
+      case 'minor':
+        // 1, b3, 5
+        notes = [
+          this.theory.notes.sharps[rootIndex],
+          this.theory.notes.sharps[(rootIndex + 3) % 12],
+          this.theory.notes.sharps[(rootIndex + 7) % 12],
+        ];
+        break;
+      case 'minor7':
+        // 1, b3, 5, b7
+        notes = [
+          this.theory.notes.sharps[rootIndex],
+          this.theory.notes.sharps[(rootIndex + 3) % 12],
+          this.theory.notes.sharps[(rootIndex + 7) % 12],
+          this.theory.notes.sharps[(rootIndex + 10) % 12], // b7
+        ];
+        break;
+      case 'minorΔ7':
+        // 1, b3, 5, 7
+        notes = [
+          this.theory.notes.sharps[rootIndex],
+          this.theory.notes.sharps[(rootIndex + 3) % 12],
+          this.theory.notes.sharps[(rootIndex + 7) % 12],
+          this.theory.notes.sharps[(rootIndex + 11) % 12], // 7
+        ];
+        break;
+      case 'majorΔ7':
+        // 1, 3, 5, 7
+        notes = [
+          this.theory.notes.sharps[rootIndex],
+          this.theory.notes.sharps[(rootIndex + 4) % 12],
+          this.theory.notes.sharps[(rootIndex + 7) % 12],
+          this.theory.notes.sharps[(rootIndex + 11) % 12], // 7
+        ];
+        break;
+      case 'dominant':
+        // 1, 3, 5, b7
+        notes = [
+          this.theory.notes.sharps[rootIndex],
+          this.theory.notes.sharps[(rootIndex + 4) % 12],
+          this.theory.notes.sharps[(rootIndex + 7) % 12],
+          this.theory.notes.sharps[(rootIndex + 10) % 12], // b7
+        ];
+        break;
+      case 'dim':
+        // 1, b3, b5
+        notes = [
+          this.theory.notes.sharps[rootIndex],
+          this.theory.notes.sharps[(rootIndex + 3) % 12],
+          this.theory.notes.sharps[(rootIndex + 6) % 12], // b5
+        ];
+        break;
+      case 'dim7':
+        // 1, b3, b5, bb7 (6)
+        notes = [
+          this.theory.notes.sharps[rootIndex],
+          this.theory.notes.sharps[(rootIndex + 3) % 12],
+          this.theory.notes.sharps[(rootIndex + 6) % 12],
+          this.theory.notes.sharps[(rootIndex + 9) % 12], // bb7
+        ];
+        break;
+      case 'aug':
+        // 1, 3, #5
+        notes = [
+          this.theory.notes.sharps[rootIndex],
+          this.theory.notes.sharps[(rootIndex + 4) % 12],
+          this.theory.notes.sharps[(rootIndex + 8) % 12], // #5
+        ];
+        break;
+      default: // major
+        // 1, 3, 5
+        notes = [
+          this.theory.notes.sharps[rootIndex],
+          this.theory.notes.sharps[(rootIndex + 4) % 12],
+          this.theory.notes.sharps[(rootIndex + 7) % 12],
+        ];
     }
-
+  
     return notes;
   }
-
+  
   addExtensions(notes, root, addSecond, addSixth, addSeventh) {
     if (!this.theory || !root) return notes;
-
+  
     const rootIndex = this.theory.notes.sharps.indexOf(
       this.theory.normalizeToSharps(root),
     );
-
+  
     if (rootIndex === -1) return notes;
-
+  
     let extendedNotes = [...notes];
-
+  
+    // Если 7 уже есть в базовом наборе (например, в minor7), не добавляем повторно
+    const hasSeventhAlready = this.currentArpeggio?.type?.includes('7') || 
+                             this.currentArpeggio?.type?.includes('Δ7');
+  
     if (addSecond) {
       extendedNotes.push(this.theory.notes.sharps[(rootIndex + 2) % 12]); // 2
     }
-
+  
     if (addSixth) {
       extendedNotes.push(this.theory.notes.sharps[(rootIndex + 9) % 12]); // 6
     }
-
-    if (addSeventh) {
-      // Определяем тип септимы
-      let seventhInterval = 11; // мажорная по умолчанию
-      if (this.currentArpeggio && this.currentArpeggio.type === "minor") {
-        seventhInterval = 10; // малая для минора
+  
+    if (addSeventh && !hasSeventhAlready) {
+      // Определяем тип септимы по типу аккорда
+      let seventhInterval = 11; // по умолчанию большая (7)
+      
+      const type = this.currentArpeggio?.type;
+      if (type === 'minor7' || type === 'dominant') {
+        seventhInterval = 10; // малая септима (b7)
+      } else if (type === 'dim7') {
+        seventhInterval = 9; // дважды уменьшенная (bb7)
       }
+      // Для major, minor, minorΔ7, majorΔ7, aug, dim - оставляем по умолчанию
+      
       extendedNotes.push(
         this.theory.notes.sharps[(rootIndex + seventhInterval) % 12],
-      ); // 7
+      );
     }
-
+  
     return extendedNotes;
   }
 
