@@ -1090,7 +1090,6 @@ class DjangoFingerings {
     return "open"; // по умолчанию
   }
 
-  // В классе DjangoFingerings добавьте:
   clearAllFingerings() {
     this.clearFingeringHighlight();
 
@@ -1559,8 +1558,7 @@ function initManouche() {
 
       // Очищаем всё
       clearAllHighlights();
-      // clearManoucheFretboard();
-
+      
       // Делаем активной только эту кнопку
       document
         .querySelectorAll(".scale-btn, .lick-btn, .fingering-btn")
@@ -1591,7 +1589,6 @@ function initManouche() {
 
       // Очищаем всё
       clearAllHighlights();
-      // clearManoucheFretboard();
 
       // Делаем активной только эту кнопку
       document
@@ -1618,7 +1615,6 @@ function initManouche() {
 
       // Очищаем всё
       clearAllHighlights();
-      // clearManoucheFretboard();
 
       // Делаем активной только эту кнопку
       document
@@ -1731,7 +1727,7 @@ function clearAllHighlights() {
 }
 
 // ============ ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ============
-// В функциях updateBluesChordInfo и updateManoucheChordInfo
+
 function updateBluesChordInfo(chord) {
   const chordNotes = window.musicTheory.getChordNotes(chord);
   const root = window.musicTheory.extractTonic(chord);
