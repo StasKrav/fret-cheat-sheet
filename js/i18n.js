@@ -48,7 +48,7 @@ const translations = {
 
     // Scale names
     "scale.auto": "Auto",
-    "scale.gypsyMajor": "Gypsy Major",
+    "scale.gypsyMajor": "Gypsy Min",
     "scale.harmonicMajor": "Harmonic Maj",
     "scale.harmonicMinor": "Harmonic Min",
     "scale.harmonicMinorNat6": " Min ♮6",

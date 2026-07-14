@@ -355,12 +355,12 @@ class MusicTheory {
         { name: "harmonicMinor", display: "Harmonic Minor" },
         { name: "harmonicMinorNat6", display: "Minor ♮6 (Django)" },
         { name: "dorianSharp4", display: "Dorian ♯4" },
-        { name: "gypsyMajor", display: "Gypsy Major" },
+        { name: "gypsyMajor", display: "Gypsy Minor" },
       );
     } else if (chord.quality === "Major") {
       scales.push(
         { name: "harmonicMajor", display: "Harmonic Major" },
-        { name: "gypsyMajor", display: "Gypsy Major" },
+        { name: "gypsyMajor", display: "Gypsy Minor" },
         { name: "mixolydianFlat6", display: "Mixolydian ♭6" },
       );
     } else if (chord.quality === "Dominant") {
