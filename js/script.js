@@ -22,7 +22,7 @@ class ManoucheScales {
   getScaleIntervals(scaleName) {
     const intervals = {
       hungarianMinor: [0, 2, 3, 6, 7, 8, 11],
-      hungarianMajor: [0, 2, 4, 6, 7, 8, 11],
+      hungarianMajor: [0, 1, 4, 5, 7, 8, 11],
       harmonicMajor: [0, 2, 4, 5, 7, 8, 11],
       harmonicMinor: [0, 2, 3, 5, 7, 8, 11],
       harmonicMinorNat6: [0, 2, 3, 5, 7, 9, 11],

@@ -46,6 +46,12 @@ const translations = {
     "manouche.style": "Style:",
     "manouche.jazzManouche": "Jazz Manouche",
 
+    // Scale group labels (НОВЫЕ ПЕРЕВОДЫ)
+        "scale.group.hungarian": "Hungarian / Gypsy",
+        "scale.group.harmonic": "Harmonic",
+        "scale.group.dominant": "For Dominant (7, 7#9, 7b9)",
+        "scale.group.special": "Special",
+
     // Scale names
     "scale.hungarianMajor": "Hungarian Maj",
     "scale.hungarianMinor": "Hungarian Min", 
@@ -162,6 +168,12 @@ const translations = {
     "manouche.chord": "Аккорд",
     "manouche.style": "Стиль:",
     "manouche.jazzManouche": "Джаз-мануш",
+
+    // Scale group labels (НОВЫЕ ПЕРЕВОДЫ)
+        "scale.group.hungarian": "Венгерские / Цыганские",
+        "scale.group.harmonic": "Гармонические",
+        "scale.group.dominant": "Для доминанты (7, 7#9, 7b9)",
+        "scale.group.special": "Специальные",
 
     // Scale names
     "scale.hungarianMajor": "Hungarian Maj",

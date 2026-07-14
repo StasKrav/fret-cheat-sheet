@@ -606,3 +606,33 @@
   font-size: 13px;
   cursor: pointer;
 }
+
+/* Группировка гамм */
+.scale-group {
+  margin-bottom: 6px;
+  padding-bottom: 2px;
+  /* border-bottom: 1px solid rgba(127, 159, 127, 0.15); */
+}
+
+.scale-group:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.group-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--zenburn-comment);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* Уменьшаем кнопки в группах, чтобы они лучше помещались */
+.scale-group .django-buttons .secondary-btn {
+  flex: 1;
+  min-width: 70px;
+  font-size: 11px;
+  padding: 5px 6px;
+  white-space: nowrap;
+}

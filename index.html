@@ -175,118 +175,141 @@
           </div>
 
           <!-- ============ MANOUCHE TAB ============ -->
-          <div id="manouche-tab" class="tab-content" data-tab="manouche" style="display: none">
-            <!-- Поле ввода для мануш -->
-            <div class="input-section">
-              <input type="text" id="chordInputManouche" data-i18n-placeholder="manouche.input.placeholder" placeholder="Am6, D7#9, G6..." />
-              <div class="input-buttons">
-                <button id="showManoucheBtn" class="primary-btn" data-i18n="manouche.scalesChords">
-                  Scales & Chords
-                </button>
-              </div>
-            </div>
+<div id="manouche-tab" class="tab-content" data-tab="manouche" style="display: none">
+  <!-- Поле ввода для мануш -->
+  <div class="input-section">
+    <input type="text" id="chordInputManouche" data-i18n-placeholder="manouche.input.placeholder" placeholder="Am6, D7#9, G6..." />
+    <div class="input-buttons">
+      <button id="showManoucheBtn" class="primary-btn" data-i18n="manouche.scalesChords">
+        Scales & Chords
+      </button>
+    </div>
+  </div>
 
-            <!-- Информация для мануш -->
-            <div class="info-section manouche-info">
-              <div class="chord-display">
-                <span class="chord-name" id="manoucheChordName">-</span>
-                <span class="chord-type" id="manoucheChordType"></span>
-              </div>
-              <div class="chord-details">
-                <div class="detail-item">
-                  <span class="detail-label" data-i18n="general.notes">Notes</span>
-                  <span class="detail-value" id="manoucheChordNotes">-</span>
-                </div>
-                <div class="detail-item">
-                  <span class="detail-label" data-i18n="manouche.style">Style</span>
-                  <span class="detail-value" id="manoucheChordInfo" data-i18n="manouche.jazzManouche">Jazz Manouche</span>
-                </div>
-              </div>
-            </div>
+  <!-- Информация для мануш -->
+  <div class="info-section manouche-info">
+    <div class="chord-display">
+      <span class="chord-name" id="manoucheChordName">-</span>
+      <span class="chord-type" id="manoucheChordType"></span>
+    </div>
+    <div class="chord-details">
+      <div class="detail-item">
+        <span class="detail-label" data-i18n="general.notes">Notes</span>
+        <span class="detail-value" id="manoucheChordNotes">-</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label" data-i18n="manouche.style">Style</span>
+        <span class="detail-value" id="manoucheChordInfo" data-i18n="manouche.jazzManouche">Jazz Manouche</span>
+      </div>
+    </div>
+  </div>
 
-            <!-- Панель управления мануш -->
-            <div id="manoucheControls" class="manouche-controls" style="display: none">
-              <div class="section-header">
-                <span class="section-title" data-i18n="manouche.scales">Scales</span>
-              </div>
-              
-              <div class="django-buttons">
-                <button class="secondary-btn scale-btn" data-scale="hungarianMajor" data-i18n="scale.hungarianMajor">Hungarian Maj</button>
-                <button class="secondary-btn scale-btn" data-scale="hungarianMinor" data-i18n="scale.hungarianMinor">Hungarian Min</button>
-                <button class="secondary-btn scale-btn" data-scale="harmonicMajor" data-i18n="scale.harmonicMajor">Harmonic Maj</button>
-                <button class="secondary-btn scale-btn" data-scale="harmonicMinor" data-i18n="scale.harmonicMinor">Harmonic Min</button>
-                <button class="secondary-btn scale-btn" data-scale="harmonicMinorNat6" data-i18n="scale.harmonicMinorNat6">Min ♮6</button>
-                <button class="secondary-btn scale-btn" data-scale="dorianSharp4" data-i18n="scale.dorianSharp4">Dorian ♯4</button>
-                <button class="secondary-btn scale-btn" data-scale="diminished" data-i18n="scale.diminished">Diminished</button>
-                <button class="secondary-btn scale-btn" data-scale="mixolydianFlat6" data-i18n="scale.mixolydianFlat6">Mixolydian ♭6</button>
-                <button class="secondary-btn scale-btn" data-scale="altered" data-i18n="scale.altered">Altered</button>
-                <button class="secondary-btn scale-btn" data-scale="doubleChromatic" data-i18n="scale.doubleChromatic">Chromatic</button>
-              </div>
-              
-              <div class="section-header" style="margin-top: 15px;">
-                <span class="section-title" data-i18n="manouche.licks">Exercise</span>
-              </div>
-              
-              <div class="django-buttons">
-                <button class="secondary-btn lick-btn" data-lick="exercise1" data-i18n="exercise1">Ex1</button>
-                <button class="secondary-btn lick-btn" data-lick="exercise2" data-i18n="exercise2">Ex2</button>
-                <button class="secondary-btn lick-btn" data-lick="exercise3" data-i18n="exercise3">Ex3</button>
-                <button class="secondary-btn lick-btn" data-lick="exercise4" data-i18n="exercise4">Ex4</button>
-                <button class="secondary-btn lick-btn" data-lick="exercise5" data-i18n="exercise5">Ex5</button>
-                <button class="secondary-btn lick-btn" data-lick="dimRun" data-i18n="lick.dimRun">Dim Run</button>
-                <button class="secondary-btn lick-btn" data-lick="gypsySweep" data-i18n="lick.gypsySweep">Gypsy Scale</button>
-                <button class="secondary-btn lick-btn" data-lick="chromaticApproach" data-i18n="lick.chromaticApproach">Chromatic</button>
-              </div>
-              
-              
-                <div class="section-header" style="margin-top: 15px;">
-                  <span class="section-title" data-i18n="manouche.fingerings">Signature chords</span>
+  <!-- Панель управления мануш -->
+  <div id="manoucheControls" class="manouche-controls" style="display: none">
+                <div class="section-header">
+                  <span class="section-title" data-i18n="manouche.scales">Scales</span>
                 </div>
-                
-                <div class="fingering-buttons">
-                  <button class="fingering-btn" data-fingering="Am6" data-i18n="fingering.Am6">Am6</button>
-                  <button class="fingering-btn" data-fingering="G6" data-i18n="fingering.G6">G6</button>
-                  <button class="fingering-btn" data-fingering="D7sharp9" data-i18n="fingering.D7sharp9">D7#9</button>
-                  <button class="fingering-btn" data-fingering="E7" data-i18n="fingering.E7">E7</button>
-                  <button class="fingering-btn" data-fingering="Bdim7" data-i18n="fingering.Bdim7">Bdim7</button>
-                  <button class="fingering-btn" data-fingering="Dm6" data-i18n="fingering.Dm6">Dm6</button>
-                  <button class="fingering-btn" data-fingering="Am7" data-i18n="fingering.Am7">Am7</button>
-                  <button class="fingering-btn" data-fingering="D9" data-i18n="fingering.D9">D9</button>
-                  <button class="fingering-btn" data-fingering="C#dim7" data-i18n="fingering.C#dim7">C#dim7</button>
-                  <button class="fingering-btn" data-fingering="Cmaj7" data-i18n="fingering.Cmaj7">Cmaj7</button>
-                  <button class="fingering-btn" data-fingering="Cm7" data-i18n="fingering.Cm7">Cm7</button>
-                  <button class="fingering-btn" data-fingering="G♯dim7" data-i18n="fingering.G♯dim7">G♯dim7</button>
-                </div>
-                
-                <!-- ДОБАВЛЯЕМ ЗАГОЛОВОК ДЛЯ НОВОЙ ГРУППЫ -->
-                <div class="section-header" style="margin-top: 15px;">
-                  <span class="section-title" data-i18n="manouche.movablePatterns">Movable Patterns</span>
-                </div>
-                
-                <!-- ВТОРАЯ ГРУППА КНОПОК С ЗАГОЛОВКОМ "PATTERNS" -->
-                <div class="fingering-buttons">
-                  <button class="fingering-btn" data-fingering="G7_v1" data-i18n="fingering.G7_v1">G7 (v1)</button>
-                  <button class="fingering-btn" data-fingering="G7_v2" data-i18n="fingering.G7_v2">G7 (v2)</button>
-                  <button class="fingering-btn" data-fingering="G7_v3" data-i18n="fingering.G7_v3">G7 (v3)</button>
-                  <button class="fingering-btn" data-fingering="G7_v4" data-i18n="fingering.G7_v4">G7 (v4)</button>
-                  <button class="fingering-btn" data-fingering="Gm_v1" data-i18n="fingering.Gm_v1">Gm (v1)</button>
-                  <button class="fingering-btn" data-fingering="Gm_v2" data-i18n="fingering.Gm_v2">Gm (v2)</button>
-                  <button class="fingering-btn" data-fingering="Gm7_v1" data-i18n="fingering.Gm7_v1">Gm7 (v1)</button>
-                  <button class="fingering-btn" data-fingering="Gm7_v2" data-i18n="fingering.Gm7_v2">Gm7 (v2)</button>
-                  <button class="fingering-btn" data-fingering="Gm7b5_v1" data-i18n="fingering.Gm7b5_v1">Gm7b5 (v1)</button>
-                  <button class="fingering-btn" data-fingering="Gm7b5_v2" data-i18n="fingering.Gm7b5_v2">Gm7b5 (v2)</button>
-                  <button class="fingering-btn" data-fingering="Gdim7_v1" data-i18n="fingering.Gdim7_v1">Gdim7 (v1)</button>
-                  <button class="fingering-btn" data-fingering="Gdim7_v2" data-i18n="fingering.Gdim7_v2">Gdim7 (v2)</button>
-                </div>
-              </div>
+    
+    <!-- ГРУППА 1: Венгерские/Цыганские гаммы -->
+    <div class="scale-group">
+      <div class="group-label" data-i18n="scale.group.hungarian">Венгерские / Цыганские</div>
+      <div class="django-buttons">
+        <button class="secondary-btn scale-btn" data-scale="hungarianMajor" data-i18n="scale.hungarianMajor">Hungarian Maj</button>
+        <button class="secondary-btn scale-btn" data-scale="hungarianMinor" data-i18n="scale.hungarianMinor">Hungarian Min</button>
+      </div>
+    </div>
 
-            <!-- Информационные блоки мануш -->
-            <div id="manoucheScaleInfo" class="info-box manouche-scale-info" style="display: none; margin-top: 15px;"></div>
-            <div id="licksInfoContainer" class="info-box licks-info" style="display: none"></div>
-            <div id="fingeringDiagram" class="info-box fingering-diagram" style="display: none"></div>
-            <div id="chordSequence" class="info-box chord-sequence" style="display: none"></div>
-          </div>
+    <!-- ГРУППА 2: Гармонические гаммы -->
+    <div class="scale-group">
+      <div class="group-label" data-i18n="scale.group.harmonic">Гармонические</div>
+      <div class="django-buttons">
+        <button class="secondary-btn scale-btn" data-scale="harmonicMajor" data-i18n="scale.harmonicMajor">Harmonic Maj</button>
+        <button class="secondary-btn scale-btn" data-scale="harmonicMinor" data-i18n="scale.harmonicMinor">Harmonic Min</button>
+        <button class="secondary-btn scale-btn" data-scale="harmonicMinorNat6" data-i18n="scale.harmonicMinorNat6">Min ♮6</button>
+      </div>
+    </div>
 
+    <!-- ГРУППА 3: Для доминанты -->
+    <div class="scale-group">
+      <div class="group-label" data-i18n="scale.group.dominant">Для доминанты (7, 7#9, 7b9)</div>
+      <div class="django-buttons">
+        <button class="secondary-btn scale-btn" data-scale="mixolydianFlat6" data-i18n="scale.mixolydianFlat6">Mixolydian ♭6</button>
+        <button class="secondary-btn scale-btn" data-scale="altered" data-i18n="scale.altered">Altered</button>
+        <button class="secondary-btn scale-btn" data-scale="diminished" data-i18n="scale.diminished">Diminished</button>
+      </div>
+    </div>
+
+    <!-- ГРУППА 4: Специальные -->
+    <div class="scale-group">
+      <div class="group-label" data-i18n="scale.group.special">Специальные</div>
+      <div class="django-buttons">
+        <button class="secondary-btn scale-btn" data-scale="dorianSharp4" data-i18n="scale.dorianSharp4">Dorian ♯4</button>
+        <button class="secondary-btn scale-btn" data-scale="doubleChromatic" data-i18n="scale.doubleChromatic">Chromatic</button>
+      </div>
+    </div>
+    
+    <div class="section-header" style="margin-top: 15px;">
+      <span class="section-title" data-i18n="manouche.licks">Exercise</span>
+    </div>
+    
+    <div class="django-buttons">
+      <button class="secondary-btn lick-btn" data-lick="exercise1" data-i18n="exercise1">Ex1</button>
+      <button class="secondary-btn lick-btn" data-lick="exercise2" data-i18n="exercise2">Ex2</button>
+      <button class="secondary-btn lick-btn" data-lick="exercise3" data-i18n="exercise3">Ex3</button>
+      <button class="secondary-btn lick-btn" data-lick="exercise4" data-i18n="exercise4">Ex4</button>
+      <button class="secondary-btn lick-btn" data-lick="exercise5" data-i18n="exercise5">Ex5</button>
+      <button class="secondary-btn lick-btn" data-lick="dimRun" data-i18n="lick.dimRun">Dim Run</button>
+      <button class="secondary-btn lick-btn" data-lick="gypsySweep" data-i18n="lick.gypsySweep">Gypsy Scale</button>
+      <button class="secondary-btn lick-btn" data-lick="chromaticApproach" data-i18n="lick.chromaticApproach">Chromatic</button>
+    </div>
+    
+    <div class="section-header" style="margin-top: 15px;">
+      <span class="section-title" data-i18n="manouche.fingerings">Signature chords</span>
+    </div>
+    
+    <div class="fingering-buttons">
+      <button class="fingering-btn" data-fingering="Am6" data-i18n="fingering.Am6">Am6</button>
+      <button class="fingering-btn" data-fingering="G6" data-i18n="fingering.G6">G6</button>
+      <button class="fingering-btn" data-fingering="D7sharp9" data-i18n="fingering.D7sharp9">D7#9</button>
+      <button class="fingering-btn" data-fingering="E7" data-i18n="fingering.E7">E7</button>
+      <button class="fingering-btn" data-fingering="Bdim7" data-i18n="fingering.Bdim7">Bdim7</button>
+      <button class="fingering-btn" data-fingering="Dm6" data-i18n="fingering.Dm6">Dm6</button>
+      <button class="fingering-btn" data-fingering="Am7" data-i18n="fingering.Am7">Am7</button>
+      <button class="fingering-btn" data-fingering="D9" data-i18n="fingering.D9">D9</button>
+      <button class="fingering-btn" data-fingering="C#dim7" data-i18n="fingering.C#dim7">C#dim7</button>
+      <button class="fingering-btn" data-fingering="Cmaj7" data-i18n="fingering.Cmaj7">Cmaj7</button>
+      <button class="fingering-btn" data-fingering="Cm7" data-i18n="fingering.Cm7">Cm7</button>
+      <button class="fingering-btn" data-fingering="G♯dim7" data-i18n="fingering.G♯dim7">G♯dim7</button>
+    </div>
+    
+    <!-- ДОБАВЛЯЕМ ЗАГОЛОВОК ДЛЯ НОВОЙ ГРУППЫ -->
+    <div class="section-header" style="margin-top: 15px;">
+      <span class="section-title" data-i18n="manouche.movablePatterns">Movable Patterns</span>
+    </div>
+    
+    <!-- ВТОРАЯ ГРУППА КНОПОК С ЗАГОЛОВКОМ "PATTERNS" -->
+    <div class="fingering-buttons">
+      <button class="fingering-btn" data-fingering="G7_v1" data-i18n="fingering.G7_v1">G7 (v1)</button>
+      <button class="fingering-btn" data-fingering="G7_v2" data-i18n="fingering.G7_v2">G7 (v2)</button>
+      <button class="fingering-btn" data-fingering="G7_v3" data-i18n="fingering.G7_v3">G7 (v3)</button>
+      <button class="fingering-btn" data-fingering="G7_v4" data-i18n="fingering.G7_v4">G7 (v4)</button>
+      <button class="fingering-btn" data-fingering="Gm_v1" data-i18n="fingering.Gm_v1">Gm (v1)</button>
+      <button class="fingering-btn" data-fingering="Gm_v2" data-i18n="fingering.Gm_v2">Gm (v2)</button>
+      <button class="fingering-btn" data-fingering="Gm7_v1" data-i18n="fingering.Gm7_v1">Gm7 (v1)</button>
+      <button class="fingering-btn" data-fingering="Gm7_v2" data-i18n="fingering.Gm7_v2">Gm7 (v2)</button>
+      <button class="fingering-btn" data-fingering="Gm7b5_v1" data-i18n="fingering.Gm7b5_v1">Gm7b5 (v1)</button>
+      <button class="fingering-btn" data-fingering="Gm7b5_v2" data-i18n="fingering.Gm7b5_v2">Gm7b5 (v2)</button>
+      <button class="fingering-btn" data-fingering="Gdim7_v1" data-i18n="fingering.Gdim7_v1">Gdim7 (v1)</button>
+      <button class="fingering-btn" data-fingering="Gdim7_v2" data-i18n="fingering.Gdim7_v2">Gdim7 (v2)</button>
+    </div>
+  </div>
+
+  <!-- Информационные блоки мануш -->
+  <div id="manoucheScaleInfo" class="info-box manouche-scale-info" style="display: none; margin-top: 15px;"></div>
+  <div id="licksInfoContainer" class="info-box licks-info" style="display: none"></div>
+  <div id="fingeringDiagram" class="info-box fingering-diagram" style="display: none"></div>
+  <div id="chordSequence" class="info-box chord-sequence" style="display: none"></div>
+</div>
         </div>
 
         <!-- Гриф (весь остальной экран) -->
