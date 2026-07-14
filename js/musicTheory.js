@@ -75,7 +75,7 @@ class MusicTheory {
     // Маппинг ваших названий гамм на Tonal
     this.SCALE_MAPPING = {
       // Ваши названия -> Tonal названия
-      gypsyMajor: "harmonic minor",
+      hungarianMinor: "hungarian minor",
       harmonicMajor: "harmonic major",
       harmonicMinor: "harmonic minor",
       harmonicMinorNat6: "melodic minor", // близкая замена

@@ -47,8 +47,8 @@ const translations = {
     "manouche.jazzManouche": "Jazz Manouche",
 
     // Scale names
-    "scale.auto": "Auto",
-    "scale.gypsyMajor": "Gypsy Min",
+    "scale.hungarianMajor": "Hungarian Maj",
+    "scale.hungarianMinor": "Hungarian Min", 
     "scale.harmonicMajor": "Harmonic Maj",
     "scale.harmonicMinor": "Harmonic Min",
     "scale.harmonicMinorNat6": " Min ♮6",
@@ -164,8 +164,8 @@ const translations = {
     "manouche.jazzManouche": "Джаз-мануш",
 
     // Scale names
-    "scale.auto": "Auto",
-    "scale.gypsyMajor": "Gypsy Maj",
+    "scale.hungarianMajor": "Hungarian Maj",
+    "scale.hungarianMinor": "Hungarian Min", 
     "scale.harmonicMajor": "Harmonic Maj",
     "scale.harmonicMinor": "Harmonic Min",
     "scale.harmonicMinorNat6": "Min ♮6",
