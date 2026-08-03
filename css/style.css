@@ -1208,3 +1208,126 @@ body {
 }
 
 
+/* ============ АДАПТИВНОСТЬ (ИСПРАВЛЕННАЯ) ============ */
+
+/* Когда экран уже не помещает панель и гриф рядом */
+@media (max-width: 1200px) {
+  .main-container {
+    flex-direction: column; /* Панель сверху, гриф снизу */
+  }
+
+  .control-panel {
+    width: 100%; /* Панель на всю ширину */
+    max-height: 45vh; /* Занимает не больше 45% высоты экрана */
+    flex-shrink: 0; /* Не сжимается */
+    overflow-y: auto; /* Если контента много - скролл */
+  }
+
+  .fretboard-container {
+    flex: 1; /* Растягивается на оставшееся место */
+    min-height: 300px; /* Минимальная высота для грифа */
+  }
+}
+
+/* Специальные правки для телефонов (ширина меньше 768px) */
+@media (max-width: 768px) {
+  /* Убираем фиксированные высоты, чтобы не было обрезаний */
+  body, .app {
+    height: 100%; /* Меняем 100vh на 100% */
+    overflow: auto; /* Разрешаем скролл, если контент не влезает */
+  }
+
+  .app {
+    padding: 4px; /* Уменьшаем отступы */
+    gap: 4px;
+  }
+
+  /* Вкладки */
+  .tabs {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 4px;
+  }
+  .tab-btn {
+    flex: 1 0 auto;
+    min-width: 80px;
+    padding: 8px 4px;
+    font-size: 12px;
+  }
+
+  /* Левая панель (теперь сверху) */
+  .control-panel {
+    max-height: 50vh; /* Даем чуть больше места */
+    padding: 12px;
+  }
+
+  /* Поля ввода */
+  .input-section {
+    flex-direction: column; /* Кнопка под полем ввода */
+    gap: 6px;
+  }
+  .input-buttons {
+    width: 100%;
+  }
+  .primary-btn, .secondary-btn {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  /* Информация об аккорде */
+  .chord-display {
+    flex-wrap: wrap;
+  }
+  #chordName {
+    font-size: 22px;
+  }
+
+  /* Опции (галочки) */
+  .options-grid {
+    grid-template-columns: 1fr; /* В одну колонку */
+  }
+
+  /* Боксы пентатоники */
+  .box-selector {
+    flex-wrap: wrap;
+  }
+  
+  /* Кнопки Django и Fingerings */
+  .django-buttons, 
+  .fingering-buttons {
+    gap: 4px;
+  }
+  .django-buttons .secondary-btn,
+  .fingering-btn {
+    min-width: 60px;
+    font-size: 10px;
+    padding: 4px 6px;
+  }
+
+  /* Гриф */
+  .fretboard-container {
+    min-height: 250px; /* Меньше высота для грифа */
+  }
+
+  /* Строки грифа */
+  .string {
+    height: 38px; /* Уменьшаем высоту струн, чтобы больше ладов влезало */
+  }
+  
+  .fret {
+    font-size: 10px; /* Меньше текст на ладах */
+  }
+
+  /* Переключатель языка */
+  .language-switcher {
+    top: 6px;
+    right: 6px;
+    padding: 2px;
+  }
+  .lang-btn {
+    padding: 4px 8px;
+    font-size: 10px;
+    min-width: 30px;
+  }
+}

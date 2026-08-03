@@ -32,22 +32,39 @@ class ManoucheScales {
       mixolydianFlat6: [0, 2, 4, 5, 7, 8, 10],
       altered: [0, 1, 3, 4, 6, 8, 10],
     };
-    return intervals[scaleName] || intervals.gypsyMajor;
+    return intervals[scaleName] || intervals.hungarianMajor;
   }
 
   // Получаем ноты гаммы от тоники
   getScaleNotes(root, scaleName) {
-    if (!this.theory || !root) return [];
-
+    if (!this.theory) {
+      console.error('MusicTheory не загружен');
+      return [];
+    }
+  
     const rootNote = this.theory.normalizeToSharps(root);
-    const rootIndex = this.theory.notes.sharps.indexOf(rootNote);
-
-    if (rootIndex === -1) return [];
-
+    
+    // Безопасное получение массива нот
+    let notesArray = this.theory.notes;
+    if (!notesArray || !Array.isArray(notesArray)) {
+      notesArray = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    }
+    
+    const rootIndex = notesArray.indexOf(rootNote);
+    if (rootIndex === -1) {
+      console.warn(`Тоника "${root}" не найдена в массиве нот`);
+      return [];
+    }
+  
     const intervals = this.getScaleIntervals(scaleName);
+    if (!intervals || intervals.length === 0) {
+      console.warn(`Нет интервалов для гаммы "${scaleName}"`);
+      return [];
+    }
+  
     return intervals.map((interval) => {
       const noteIndex = (rootIndex + interval) % 12;
-      return this.theory.notes.sharps[noteIndex];
+      return notesArray[noteIndex];
     });
   }
 
