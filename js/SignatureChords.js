@@ -570,4 +570,4 @@ class DjangoFingerings {
   }
 }
 
-window.SignatureChords = SignatureChords;
+window.DjangoFingerings = DjangoFingerings;
